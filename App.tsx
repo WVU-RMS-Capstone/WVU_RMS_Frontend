@@ -34,7 +34,7 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="Home" screenOptions={{ headerTitle:"", headerTransparent:true }}>
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="ATHomeScreen" component={ATHomeScreen} />
         <Stack.Screen name="RosterScreen" component={RosterScreen} />

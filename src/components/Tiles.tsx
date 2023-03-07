@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
         borderColor: "#757575",
         paddingTop: 6,
         paddingBottom: 6,
-        width: 172,
-        height: 136, 
+        width: "25%",
+        height: "65%", 
         backgroundColor: '#D9D9D9',
         ...Platform.select({
             ios: {
@@ -52,8 +52,8 @@ const Medstyles = StyleSheet.create({
         borderColor: "#757575",
         paddingTop: 6,
         paddingBottom: 6,
-        width: 349,
-        height: 202, 
+        width: "50%",
+        height: "75%", 
         backgroundColor: '#D9D9D9',
         ...Platform.select({
             ios: {
@@ -87,8 +87,8 @@ const Largestyles = StyleSheet.create({
         borderColor: "#757575",
         paddingTop: 6,
         paddingBottom: 6,
-        width: 638,
-        height: 396, 
+        width: "80%",
+        height: "95%", 
         backgroundColor: '#D9D9D9',
         ...Platform.select({
             ios: {
