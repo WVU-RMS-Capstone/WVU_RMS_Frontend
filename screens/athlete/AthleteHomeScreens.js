@@ -1,16 +1,17 @@
 import React from 'react';
 import {View, Button} from 'react-native';
+import { MediumButton } from '../../src/components/Buttons';
 
 function AthleteHomeScreen({ navigation }) {
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Button title="Premade Programs"
+    <View style={{gap: 20, marginVertical:'50%'}}>
+      <MediumButton text="Premade Programs"
         onPress={() => navigation.navigate('ProgramsScreen')} />
-    <Button title="Exercises"
+    <MediumButton text="Exercises"
         onPress={() => navigation.navigate('ExercisesScreen')} />
-    <Button title="Progress"
+    <MediumButton text="Progress"
         onPress={() => navigation.navigate('AthleteStatsScreen')} />
-    <Button title="Notes"
+    <MediumButton text="Notes"
         onPress={() => navigation.navigate('NotesScreen')} />
     </View>
   );
