@@ -5,7 +5,7 @@ import { SmallTile,MediumTile, LargeTile } from '../src/components/Tiles';
 function HomeScreen({ navigation }) {
   return (
     
-    <View style={{width: '100%', marginVertical:'50%', gap:20}}>
+    <View style={{width: '100%', marginVertical:'50%'}}>
       
       <LargeButton text="AT View"
         onPress={() => navigation.navigate('ATHomeScreen')} />
