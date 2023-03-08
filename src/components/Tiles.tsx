@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
         paddingTop: 6,
         paddingBottom: 6,
         width: "25%",
-        height: "65%", 
+        height: 156, 
         backgroundColor: '#D9D9D9',
         ...Platform.select({
             ios: {
@@ -53,7 +53,7 @@ const Medstyles = StyleSheet.create({
         paddingTop: 6,
         paddingBottom: 6,
         width: "50%",
-        height: "75%", 
+        height: 202, 
         backgroundColor: '#D9D9D9',
         ...Platform.select({
             ios: {
@@ -88,7 +88,7 @@ const Largestyles = StyleSheet.create({
         paddingTop: 6,
         paddingBottom: 6,
         width: "80%",
-        height: "95%", 
+        height: 396, 
         backgroundColor: '#D9D9D9',
         ...Platform.select({
             ios: {
