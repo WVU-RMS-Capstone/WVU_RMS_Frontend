@@ -1,19 +1,34 @@
 import React from 'react';
-import {View, Button} from 'react-native';
+import { View, Button } from 'react-native';
+import { LargeButton } from '../../src/components/Buttons';
 
 function ATHomeScreen({ navigation }) {
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Button title="Roster"
-        onPress={() => navigation.navigate('RosterScreen')} />
-      <Button title="Stats"
-        onPress={() => navigation.navigate('AthleteStatsScreen')} />
-      <Button title="Create/Edit Program"
-        onPress={() => navigation.navigate('NewProgramScreen')} />
-      <Button title="Create/Edit Excercises"
-        onPress={() => navigation.navigate('NewExerciseScreen')} />
-      <Button title="Change Featured Program"
-        onPress={() => navigation.navigate('FeaturedProgramsScreen')} />
+    <View style={{ marginVertical: '30%' }}>
+      <View style={{ paddingBottom: '10%' }}>
+        <LargeButton text="Roster"
+          onPress={() => navigation.navigate('RosterScreen')} />
+      </View>
+      <View style={{ paddingBottom: '10%' }}>
+        <LargeButton text="Stats"
+          adjustFontSizeToFit
+          onPress={() => navigation.navigate('AthleteStatsScreen')} />
+      </View>
+      <View style={{ paddingBottom: '10%' }}>
+        <LargeButton text="Create/Edit Program"
+          adjustFontSizeToFit
+          onPress={() => navigation.navigate('NewProgramScreen')} />
+      </View>
+      <View style={{ paddingBottom: '10%' }}>
+        <LargeButton text="Create/Edit Excercises"
+          adjustFontSizeToFit
+          onPress={() => navigation.navigate('NewExerciseScreen')} />
+      </View>
+      <View style={{ paddingBottom: '10%' }}>
+        <LargeButton text="Change Featured Program"
+          adjustFontSizeToFit
+          onPress={() => navigation.navigate('FeaturedProgramsScreen')} />
+      </View>
     </View>
   );
 }

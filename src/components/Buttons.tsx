@@ -18,7 +18,7 @@ const mediumstyles = StyleSheet.create({
         paddingTop: 6,
         paddingBottom: 6,
         width: "66%",
-        height: "47%",
+        height: 75,
         alignSelf:'center',
         backgroundColor: '#2020B6',
         ...Platform.select({
@@ -55,7 +55,7 @@ const smallstyles = StyleSheet.create({
         paddingTop: 6,
         paddingBottom: 6,
         width: "30%",
-        height: "45%",
+        height: 65,
         backgroundColor: '#2020B6',
         ...Platform.select({
             ios: {
@@ -90,7 +90,7 @@ const largestyles = StyleSheet.create({
         paddingTop: 6,
         paddingBottom: 6,
         width: "83%",
-        height: "55%" ,
+        height: 90 ,
         backgroundColor: '#2020B6',
         alignSelf: 'center',
         
@@ -107,6 +107,6 @@ const largestyles = StyleSheet.create({
         fontSize: 50,
         fontWeight: "500",
         textAlign: 'center',
-        paddingVertical: "3%",
+        paddingVertical: "1%",
     }
 })
