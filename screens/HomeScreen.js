@@ -9,7 +9,7 @@ function HomeScreen({ navigation }) {
       
       <LargeButton text="AT View"
         onPress={() => navigation.navigate('ATHomeScreen')} />
-      <MediumButton text="Athlete View"
+      <LargeButton text="Athlete View"
         onPress={() => navigation.navigate('AthleteHomeScreen')} />
     
     </View>
