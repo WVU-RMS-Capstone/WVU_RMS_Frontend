@@ -135,6 +135,11 @@ function AddRoutine(name, exIds, setNums, repNums, visible) { // Function for tr
     return Promise.resolve(queryString(string));
 }
 
+function AddAssignment(routID, userID, notes) { // Function for trainer to assign routine
+    let string = "Insert Into [dbo].[Assignments] values (" + userID + "," + routID + ",\'" + notes + "\')";
+    return Promise.resolve(queryString(string));
+}
+
 function AddActivity(ID,sDate,eDate,notes,RoutineId) { // Function to record a player's activity with a routine
     let string = "Insert Into [dbo].[Activity] values (\'" + ID + "\',\'" + sDate + "\',\'" + eDate + "\',\'" + notes + "\'," + RoutineId.toString() + ")";
     string = string.replace(/\'\'/g, "null");
@@ -164,6 +169,11 @@ function RemoveRoutine(ID) { // Function to remove assigned programs
 
 function PlayerActivity(ID,start,end) { // Returns the activity logs for a specific player for a specific time period
     let string = "SELECT RoutineId, StartTime, EndTime, Notes FROM [dbo].[Activity] WHERE UserId = " + ID + " AND StartTime between \'" + start + "\' AND \'" + end + "\'";
+    return Promise.resolve(queryString(string));
+}
+
+function RoutID() { // Pulls the last RoutID entered into the system
+    let string = "SELECT MAX(RoutineId) FROM [dbo].[Routines]";
     return Promise.resolve(queryString(string));
 }
 
@@ -262,18 +272,53 @@ DupRoutine(name).then( function(result) {
     let out;
     if (name == "") {
         out = "Invalid Name";
+        console.log(out);
     }
     else {
         if (result == "") {
             AddRoutine(name, exIds, setNums, repNums, visible).then( function(result) {
                 out = "Successfully Added";
+                console.log(out);
             });
         }
         else {
             out = "Routine Already Exists";
+            console.log(out);
         }
     }
-    console.log(out);
+});
+*/
+
+//Front End Code to Add Routines
+
+/*
+let assignName = "Chase Leg";
+let exIds = "4/5/6";
+let repNums = "10/10/10";
+let setNums = "3/4/5";
+let visible = 0;
+let userID = 8;
+let notes = "Stretch Before";
+
+AddRoutine(assignName, exIds, setNums, repNums, visible).then( function(result) {
+    RoutID().then( function(result) {
+        console.log(result);
+        AddAssignment(result,userID,notes).then( function(result) {        
+            console.log("Routine Assigned");
+        });
+    });
+});
+*/
+
+//Front End Code to Assign Routine that Already Exists
+
+/*
+let routID = 1;
+let userID = 1;
+let notes = "Hold Squat for 5 Seconds";
+
+AddAssignment(routID,userID,notes).then( function(result) {        
+    console.log("Routine Assigned");
 });
 */
 
