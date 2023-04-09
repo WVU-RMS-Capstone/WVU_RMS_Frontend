@@ -2,9 +2,12 @@ import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import { LargeButton } from '../../src/components/Buttons';
 import { TextInput } from 'react-native-gesture-handler';
+import { Dropdown } from '../../src/components/Dropdown';
 
 
 function NewExerciseScreen({ navigation }) {
+  const options = ['Option 1', 'Option 2', 'Option 3'];
+
   const [name, setName] = React.useState('');
   const [sets, setSets] = React.useState('');
   const [reps, setReps] = React.useState('');
@@ -27,6 +30,12 @@ function NewExerciseScreen({ navigation }) {
     <View style={styles.box}>  
       <Text style={styles.font}>Name:</Text>
       <TextInput style={styles.textInput}  onChangeText={setName} value={name}/>
+      </View>
+      <View style={{paddingTop: 30}}>
+      <View style={styles.box}>  
+      <Text style={styles.font}>Body Part:</Text>
+      <Dropdown options={options} />
+      </View>
       </View>
 
       <View style={{flexDirection: "row", justifyContent: "space-evenly", paddingTop: 30}}>
@@ -52,6 +61,7 @@ function NewExerciseScreen({ navigation }) {
           />
       </View>
       </View>
+
       <View style={{paddingTop: 30}}>
         <LargeButton  text="Done" onPress={() => navigation.navigate('ATHomeScreen')} />
         </View>
