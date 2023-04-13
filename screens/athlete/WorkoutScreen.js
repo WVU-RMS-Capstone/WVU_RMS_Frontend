@@ -6,9 +6,54 @@ import { WebView } from 'react-native-webview';
 import { block } from 'react-native-reanimated';
 
 
+//Session token should be a global variable???? 
+
+/* fetch('https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=userinfo', {
+	headers: {
+		'Authorization': 'Bearer ' + session_token
+	}
+})
+.then(response => {
+// Send a get request to obtain the users assigned workouts and store them in the assigned program array.
+
+})
+.catch(error => {
+// Navigate user back to login screen
+
+});   */
+
+//Pull whole workout into an array and have the page naviagte to the next index in the page
+const testExercises = [
+  {id: "1", title: "Tricep Extensions", reps: "10" },
+  {id: "2", title: "Tricep Pulls", reps: "10"},
+  {id: "3", title: "Pushups", reps: "10"},
+  {id: "4", title: "Triceps Exercise", reps : "10"},
+];
+
+//Title should be available from previous navigate
+// const inde = testExercises.findIndex(obj => obj.title === title);
+
+//Handle press method ************ Check to see if length is working right
+const  handlePress = () => {
+    if(1 == 1){
+
+      navigation.setParams( {exercise: 2});
+    }
+    else {
+      navigation.navigate('CompletedWorkoutScreen');
+    }
+  } 
+
+  
+function WorkoutScreen({ navigation, route }) {
+ //Exercise 1
+ //Trying to pull first exercise id from program 
+ //************* This will not let me pass as a text constant due to objects are not valid as a react child */
+  // const exercisestart = route.params;
 
 
-function WorkoutScreen({ navigation }) {
+  
+
   return (
     <ScrollView flex paddingH-25 paddingT-20>
       <ScrollView horizontal = {true} flex paddingH-25 paddingT-20 backgroundColor = {"#121212"}>
@@ -20,8 +65,11 @@ function WorkoutScreen({ navigation }) {
           marginR-50
           marginL-50
        >
+    
+        
+        
           <Card.Section
-            content={[{text: 'Exercise Name', text20: true, white: true}]}
+            content={[{text: "Workout Title" , text20: true, white: true}]}
             contentStyle={{alignItems: 'center', backgroundColor: '#627D98'}}/>
           <WebView style={styles.container}
             source={{ uri: 'https://www.youtube.com/embed/T_l0AyZywjU' }}/>
@@ -41,7 +89,7 @@ function WorkoutScreen({ navigation }) {
 
       <Card.Section 
       
-        content={[{text: 'Exercise Name', text20: true, 'white': true, height :60, Width : 600}]}
+        content={[{text: "Placeholder", text20: true, 'white': true, height :60, Width : 600}]}
         contentStyle={{alignItems: 'center', backgroundColor: '#627D98'}}/>
 
         <Text style = {textStyle.container}> A Written Description of the Workout Will Go Here</Text>
@@ -66,8 +114,8 @@ function WorkoutScreen({ navigation }) {
       <View marginT-10 paddingRight-20>  
       </View>
 
-      <Button text70 background= {'#FFABO0'} label = "Done"
-       onPress={() => navigation.navigate('CompletedWorkoutScreen')} />
+      <Button text70 background= {'#FFABO0'} label = "Next"
+       onPress={() =>    navigation.navigate('CompletedWorkoutScreen')} />
     </ScrollView>
   );
 
@@ -104,6 +152,10 @@ const textStyle = StyleSheet.create({
     paddingRight: 20,
     marginTop: 30,
     marginBottom: 10
+  },
+  textt:{
+    marginTop: 50,
+    marginBottom: 50
   }
 });
 
