@@ -71,8 +71,8 @@ function WorkoutScreen({ navigation, route }) {
           <Card.Section
             content={[{text: "Workout Title" , text20: true, white: true}]}
             contentStyle={{alignItems: 'center', backgroundColor: '#627D98'}}/>
-          <WebView style={styles.container}
-            source={{ uri: 'https://www.youtube.com/embed/T_l0AyZywjU' }}/>
+          {/* <WebView style={styles.container}
+            source={{ uri: 'https://www.youtube.com/embed/T_l0AyZywjU' }}/> */}
         </Card>
       </ScrollView>
       
