@@ -27,10 +27,12 @@ function NewExerciseScreen({ navigation }) {
   };
   return (
     <View style={styles.container}>
+      
     <View style={styles.box}>  
       <Text style={styles.font}>Name:</Text>
       <TextInput style={styles.textInput}  onChangeText={setName} value={name}/>
       </View>
+
       <View style={{paddingTop: 30}}>
       <View style={styles.box}>  
       <Text style={styles.font}>Body Part:</Text>
