@@ -1,32 +1,40 @@
 import 'react-native-gesture-handler'
 import React, {Component} from 'react';
-import {StyleSheet, ScrollView, TextInput, SafeAreaView} from 'react-native';
-import {View, Text, TextField, Card, Colors, Button} from 'react-native-ui-lib'
-import { WebView } from 'react-native-webview';
-import { block } from 'react-native-reanimated';
+import {StyleSheet, TextInput, SafeAreaView} from 'react-native';
+import {View, Text, Button} from 'react-native-ui-lib'
 
-//Session token should be a global variable???? 
+function CompletedWorkoutScreen({ navigation, route }) {
+  const routine = route.params.RoutineName;
+  const sessionKey = route.params.sessionKey.sessionKey;
 
-/* fetch('https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=userinfo', {
-	headers: {
-		'Authorization': 'Bearer ' + session_token
-	}
-})
-.then(response => {
-// Send a get request to obtain the users assigned workouts and store them in the assigned program array.
+  var notes = "";
+  var signOffCode = "";
 
-})
-.catch(error => {
-// Navigate user back to login screen
-
-});   */
-
-//Handle press method ************ Check to see if length is working right
-
-
-
-function CompletedWorkoutScreen({ navigation }) {
+//   const submitNotes = () => {
   
+//     var api = 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=endActSign&notes=' 
+//     var notesAPI = api.concat(notes);
+//     var codeAPI = notesAPI.concat('&code=')
+//     var completeAPI = codeAPI.concat(signOffCode)
+  
+//     fetch(completeAPI, {
+//        headers: {
+//         'Authorization': 'Bearer ' + sessionKey
+//        }
+//     })
+   
+//     .catch((error) => {
+//       console.error(error);
+//     })
+//   }
+  
+//  useEffect(() => {
+
+//   submitNotes();
+
+// }, [])
+
+
   const [value, onChangeText] = React.useState('');
 
   return (
@@ -34,7 +42,7 @@ function CompletedWorkoutScreen({ navigation }) {
     <SafeAreaView style = {styles.container}>
     <View>
         <Text style={styles.title}>
-              Program Completed!!! (Name)
+              Program {routine} Completed
             </Text>
       <View> 
       <TextInput
