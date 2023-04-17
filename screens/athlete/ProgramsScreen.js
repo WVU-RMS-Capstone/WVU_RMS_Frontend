@@ -10,7 +10,8 @@ const assignedPrograms = [
 ];
 
 //Code to pull session token
-const session_token = "c94daee7cc8d195fa0534f1c951402574bcebb9a72b8f116a8d99145bd44fad9";
+
+const session_token = "168e1edf3c3d7219167672affc1fe28b839f1f1922217b56bedc143396ab1706";
 
 
 const Item = ({ title }) => {
@@ -31,9 +32,12 @@ const Item = ({ title }) => {
   
 const ProgramsScreen = () => { 
    
-  //USe this to switch what state displays like item.title or item.id
+  //USe this to switch what state displays like item.title or item.id 
+  //Change to item.RoutineName when RoutineNAme starts returning string values.
    const renderItem2 = ({ item }) => ( <Item title={item.title} /> );
 
+   //Displays the items from routine name (iterates through json and returns each row.RoutineName)
+   //item.RoutineName is not returning as a String as expected and is instead returning as undefined 
   const renderItem = ({item}) => {
     return(
       <Text style = {styles.text}> 
@@ -42,6 +46,7 @@ const ProgramsScreen = () => {
     )
   }
 
+  //Gives little line for item seperation
   const ItemSep = () => {
     return(
       <View
@@ -50,14 +55,13 @@ const ProgramsScreen = () => {
       </View>    )
   }
 
+  //States for Search and filter premade programs + assigned programs
   const [filterD, setFilter] = useState([]);
   const [master, setMaster] = useState([]);
   const [assigned, setAssigned] = useState([]);
   const [search, setSearch] = useState('');
 
   
-
-
 const fetchPremadePrograms = () => {
   
   const api = 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=getRoutines'
@@ -70,6 +74,7 @@ const fetchPremadePrograms = () => {
   .then((response) => response.json())
   .then((responseJson) => {
 
+    //Sets filterD and master to the response Json. This works with a placeholder API appropriately
     setFilter(responseJson);
     setMaster(responseJson);
 
@@ -79,6 +84,7 @@ const fetchPremadePrograms = () => {
   })
 }
 
+//Used to fetch user assigned programs 
 const fetchAssignedPrograms = () => {
   
  
@@ -91,7 +97,7 @@ const fetchAssignedPrograms = () => {
   })
   .then((response) => response.json())
   .then((responseJson) => {
-
+//Sets assigned useState to the responseJson
     setAssigned(responseJson);
 
   }) 
@@ -100,13 +106,13 @@ const fetchAssignedPrograms = () => {
   })
 }
 
+//Required becuase of hook implementations
  useEffect(() => {
   
   fetchPremadePrograms();
   fetchAssignedPrograms();
 
   //Returning undefined data???  
-  console.log("hello");
   const output = filterD.map(user => user.RoutineName);
   console.log(output);
   return () => {
@@ -115,7 +121,7 @@ const fetchAssignedPrograms = () => {
 }, [])
 
  
-  
+  //Search bar and filter implementation 
   const searchFilter = (text) => {
     if(text) {
       const newD = master.filter((item) => {
@@ -149,7 +155,7 @@ const fetchAssignedPrograms = () => {
           </TextInput> 
 
         <FlatList style = {styles.list}
-        //Change to assign for database values
+        //Change to assigned for database values
           data={assignedPrograms} 
         //Change to renderItem for test to not be broken if no string value is found
           renderItem={renderItem2} 
@@ -167,15 +173,14 @@ const fetchAssignedPrograms = () => {
         
           <View style = {styles.list2}>
             
-        
-
+            {/* List for Premade searchable programs*/}
            <FlatList 
              style = {styles.list}
              data={filterD} 
              ItemSeparatorComponent={ItemSep}
              renderItem={renderItem} 
              //keyExtractor={item => item.RoutineId} 
-             keyExtractor={(item, index) => index.toString()} 
+             keyExtractor={item => item.RoutineId} 
              stickyHeaderIndices={[0]}  
              ListHeaderComponent={() => (
               <Text style={{ fontSize: 30, textAlign: "center",marginTop:20,fontWeight:'bold', color: 'black' }}>

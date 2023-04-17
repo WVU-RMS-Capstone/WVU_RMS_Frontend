@@ -27,7 +27,7 @@ const Item = ({ title }) => {
 
   const ProgramPreviewScreen = () => { 
 
-    //Pulls parameter function
+//Pulls values given from previous screen
 const route = useRoute();
 const ExerciseIds = route.params.exerciseIds;
 const sessionKey = route.params.sessionKey;
@@ -52,8 +52,8 @@ var counter = 1;
 var fourthExercise = 0;
 const fetchExercises = () => {
 
-//Appends exercise Id to end of appropriate API before calling
-var api = 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=getExercise&ID='
+//Appends exercise Id to end of appropriate API before calling 
+var api = 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=getExercise&ID=';
 var appendedAPI = api.concat(exerciseId);
 
   fetch(appendedAPI, {
@@ -61,9 +61,14 @@ var appendedAPI = api.concat(exerciseId);
       'Authorization': 'Bearer ' + sessionKey.session_token
      }
   })
+
+//   var testapi = 'https://jsonplaceholder.typicode.com/users'
+//   fetch(testapi, {
+    
+//  })
   .then((response) => response.json())
   .then((responseJson) => {
-    //setExercise1(responseJson);
+    //Handles the exercise number and 
     if( counter == 1){
       setExercise1(responseJson);
       console.log("First");
@@ -102,21 +107,20 @@ var appendedAPI = api.concat(exerciseId);
   
 
 useEffect(() => {
-  //First exercise ID number in routine
-
- for(let i = 0; i < 4; i++){
+  //Calls fetchExercise multiple times to return contents of exercise with given ID numbers
+ for(let i = 0; i < 3; i++){
     fetchExercises();
  }
-    
-
-
+  
   return () => {
 
   }
 }, [])
 
-// let exerciseList = Object.assign(exercise1, exercise2, exercise3)
-  
+//Trying to combine the Jsons into one object so flatlist can still be used (Isn't working rn)
+// const exerciseList = Object.assign(exercise1, exercise2, exercise3);
+
+  //Too handle routines with different amounts of exercises
 //   if(fourthExercise == 1){
 //      exerciseList = Object.assign(exercise1, exercise2, exercise3, exercise4)
 //   }
@@ -124,8 +128,10 @@ useEffect(() => {
 
     const navigation = useNavigation();
  
-
-    const renderItem = ({ item }) => ( <Item title={item.ExerciseName} /> );
+    //Should iterate through and display exerciseName
+    //Change to username if using placeholderAPI
+    const renderItem = ({ item }) => ( 
+     <Item title={item.ExerciseName} /> );
  
 
   return (
@@ -136,9 +142,9 @@ useEffect(() => {
            <FlatList 
              style = {styles.list2}
              //Change to exercises to test database data 
-             data={testExercises} 
+             data={exercise1} 
              renderItem={renderItem} 
-             keyExtractor={(item) => item.exerciseId}
+             keyExtractor={(item) => item.ExerciseId}
              stickyHeaderIndices={[0]}   
              ListHeaderComponent={() => (
               <Text style={{ fontSize: 30, textAlign: "center",marginTop:20,fontWeight:'bold', color: 'black' }}>
