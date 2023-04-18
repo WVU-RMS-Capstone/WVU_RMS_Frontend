@@ -36,6 +36,9 @@ function CompletedWorkoutScreen({ navigation, route }) {
 
 
   const [value, onChangeText] = React.useState('');
+  const [value2, onChangeText2] = React.useState('');
+
+  console.log(value2);
 
   return (
 
@@ -58,10 +61,10 @@ function CompletedWorkoutScreen({ navigation, route }) {
     </View>
     <TextInput
         style = {styles.searchbar}
-        value = {value}
+        value = {value2}
         placeholder = 'Enter AT Signoff Code Here'
         placeholderTextColor={ '#D3D3D3'}
-        onChangeText={text => onChangeText(text)}>
+        onChangeText={text => onChangeText2(text)}>
 
     </TextInput>
     <View style = {styles.buttonn}>
@@ -86,8 +89,8 @@ const styles = StyleSheet.create({
     fontSize: 30, 
     textAlign: "center",
     fontWeight:'bold', 
-    color: 'white',
-    marginBottom: 50
+    color: 'black',
+    marginBottom: 10
 
   },
   searchbar: {

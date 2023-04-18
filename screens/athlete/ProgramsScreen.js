@@ -3,48 +3,43 @@ import {View, Button, StyleSheet, FlatList, SafeAreaView, Text, StatusBar, Scrol
 import {Card} from 'react-native-ui-lib'
 import { useNavigation } from '@react-navigation/native';
 
-//Testing atm when done, switch renderItem and data in flatlist
-const assignedPrograms = [
-  {id: "1", title: "Triceps 1", exercise1: "Tricep pulls", exercise2: "tricep extensions", exercise3: "pushups",  },
-  {id: "2", title: "Biceps 1",  exercise1: "Tricep pulls", exercise2: "tricep extensions", exercise3: "pushups"},
-];
+
+
+  
 
 //Code to pull session token
+const session_token =   "fe12e9b6aa6c3b9f4b03a77471685967b0dc3231edd9d14c75cb069f7d8c3309";
+var IDD = ""; 
 
-const session_token = "168e1edf3c3d7219167672affc1fe28b839f1f1922217b56bedc143396ab1706";
-
-
-const Item = ({ title }) => {
-  const navigation = useNavigation();
-  
-  //Use item.ExerciseIds instead of hardcoded string when data is working
-  //Using brackets in route props like sessionKey:{session_token} makes 
-  //it so you have to say sessionKey.session_token on the next screen
-  return(
-  <View style={styles.item}> 
-      <Button onPress={() => {navigation.navigate('ProgramPreviewScreen', { RoutineName: "Routine Name", 
-      setNums: "3/4/5",  repNums:"10/10/10",  exerciseIds: "4/11/14", sessionKey:{session_token}}) }} 
-         title={title} 
-         color = {'white'}/> 
-  </View> 
-  );
-  }
-  
 const ProgramsScreen = () => { 
    
   //USe this to switch what state displays like item.title or item.id 
   //Change to item.RoutineName when RoutineNAme starts returning string values.
-   const renderItem2 = ({ item }) => ( <Item title={item.title} /> );
+   const renderItem2 = ({ item }) =>{
+    IDD = item.data.RoutineId;
 
-   //Displays the items from routine name (iterates through json and returns each row.RoutineName)
-   //item.RoutineName is not returning as a String as expected and is instead returning as undefined 
-  const renderItem = ({item}) => {
+   return( 
+   <Item title={item.data.RoutineName} 
+    />
+        )
+   }
+
+
+
+   const Item = ({ title }) => {
+   
+    const navigation = useNavigation();
+    
     return(
-      <Text style = {styles.text}> 
-      {item.RoutineName}
-      </Text>
-    )
-  }
+    <View style={styles.item}> 
+        <Button onPress={() =>  {navigation.navigate('SelectedProgramScreen', { RoutineName: title, 
+    sessionKey: {session_token}, ID: IDD}) }} 
+           title={title} 
+           color = {'white'}/> 
+    </View> 
+    );
+    }
+
 
   //Gives little line for item seperation
   const ItemSep = () => {
@@ -61,7 +56,6 @@ const ProgramsScreen = () => {
   const [assigned, setAssigned] = useState([]);
   const [search, setSearch] = useState('');
 
-  
 const fetchPremadePrograms = () => {
   
   const api = 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=getRoutines'
@@ -106,26 +100,24 @@ const fetchAssignedPrograms = () => {
   })
 }
 
+
 //Required becuase of hook implementations
  useEffect(() => {
   
   fetchPremadePrograms();
   fetchAssignedPrograms();
 
-  //Returning undefined data???  
-  const output = filterD.map(user => user.RoutineName);
-  console.log(output);
   return () => {
 
   }
 }, [])
 
- 
+
   //Search bar and filter implementation 
   const searchFilter = (text) => {
     if(text) {
       const newD = master.filter((item) => {
-        const itemD = item.RoutineName ? item.RoutineName.toUpperCase() : ''.toUpperCase();
+        const itemD = item.data.RoutineName ? item.data.RoutineName.toUpperCase() : ''.toUpperCase();
         const textD = text.toUpperCase();
         return itemD.indexOf(textD) > -1;
       });
@@ -156,10 +148,10 @@ const fetchAssignedPrograms = () => {
 
         <FlatList style = {styles.list}
         //Change to assigned for database values
-          data={assignedPrograms} 
+          data={assigned} 
         //Change to renderItem for test to not be broken if no string value is found
           renderItem={renderItem2} 
-          keyExtractor={item => item.RoutineId} 
+          keyExtractor={item => item.data.RoutineId} 
           
           stickyHeaderIndices={[0]}
           ListHeaderComponent={() => (
@@ -178,9 +170,9 @@ const fetchAssignedPrograms = () => {
              style = {styles.list}
              data={filterD} 
              ItemSeparatorComponent={ItemSep}
-             renderItem={renderItem} 
+             renderItem={renderItem2} 
              //keyExtractor={item => item.RoutineId} 
-             keyExtractor={item => item.RoutineId} 
+             keyExtractor={item => item.data.RoutineId} 
              stickyHeaderIndices={[0]}  
              ListHeaderComponent={() => (
               <Text style={{ fontSize: 30, textAlign: "center",marginTop:20,fontWeight:'bold', color: 'black' }}>

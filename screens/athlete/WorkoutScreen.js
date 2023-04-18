@@ -1,9 +1,7 @@
 import 'react-native-gesture-handler'
 import React, {Component} from 'react';
-import {StyleSheet, ScrollView, SafeAreaView} from 'react-native';
-import {View, Text, TextField, Card, Colors, Button} from 'react-native-ui-lib'
-import { WebView } from 'react-native-webview';
-import { block } from 'react-native-reanimated';
+import {StyleSheet, SafeAreaView} from 'react-native';
+import {View, Text} from 'react-native-ui-lib'
 import { LargeButton } from '../../src/components/Buttons';
 
   
@@ -12,8 +10,8 @@ function WorkoutScreen({ navigation, route }) {
  //const route = useRoute();
  var exerciseNumber = route.params.exerciseNumber;
  const routine = route.params.RoutineName;
- const setNums = route.params.setNums.setNums;
- const repNums = route.params.repNums.repNums;
+ const setNums = route.params.setNums;
+ const repNums = route.params.repNums;
  const exercise1 = route.params.exercise1;
  const exercise2 = route.params.exercise2;
  const exercise3 = route.params.exercise3;
@@ -61,8 +59,8 @@ const  handlePress = () => {
    
     exerciseNumber++;
     navigation.setParams( {exerciseNumber: exerciseNumber, RoutineName: routine, 
-      setNums: {setNums}, repNums:{repNums}, exercise1: "Row", exercise2: "Curl",
-       exercise3: "Calf Raises", sessionKey:{sessionKey}});
+      setNums: setNums, repNums:repNums, exercise1: exercise1, exercise2: exercise2,
+       exercise3: exercise3, sessionKey:{sessionKey}});
   }
   else {
     
