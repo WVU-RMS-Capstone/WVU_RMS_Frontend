@@ -10,11 +10,6 @@ function ATHomeScreen({ navigation }) {
           onPress={() => navigation.navigate('RosterScreen')} />
       </View>
       <View style={{ paddingBottom: '10%' }}>
-        <LargeButton text="Stats"
-          adjustFontSizeToFit
-          onPress={() => navigation.navigate('AthleteStatsScreen')} />
-      </View>
-      <View style={{ paddingBottom: '10%' }}>
         <LargeButton text="Create/Edit Program"
           adjustFontSizeToFit
           onPress={() => navigation.navigate('NewProgramScreen')} />
@@ -28,6 +23,11 @@ function ATHomeScreen({ navigation }) {
         <LargeButton text="Change Featured Program"
           adjustFontSizeToFit
           onPress={() => navigation.navigate('FeaturedProgramsScreen')} />
+      </View>
+      <View style={{ paddingBottom: '10%' }}>
+        <LargeButton text="Logs"
+          adjustFontSizeToFit
+          onPress={() => navigation.navigate('LogsScreen')} />
       </View>
     </View>
   );
