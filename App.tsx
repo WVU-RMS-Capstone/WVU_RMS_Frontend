@@ -10,6 +10,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import HomeScreen from './screens/HomeScreen';
+import LoginScreen from './screens/LoginScreen';
+import SignUpScreen from './screens/SignUpScreen';
 import ATHomeScreen from './screens/althetic-trainers/ATHomeScreen';
 import AthleteHomeScreen from './screens/athlete/AthleteHomeScreens';
 import RosterScreen from './screens/althetic-trainers/RosterScreen';
@@ -36,6 +38,8 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home" screenOptions={{ headerTitle:"", headerTransparent:true }}>
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
         <Stack.Screen name="ATHomeScreen" component={ATHomeScreen} />
         <Stack.Screen name="RosterScreen" component={RosterScreen} />
         <Stack.Screen name="AthleteStatsScreen" component={AthleteStatsScreen} />
