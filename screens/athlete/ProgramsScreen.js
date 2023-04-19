@@ -2,14 +2,12 @@ import React, {useState, useEffect} from 'react';
 import {View, Button, StyleSheet, FlatList, SafeAreaView, Text, StatusBar, ScrollView, TextInput} from 'react-native';
 import {Card} from 'react-native-ui-lib'
 import { useNavigation } from '@react-navigation/native';
-
-
-
   
 
 //Code to pull session token
-const session_token =   "fe12e9b6aa6c3b9f4b03a77471685967b0dc3231edd9d14c75cb069f7d8c3309";
+const session_token =   "bb153d714477dd151e6019ac655e5ae17fa16c6ba621253e69a6e20640fefa4a";
 var IDD = ""; 
+var AD = "0"; 
 
 const ProgramsScreen = () => { 
    
@@ -18,6 +16,16 @@ const ProgramsScreen = () => {
    const renderItem2 = ({ item }) =>{
     IDD = item.data.RoutineId;
 
+   return( 
+   <Item title={item.data.RoutineName} 
+    />
+        )
+   }
+
+   const renderItem = ({ item }) =>{
+    IDD = item.data.RoutineId;
+    AD = item.data.AssignmentId;
+    
    return( 
    <Item title={item.data.RoutineName} 
     />
@@ -33,7 +41,7 @@ const ProgramsScreen = () => {
     return(
     <View style={styles.item}> 
         <Button onPress={() =>  {navigation.navigate('SelectedProgramScreen', { RoutineName: title, 
-    sessionKey: {session_token}, ID: IDD}) }} 
+    sessionKey: {session_token}, ID: IDD, AD : AD}) }} 
            title={title} 
            color = {'white'}/> 
     </View> 
@@ -75,13 +83,14 @@ const fetchPremadePrograms = () => {
   }) 
   .catch((error) => {
     console.error(error);
+    {navigation.navigate('AthleteHomeScreens')}
+     
   })
 }
 
 //Used to fetch user assigned programs 
 const fetchAssignedPrograms = () => {
-  
- 
+
  const api = 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=getUserRoutines'
 
   fetch(api, {
@@ -100,6 +109,8 @@ const fetchAssignedPrograms = () => {
   })
 }
 
+
+  
 
 //Required becuase of hook implementations
  useEffect(() => {
@@ -136,10 +147,10 @@ const fetchAssignedPrograms = () => {
        <View>
         
        <TextInput
-             style = {styles.searchbar}
+             style = {styles.box}
              value = {search}
              placeholder= {"Search Premade Sets Here"}
-             placeholderTextColor={'#D3D3D3'}
+             placeholderTextColor={'black'}
              cent
              onChangeText={(text) => searchFilter(text)}
            >
@@ -148,9 +159,9 @@ const fetchAssignedPrograms = () => {
 
         <FlatList style = {styles.list}
         //Change to assigned for database values
-          data={assigned} 
+          data={filterD} 
         //Change to renderItem for test to not be broken if no string value is found
-          renderItem={renderItem2} 
+          renderItem={renderItem} 
           keyExtractor={item => item.data.RoutineId} 
           
           stickyHeaderIndices={[0]}
@@ -203,9 +214,14 @@ const styles = StyleSheet.create({
   },
   item: {
     backgroundColor: "#627D98",
+    textAlign: 'center',
+    borderRadius: 5,
     padding: 10,
+    width: '90%',
+    borderRadius: 15,   
+    alignSelf: 'center',
     marginVertical: 5,
-    marginHorizontal: 15,
+     marginHorizontal: 15,
   },
   text: {
     color: 'black',
@@ -222,6 +238,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     margin: 5,
     textAlign: 'center'
+  },
+  box: {
+    textAlign: 'center',
+    borderRadius: 5,
+    padding: 10,
+    width: '90%',
+    height: 50,
+    borderRadius: 15,   
+    alignSelf: 'center',
+    backgroundColor: '#D9D9D9',
   },
   butt:{
     color: 'white' 

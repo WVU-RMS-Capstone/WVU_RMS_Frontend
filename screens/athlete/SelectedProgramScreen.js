@@ -12,6 +12,7 @@ import { LargeButton } from '../../src/components/Buttons';
 //Pulls values given from previous screen
 const route = useRoute();
 const ID = route.params.ID;
+const AD = route.params.AD;
 const sessionKey = route.params.sessionKey;
 const routine = route.params.RoutineName;
 
@@ -36,7 +37,6 @@ const fetchDetails = () => {
    .then((response) => response.json())
    .then((responseJson) => {
   //Sets assigned useState to the responseJson
-     console.log(ID);
      setDetails(responseJson);  
   
    }) 
@@ -83,13 +83,13 @@ return (
       </View>
   
       <Text style={styles.midfont}>
-          Enter STA Code Here </Text> 
+          Enter STA Code Here if Required </Text> 
 
           <View style={{paddingTop: 30}}>
           <LargeButton  text = "Start Workout" onPress={() => navigation.navigate('ProgramPreviewScreen', 
           { exerciseNumber: 0, RoutineName: routine, 
        setNums: setNums1, repNums: repNums1 , exerciseIds: ExerciseIds1, code: code,
-       sessionKey: sessionKey} )} />
+       sessionKey: sessionKey, AD : AD} )} />
     </View>
   
       </SafeAreaView> 

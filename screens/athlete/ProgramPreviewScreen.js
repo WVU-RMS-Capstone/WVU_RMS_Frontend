@@ -36,6 +36,7 @@ const testExercises2 = [
 const route = useRoute();
 
 const ID = route.params.ID;
+const AD = route.params.AD;
 const setNums1 = route.params.setNums;
 const repNums1 = route.params.repNums;
 const ExerciseIds1 = route.params.exerciseIds;
@@ -191,7 +192,7 @@ useEffect(() => {
        exercise2: exercise2.ExerciseName, 
        exercise3: exercise3.ExerciseName, exerciseD1: exercise1.Descript, 
        exerciseD2: exercise2.Descript, exerciseD3: exercise3.Descript, 
-       sessionKey: {sessionKey}, code: code} )} />
+       sessionKey: {sessionKey}, code: code, AD: AD, ID: ID} )} />
     </View>
   
       </SafeAreaView> 
@@ -212,11 +213,15 @@ const styles = StyleSheet.create({
   },
   item: {
     backgroundColor: "#627D98",
+    textAlign: 'center',
+    borderRadius: 5,
     padding: 10,
-    marginVertical: 5,
-    marginHorizontal: 15,
+    width: '90%',
     height: 75,
-    justifyContent: 'center'
+    borderRadius: 15,   
+    alignSelf: 'center',
+    marginVertical: 5,
+     marginHorizontal: 15,
   },
   ListText: {
     color: 'white',

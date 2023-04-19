@@ -28,6 +28,7 @@ import ProgramsScreen from './screens/athlete/ProgramsScreen';
 import SelectedProgramScreen from './screens/athlete/SelectedProgramScreen';
 import WorkoutScreen from './screens/athlete/WorkoutScreen';
 import ProgramPreviewScreen from './screens/athlete/ProgramPreviewScreen';
+import ReturnToHomeScreen from './screens/athlete/ReturnToHomeScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -53,6 +54,7 @@ function App() {
         <Stack.Screen name="ProgramPreviewScreen" component={ProgramPreviewScreen} />
         <Stack.Screen name="SelectedProgramScreen" component={SelectedProgramScreen} />
         <Stack.Screen name="WorkoutScreen" component={WorkoutScreen} />
+        <Stack.Screen name="ReturnToHomeScreen" component={ReturnToHomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
