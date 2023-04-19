@@ -1,9 +1,7 @@
 import 'react-native-gesture-handler'
-import React, {Component} from 'react';
-import {StyleSheet, ScrollView, SafeAreaView} from 'react-native';
-import {View, Text, TextField, Card, Colors, Button} from 'react-native-ui-lib'
-import { WebView } from 'react-native-webview';
-import { block } from 'react-native-reanimated';
+import React, {useState} from 'react';
+import {StyleSheet, SafeAreaView} from 'react-native';
+import {View, Text} from 'react-native-ui-lib'
 import { LargeButton } from '../../src/components/Buttons';
 
   
@@ -11,9 +9,11 @@ function WorkoutScreen({ navigation, route }) {
  //Exercise 1
  //const route = useRoute();
  var exerciseNumber = route.params.exerciseNumber;
+ var code = route.params.code;
+ var AD = route.params.AD;
  const routine = route.params.RoutineName;
- const setNums = route.params.setNums.setNums;
- const repNums = route.params.repNums.repNums;
+ const setNums = route.params.setNums;
+ const repNums = route.params.repNums;
  const exercise1 = route.params.exercise1;
  const exercise2 = route.params.exercise2;
  const exercise3 = route.params.exercise3;
@@ -42,6 +42,24 @@ else{
    exerciseDescription = exerciseD3; 
 }
 
+//Shows signoff box if program was assigned
+const [showButton, setShowButton] = useState(false);
+
+const toggleButton = () => {
+    setShowButton(!showButton); 
+  };
+
+
+
+const MyPrevButton = () => {
+  console.log(showButton);
+  return(
+  <View> 
+    {showButton &&  <LargeButton  text = "Previous" onPress={() => handlePrevPress()}>
+    </LargeButton> }
+</View>
+  );
+  }
 const MyButton = () => {
   let buttonText = "";
   if(exerciseNumber < 3){
@@ -57,16 +75,42 @@ const MyButton = () => {
   }
 //Handle press method ************ Check to see if length is working right
 const  handlePress = () => {
-  if(exerciseNumber < 3){
-   
+  if(exerciseNumber == 1){
+    exerciseNumber++;
+    toggleButton();
+    navigation.setParams( {exerciseNumber: exerciseNumber, RoutineName: routine, 
+      setNums: setNums, repNums:repNums, exercise1: exercise1, exercise2: exercise2,
+       exercise3: exercise3, sessionKey:{sessionKey}, code: code, AD: AD});
+  }
+  else if(exerciseNumber == 2){
     exerciseNumber++;
     navigation.setParams( {exerciseNumber: exerciseNumber, RoutineName: routine, 
-      setNums: {setNums}, repNums:{repNums}, exercise1: "Row", exercise2: "Curl",
-       exercise3: "Calf Raises", sessionKey:{sessionKey}});
+      setNums: setNums, repNums:repNums, exercise1: exercise1, exercise2: exercise2,
+       exercise3: exercise3, sessionKey:{sessionKey}, code: code, AD: AD});
   }
   else {
     
-    navigation.navigate('CompletedWorkoutScreen', {RoutineName: routine, sessionKey:{sessionKey}});
+    navigation.navigate('CompletedWorkoutScreen', {RoutineName: routine, sessionKey:{sessionKey}, code:code, AD: AD});
+  }
+} 
+
+const  handlePrevPress = () => {
+  if(exerciseNumber == 2){
+    exerciseNumber--;
+    navigation.setParams( {exerciseNumber: exerciseNumber, RoutineName: routine, 
+      setNums: setNums, repNums:repNums, exercise1: exercise1, exercise2: exercise2,
+       exercise3: exercise3, sessionKey:{sessionKey}, code: code, AD: AD});
+       toggleButton();
+  }
+  else if(exerciseNumber == 3){
+    exerciseNumber--;
+    navigation.setParams( {exerciseNumber: exerciseNumber, RoutineName: routine, 
+      setNums: setNums, repNums:repNums, exercise1: exercise1, exercise2: exercise2,
+       exercise3: exercise3, sessionKey:{sessionKey}, code: code, AD: AD});
+  }
+  else {
+    
+    navigation.navigate('CompletedWorkoutScreen', {RoutineName: routine, sessionKey:{sessionKey}, code:code, AD: AD});
   }
 } 
 
@@ -102,8 +146,14 @@ const  handlePress = () => {
 
       </View>
       </View>
+      
+      <View style={{paddingTop: 30}}> 
 
+      <MyPrevButton />
+
+      </View>
       <View style={{paddingTop: 30}}>
+       
         <MyButton />
         </View>
     </SafeAreaView>
