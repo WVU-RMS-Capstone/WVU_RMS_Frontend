@@ -44,7 +44,7 @@ function NewExerciseScreen({ navigation }) {
  
   const sendAndContune = () => {
     createNewExercise();
-    navigation.navigate('HomeScreen');
+    navigation.navigate('ATHomeScreen');
   }
   return (
     <View style={styles.container}>
