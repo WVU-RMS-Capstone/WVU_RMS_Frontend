@@ -7,7 +7,9 @@ import { MediumButton } from '../../src/components/Buttons';
   
 
 //Code to pull session token
-const session_token =    "3e546ebfa900ae47ca6b724edf8e9f8b6afc80ea7f8b2a409f1280697e0caa4e";
+
+const session_token =   "3e546ebfa900ae47ca6b724edf8e9f8b6afc80ea7f8b2a409f1280697e0caa4e";
+
 var IDD = ""; 
 var AD = "0"; 
 
@@ -16,27 +18,25 @@ const ProgramsScreen = () => {
   //USe this to switch what state displays like item.title or item.id 
   //Change to item.RoutineName when RoutineNAme starts returning string values.
    const renderItem2 = ({ item }) =>{
-    IDD = item.data.RoutineId;
-
+    console.log(AD);
    return( 
-   <Item title={item.data.RoutineName} 
+   <Item2 title={item.data.RoutineName}
+     IDD = {item.data.RoutineId} AD = { AD = item.data.AssignmentId}
     />
         )
    }
 
    const renderItem = ({ item }) =>{
-    IDD = item.data.RoutineId;
-    AD = item.data.AssignmentId;
-    
+   
    return( 
-   <Item title={item.data.RoutineName} 
+   <Item title={item.data.RoutineName} IDD = {item.data.RoutineId} AD = "0"
     />
         )
    }
 
 
 
-   const Item = ({ title }) => {
+   const Item = ({ title, IDD, AD }) => {
    
     const navigation = useNavigation();
     
@@ -50,6 +50,19 @@ const ProgramsScreen = () => {
     </View> 
     );
     }
+
+    const Item2 = ({ title, IDD, AD }) => {
+      const navigation = useNavigation();
+      
+      return(
+      <View style={styles.item}> 
+          <Button onPress={() =>  {navigation.navigate('SelectedProgramScreen', { RoutineName: title, 
+      sessionKey: {session_token}, ID: IDD, AD : AD}) }} 
+             title={title} 
+             color = {'white'}/> 
+      </View> 
+      );
+      }
 
 
   //Gives little line for item seperation
@@ -162,10 +175,11 @@ const fetchAssignedPrograms = () => {
 
         <FlatList style = {styles.list}
         //Change to assigned for database values
-          data={filterD} 
+          data={assigned} 
         //Change to renderItem for test to not be broken if no string value is found
-          renderItem={renderItem} 
-          keyExtractor={item => item.data.RoutineId}
+          renderItem={renderItem2} 
+          keyExtractor={item => item.data.RoutineId} 
+          
           stickyHeaderIndices={[0]}
           ListHeaderComponent={() => (
             <Text style={{ fontSize: 30, textAlign: "center",marginTop:20,fontWeight:'bold', color: 'black' }}>
@@ -183,7 +197,7 @@ const fetchAssignedPrograms = () => {
              style = {styles.list}
              data={filterD} 
              ItemSeparatorComponent={ItemSep}
-             renderItem={renderItem2} 
+             renderItem={renderItem} 
              //keyExtractor={item => item.RoutineId} 
              keyExtractor={item => item.data.RoutineId} 
              stickyHeaderIndices={[0]}  

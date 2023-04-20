@@ -78,6 +78,7 @@ const ProgramPreviewScreen = () => {
       })
       .catch((error) => {
         console.error(error);
+        { navigation.navigate('ProgramsScreen') }
       })
   }
 
@@ -106,6 +107,7 @@ const ProgramPreviewScreen = () => {
       })
       .catch((error) => {
         console.error(error);
+        { navigation.navigate('ProgramsScreen') }
       })
   }
 
@@ -134,6 +136,7 @@ const ProgramPreviewScreen = () => {
       })
       .catch((error) => {
         console.error(error);
+        { navigation.navigate('ProgramsScreen') }
       })
   }
 
@@ -143,8 +146,9 @@ const ProgramPreviewScreen = () => {
     fetchExercises2();
     fetchExercises3();
 
-    return () => {
 
+    return () => {
+    
     }
   }, [])
 

@@ -4,17 +4,19 @@ import { TextInput } from 'react-native-gesture-handler';
 import Pdf from 'react-native-pdf';
 import { LargeButton } from '../../src/components/Buttons';
 
-function LogsScreen({navigation}) {
+function LogsScreen({ navigation }) {
   const [name, setName] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [position, setPosition] = useState('');
 
+
   const fetchLogs = () => {
 
-    const session_token = "87dd921c352ae2540dcbb918fe5297f12fe399345dbfae7960313443f57ed3aa";
+    const session_token = '168e1edf3c3d7219167672affc1fe28b839f1f1922217b56bedc143396ab1709';
     const api = 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=pullLogs';
-
+    var IDD = "";
+    var AD = "0";
     fetch(api, {
       headers: {
         'Authorization': 'Bearer ' + session_token
@@ -74,15 +76,15 @@ function LogsScreen({navigation}) {
             value={endDate} />
         </View>
       </View>
-        <TextInput style={styles.textInput}
-          underlineColorAndroid="transparent"
-          placeholder="Enter Athlete Position"
-          placeholderTextColor="#777777"
-          autoCapitalize="none"
-          onChangeText={setPosition}
-          value={position} />
+      <TextInput style={styles.textInput}
+        underlineColorAndroid="transparent"
+        placeholder="Enter Athlete Position"
+        placeholderTextColor="#777777"
+        autoCapitalize="none"
+        onChangeText={setPosition}
+        value={position} />
       <View style={{ paddingTop: '10%', width: '100%' }}>
-        <LargeButton text="Get Logs" onPress={() => navigation.navigate('ATHomeScreen') } />
+        <LargeButton text="Get Logs" onPress={() => navigation.navigate('ATHomeScreen')} />
       </View>
     </View>
 
@@ -127,5 +129,5 @@ const styles = StyleSheet.create({
   textInputSmall: {
     fontSize: 24,
     flex: 1,
-  },
+  }
 });
