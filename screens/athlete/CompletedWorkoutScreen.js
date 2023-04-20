@@ -1,43 +1,40 @@
 import 'react-native-gesture-handler'
 import React, {useState} from 'react';
 import {StyleSheet, TextInput, SafeAreaView} from 'react-native';
-import {View, Text, Button} from 'react-native-ui-lib'
+import {View, Text} from 'react-native-ui-lib'
 import { LargeButton } from '../../src/components/Buttons';
+import { useRoute } from '@react-navigation/native';
+
+
 
 function CompletedWorkoutScreen({ navigation, route }) {
   const routine = route.params.RoutineName;
   const AD = route.params.AD;
   const sessionKey = route.params.sessionKey.sessionKey;
+  const code = route.params.code;
   
+ 
 
-
-  //Shows signoff box if program was assigned
-  const [showBox, setShowBox] = useState(false);
-
-  const toggleBox = () => {
-    if(AD == "0"){
-
-    }
-    else{
-      setShowBox(!showBox);
-    }
   
-  };
+const MyBox = () => {
+ 
+  while( AD != "0"){
+   
+  return( <View > 
+     <TextInput
+    style = {styles.box2}
+    value = {value2}
+    placeholder = 'Enter AT Signoff Code Here'
+    placeholderTextColor={ 'black'}
+    maxLength={6}
+    onChangeText={text => onChangeText2(text)}>
 
-  const MyBox = () => {
-  toggleBox;
-    return(<View> 
-      {showBox && <TextInput
-      style = {styles.searchbar}
-      value = {value2}
-      placeholder = 'Enter AT Signoff Code Here'
-      placeholderTextColor={ '#D3D3D3'}
-      onChangeText={text => onChangeText2(text)}>
+    </TextInput> 
+</View>
+  );}
 
-      </TextInput> }
-  </View>
-    );
-    }
+  }
+
 
 
   const [value, onChangeText] = React.useState('');
@@ -57,22 +54,24 @@ function CompletedWorkoutScreen({ navigation, route }) {
         value = {value}
         placeholder = 'Enter Notes Here'
         placeholderTextColor={'black'}
-        maxLength={100}
+        maxLength={500}
         onChangeText={text => onChangeText(text)}>
     </TextInput>
       
     </View>
     <View>
-        <MyBox />
+        {MyBox()}
     </View>
     <View style = {styles.buttonn}>
     <LargeButton   text = "Enter" onPress={() => {navigation.navigate('ReturnToHomeScreen', {note: value, signOff: value2, code: code, sessionKey: sessionKey} ) }} />
-    
+
         </View>
     </View>
     </SafeAreaView>
   );
 }
+
+
 
 export default CompletedWorkoutScreen;
 
@@ -96,13 +95,26 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     width: '90%',
-    height: 200,
+    height: 150,
+    borderRadius: 15,   
+    alignSelf: 'center',
+    backgroundColor: '#D9D9D9',
+    marginBottom: 25,
+    marginTop: 30,
+    fontSize: 25
+  },
+  box2: {
+    textAlign: 'center',
+    borderRadius: 5,
+    padding: 10,
+    width: '90%',
+    height: 100,
     borderRadius: 15,   
     alignSelf: 'center',
     backgroundColor: '#D9D9D9',
     marginBottom: 50,
-    marginTop: 30,
-    fontSize: 35
+    
+    fontSize: 25
   },
   buttonn: {
     marginTop: 2

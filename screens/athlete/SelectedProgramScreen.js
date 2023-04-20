@@ -42,6 +42,7 @@ const fetchDetails = () => {
    }) 
    .catch((error) => {
      console.error(error);
+     {navigation.navigate('ProgramsScreen')}
    })
  }
 
@@ -89,7 +90,7 @@ return (
           <LargeButton  text = "Start Workout" onPress={() => navigation.navigate('ProgramPreviewScreen', 
           { exerciseNumber: 0, RoutineName: routine, 
        setNums: setNums1, repNums: repNums1 , exerciseIds: ExerciseIds1, code: code,
-       sessionKey: sessionKey, AD : AD} )} />
+       sessionKey: sessionKey, AD : AD, ID: ID} )} />
     </View>
   
       </SafeAreaView> 
