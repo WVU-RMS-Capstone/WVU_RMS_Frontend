@@ -10,12 +10,12 @@ function ATHomeScreen({ navigation }) {
           onPress={() => navigation.navigate('RosterScreen')} />
       </View>
       <View style={styles.button}>
-        <LargeButton text="Create/Edit Program"
+        <LargeButton text="Create Program"
           adjustFontSizeToFit
           onPress={() => navigation.navigate('NewProgramScreen')} />
       </View>
       <View style={styles.button}>
-        <LargeButton text="Create/Edit Excercises"
+        <LargeButton text="Create Excercise"
           adjustFontSizeToFit
           onPress={() => navigation.navigate('NewExerciseScreen')} />
       </View>

@@ -11,15 +11,15 @@ function AthleteHomeScreen({ navigation }) {
        </View>
        <View style={styles.button}>
         <LargeButton text="Exercises"
-          onPress={() => navigation.navigate('ProgramsScreen')} />
+          onPress={() => navigation.navigate('ExercisesScreen')} />
        </View>
        <View style={styles.button}>
         <LargeButton text="Progress"
-          onPress={() => navigation.navigate('ProgramsScreen')} />
+          onPress={() => navigation.navigate('AthleteStatsScreen')} />
        </View>
        <View style={styles.button}>
         <LargeButton text="Notes"
-          onPress={() => navigation.navigate('ProgramsScreen')} />
+          onPress={() => navigation.navigate('NotesScreen')} />
        </View>
     </View>
   );

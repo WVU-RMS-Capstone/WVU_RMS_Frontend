@@ -65,7 +65,7 @@ function NewExerciseScreen({ navigation }) {
       </View>
 
       <View style={{paddingTop: 30}}>
-        <LargeButton  text="Done" onPress={() => navigation.navigate('ATHomeScreen')} />
+        <LargeButton  text="Done" onPress={() => navigation.navigate('NewProgramScreen')} />
         </View>
     </View>
   );
