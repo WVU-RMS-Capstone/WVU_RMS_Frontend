@@ -110,3 +110,40 @@ const largestyles = StyleSheet.create({
         paddingVertical: "1%",
     }
 })
+    export function DateSelector({ text, onPress }) {
+        return (
+            // <TouchableOpacity onPress={onPress}>
+                <View style={date.button}>
+                <TouchableOpacity onPress={onPress}>
+                    <Text style={date.buttonText}>{ text }</Text>
+                    </TouchableOpacity>
+                </View>
+          
+        )
+    }
+    const date = StyleSheet.create({
+        button: {
+            borderRadius: 5,
+            padding: 10,
+            width: '25%',
+            height: 69,
+            backgroundColor: '#D9D9D9',
+            
+            ...Platform.select({
+                ios: {
+                shadowColor: '#000000',
+                shadowOffset: { width: 10, height: 10 },
+                shadowOpacity: 0.2,
+                shadowRadius: 5,
+                },})
+        },
+        buttonText: {
+            alignContent:'center',
+            textAlign:'center',
+            color: 'black',
+            fontSize: 20,
+            fontWeight: "500",
+            paddingVertical: "3%",
+        }
+    })
+
