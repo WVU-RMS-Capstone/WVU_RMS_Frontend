@@ -77,6 +77,7 @@ const fetchExercises = () => {
     }) 
     .catch((error) => {
       console.error(error);
+      {navigation.navigate('ProgramsScreen')}
     })
   }
 
@@ -105,6 +106,7 @@ const fetchExercises = () => {
       }) 
       .catch((error) => {
         console.error(error);
+        {navigation.navigate('ProgramsScreen')}
       })
     }
 
@@ -133,6 +135,7 @@ const fetchExercises = () => {
         }) 
         .catch((error) => {
           console.error(error);
+          {navigation.navigate('ProgramsScreen')}
         })
       }
 
@@ -141,6 +144,7 @@ useEffect(() => {
  fetchExercises();
  fetchExercises2();
  fetchExercises3();
+
   
   return () => {
 
@@ -148,7 +152,7 @@ useEffect(() => {
 }, [])
 
     const navigation = useNavigation();
- 
+   
   return (
 
     <SafeAreaView style={styles.container}>       
@@ -188,11 +192,11 @@ useEffect(() => {
           <View style={{paddingTop: 30}}>
           <LargeButton  text = "Start" onPress={() => navigation.navigate('WorkoutScreen', 
           { exerciseNumber: 1, RoutineName: routine, 
-       setNums: setNums1, repNums: repNums1, exercise1: exercise1.ExerciseName, 
-       exercise2: exercise2.ExerciseName, 
-       exercise3: exercise3.ExerciseName, exerciseD1: exercise1.Descript, 
+       setNums: setNums1, repNums: repNums1, exercise1: exercise1.ExerciseName, exerciseL1: exercise1.Link, 
+       exercise2: exercise2.ExerciseName, exerciseL2: exercise2.Link, 
+       exercise3: exercise3.ExerciseName,exerciseL3: exercise3.Link,  exerciseD1: exercise1.Descript, 
        exerciseD2: exercise2.Descript, exerciseD3: exercise3.Descript, 
-       sessionKey: {sessionKey}, code: code, AD: AD, ID: ID} )} />
+       sessionKey: {sessionKey}, code: code, AD: AD, ID: ID, first: 1} )} />
     </View>
   
       </SafeAreaView> 

@@ -10,19 +10,28 @@ import { LargeButton } from '../../src/components/Buttons';
       const code = route.params.code;
       const sessionKey = route.params.sessionKey;
 
+      const [filterD, setFilter] = useState('');
+
       const submitNotes = () => {
   
         var api = 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=endAct&notes=' 
         var notesAPI = api.concat(note);
-
+      
         fetch(notesAPI, {
            headers: {
-            'Authorization': 'Bearer ' + sessionKey
+            'Authorization': 'Bearer ' + sessionKey.session_token
            }
         })
-       
+       .then((response) => response.json())
+  .then((responseJson) => {
+
+    //Sets filterD and master to the response Json. This works with a placeholder API appropriately
+    setFilter(responseJson);
+
+  }) 
         .catch((error) => {
           console.error(error);
+          {navigation.navigate('ProgramsScreen')}
         })
       }
       
@@ -31,22 +40,29 @@ import { LargeButton } from '../../src/components/Buttons';
         
           var api = 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=endActSign&notes=' 
           var notesAPI = api.concat(note);
-          var codeAPI = notesAPI.concat('&code=')
-          var completeAPI = codeAPI.concat(signOff)
-        
+          var codeAPI = notesAPI.concat('&code=');
+          var completeAPI = codeAPI.concat(signOff);
+          
           fetch(completeAPI, {
              headers: {
-              'Authorization': 'Bearer ' + sessionKey
+              'Authorization': 'Bearer ' + sessionKey.session_token
              }
           })
-         
+          .then((response) => response.json())
+          .then((responseJson) => {
+        
+            //Sets filterD and master to the response Json. This works with a placeholder API appropriately
+            setFilter(responseJson);
+        
+          }) 
           .catch((error) => {
             console.error(error);
+            {navigation.navigate('ProgramsScreen')}
           })
         }
 
         useEffect(() => {     
-       
+      
           if(note === " " && code === " " && signOff === " "){
         
           }
@@ -62,7 +78,7 @@ import { LargeButton } from '../../src/components/Buttons';
         
           }
         }, [])
-
+        
         return (
           <SafeAreaView style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       
