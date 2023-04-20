@@ -2,10 +2,12 @@ import React, {useState, useEffect} from 'react';
 import {View, Button, StyleSheet, FlatList, SafeAreaView, Text, StatusBar, ScrollView, TextInput} from 'react-native';
 import {Card} from 'react-native-ui-lib'
 import { useNavigation } from '@react-navigation/native';
+import { SmallTile } from '../../src/components/Tiles';
+import { MediumButton } from '../../src/components/Buttons';
   
 
 //Code to pull session token
-const session_token =   "ecad2432f0c7df5d74b29e405f7cbbcdeb731e9897c7f26a1669a92547359b10";
+const session_token =    "3e546ebfa900ae47ca6b724edf8e9f8b6afc80ea7f8b2a409f1280697e0caa4e";
 var IDD = ""; 
 var AD = "0"; 
 
@@ -40,10 +42,11 @@ const ProgramsScreen = () => {
     
     return(
     <View style={styles.item}> 
-        <Button onPress={() =>  {navigation.navigate('SelectedProgramScreen', { RoutineName: title, 
-    sessionKey: {session_token}, ID: IDD, AD : AD}) }} 
-           title={title} 
-           color = {'white'}/> 
+        <MediumButton
+        onPress={() =>  {navigation.navigate('SelectedProgramScreen', { RoutineName: title, 
+        sessionKey: {session_token}, ID: IDD, AD : AD}) }} 
+           text={title} 
+           color = {'black'}/> 
     </View> 
     );
     }
@@ -162,8 +165,7 @@ const fetchAssignedPrograms = () => {
           data={filterD} 
         //Change to renderItem for test to not be broken if no string value is found
           renderItem={renderItem} 
-          keyExtractor={item => item.data.RoutineId} 
-          
+          keyExtractor={item => item.data.RoutineId}
           stickyHeaderIndices={[0]}
           ListHeaderComponent={() => (
             <Text style={{ fontSize: 30, textAlign: "center",marginTop:20,fontWeight:'bold', color: 'black' }}>
@@ -204,7 +206,7 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 25,
     padding: 5,
-    flex: 1
+    flex: 1,
   },
   list: {
     marginBottom: 50,
@@ -213,15 +215,9 @@ const styles = StyleSheet.create({
     flex: 1
   },
   item: {
-    backgroundColor: "#627D98",
-    textAlign: 'center',
-    borderRadius: 5,
-    padding: 10,
-    width: '90%',
-    borderRadius: 15,   
-    alignSelf: 'center',
-    marginVertical: 5,
-     marginHorizontal: 15,
+    flex:1,
+    marginHorizontal:'1%',
+    marginVertical:'1%'
   },
   text: {
     color: 'black',

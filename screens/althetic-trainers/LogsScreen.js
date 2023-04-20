@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {FlatList} from 'react-native';
+import {View} from 'react-native';
 import Pdf from 'react-native-pdf';
 
 function LogsScreen() {
@@ -11,7 +11,6 @@ function LogsScreen() {
     const api = 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=pullLogs';
     var IDD = ""; 
     var AD = "0"; 
-    const source = { uri: 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=pullLogs&sdate=2023-04-11&edate=2023-04-12&name=Chase&position=WR', cache: true };
 
      fetch(api, {
         headers: {
@@ -43,7 +42,7 @@ function LogsScreen() {
   
   return (
     <View>
-      <Pdf source = {source}/>
+      <Pdf source = {{ uri: 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=pullLogs&sdate=2023-04-11&edate=2023-04-12&name=Chase&position=WR', cache: true }}/>
     </View>
   );
 }

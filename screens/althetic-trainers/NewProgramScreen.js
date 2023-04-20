@@ -12,9 +12,9 @@ function NewProgramScreen({ navigation }) {
   const handleNameChangeText = (text) => {
     setName(text);
   };
-  
+
   return (
-    <View style={{ marginVertical: '20%' }}>
+    <View style={styles.container}>
       <TextInput style={styles.textInput}
         underlineColorAndroid="transparent"
         placeholder="Enter Program Name"
@@ -23,7 +23,7 @@ function NewProgramScreen({ navigation }) {
         onChangeText={setName} 
         value = {name}/>
 
-      <View style={{ height: "70%",width: "93%", backgroundColor: '#A9A9A9', alignSelf: 'center', marginBottom:"5%", borderRadius: 14 }}>
+      <View style={styles.list}>
         <ScrollView>
           <Text style={styles.exerciseContainer}>Excercise added</Text>
           <Text style={styles.exerciseContainer}>Excercise added</Text>
@@ -49,6 +49,11 @@ function NewProgramScreen({ navigation }) {
 
 export default NewProgramScreen;
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   textInput: {
     alignSelf: 'center',
     backgroundColor: '#D9D9D9',
@@ -56,19 +61,28 @@ const styles = StyleSheet.create({
     fontSize: 40,
     paddingVertical: "1%",
     paddingHorizontal: "5%",
-    marginBottom: 50,
-    height: "20%",
+    marginBottom: '8%',
+    marginTop:'5%',
+    height: "15%",
     width: "93%"
+  },
+  list: {
+    height: "50%",
+    width: "93%",
+    backgroundColor: '#B9B9B9',
+    alignSelf: 'center',
+    marginBottom: "5%",
+    borderRadius: 14
   }
   ,
-  exerciseContainer:{
-    width:"96%",
-    fontSize:50, 
-    backgroundColor:'#D9D9D9', 
-    borderRadius: 14, 
-    marginTop:50, 
-    paddingVertical:40, 
-    paddingHorizontal:20,
-    alignSelf:'center'
+  exerciseContainer: {
+    width: "96%",
+    fontSize: 40,
+    backgroundColor: '#D9D9D9',
+    borderRadius: 14,
+    marginTop: '5%',
+    paddingVertical: '5%',
+    paddingHorizontal: 20,
+    alignSelf: 'center'
   }
 });
