@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, FlatList, Item } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import Pdf from 'react-native-pdf';
 import { LargeButton } from '../../src/components/Buttons';
 
 function LogsScreen({ navigation }) {
@@ -9,25 +8,30 @@ function LogsScreen({ navigation }) {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [position, setPosition] = useState('');
+  const [logs, setLogs] = useState('');
 
-
+  
   const fetchLogs = () => {
 
-    const session_token = '168e1edf3c3d7219167672affc1fe28b839f1f1922217b56bedc143396ab1709';
-    const api = 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=pullLogs';
-    var IDD = "";
-    var AD = "0";
-    fetch(api, {
+    const session_token = "33de9a50078aed4ef2a7556a80c908795317ac51b0962b766d3b9d7554dddb52";
+    const api = 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=pullLogs&sdate=';
+    const appendedAPI = api.concat(startDate + '&edate=' + endDate + '&name=' + name + '&position=' + position);
+    
+    const testAPI = api.concat('2023-04-01&edate=2023-04-20&name=Joe&position=WR');
+
+
+    fetch(testAPI, {
       headers: {
         'Authorization': 'Bearer ' + session_token
       }
     })
-      .then((response) => response.json())
-      .then((responseJson) => {
+      .then((response) => response.blob())
+      .then((blob) => {
 
       })
       .catch((error) => {
         console.error(error);
+        navigation.navigate('ATHomeScreen')
       })
   }
   useEffect(() => {
@@ -37,15 +41,6 @@ function LogsScreen({ navigation }) {
     }
   }, []);
 
-  const renderItem = ({ item }) => {
-    return (
-      <View styles={backgroundColor = '#444444'}>
-        <Text px={5} py={2} rounded="md" bg="primary.300" my={2}>
-          {item}
-        </Text>
-      </View>
-    );
-  };
 
   return (
     <View style={styles.container}>
@@ -90,6 +85,7 @@ function LogsScreen({ navigation }) {
 
   );
 }
+
 
 export default LogsScreen;
 const styles = StyleSheet.create({

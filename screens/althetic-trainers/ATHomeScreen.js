@@ -6,10 +6,6 @@ function ATHomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.button}>
-        <LargeButton text="Roster"
-          onPress={() => navigation.navigate('RosterScreen')} />
-      </View>
-      <View style={styles.button}>
         <LargeButton text="Create Program"
           adjustFontSizeToFit
           onPress={() => navigation.navigate('NewProgramScreen')} />
