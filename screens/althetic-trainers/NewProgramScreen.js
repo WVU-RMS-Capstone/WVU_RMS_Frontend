@@ -23,7 +23,7 @@ function NewProgramScreen({ navigation }) {
         onChangeText={setName} 
         value = {name}/>
 
-      <View style={{ height: "70%",width: "93%", backgroundColor: '#222222', alignSelf: 'center', marginBottom:"5%", borderRadius: 14 }}>
+      <View style={{ height: "70%",width: "93%", backgroundColor: '#A9A9A9', alignSelf: 'center', marginBottom:"5%", borderRadius: 14 }}>
         <ScrollView>
           <Text style={styles.exerciseContainer}>Excercise added</Text>
           <Text style={styles.exerciseContainer}>Excercise added</Text>
@@ -51,7 +51,7 @@ export default NewProgramScreen;
 const styles = StyleSheet.create({
   textInput: {
     alignSelf: 'center',
-    backgroundColor: "#222222",
+    backgroundColor: '#D9D9D9',
     borderRadius: 14,
     fontSize: 40,
     paddingVertical: "1%",
@@ -64,10 +64,11 @@ const styles = StyleSheet.create({
   exerciseContainer:{
     width:"96%",
     fontSize:50, 
-    backgroundColor:"#444444", 
+    backgroundColor:'#D9D9D9', 
     borderRadius: 14, 
     marginTop:50, 
     paddingVertical:40, 
+    paddingHorizontal:20,
     alignSelf:'center'
   }
 });
