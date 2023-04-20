@@ -5,7 +5,9 @@ import { useNavigation } from '@react-navigation/native';
   
 
 //Code to pull session token
+
 const session_token =   "3e546ebfa900ae47ca6b724edf8e9f8b6afc80ea7f8b2a409f1280697e0caa4e";
+
 var IDD = ""; 
 var AD = "0"; 
 
