@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 export function Dropdown ({ options }) {
   const [selectedOption, setSelectedOption] = useState(options[0]);
@@ -13,7 +13,7 @@ export function Dropdown ({ options }) {
   return (
     <View>
       <TouchableOpacity onPress={ () => setShowOptions(!showOptions) }>
-        <Text>{selectedOption}</Text>
+        <Text style={dropDown.text}>{selectedOption}</Text>
       </TouchableOpacity>
       {showOptions && (
         <View>
@@ -22,7 +22,7 @@ export function Dropdown ({ options }) {
               key={option}
               onPress={() => handleOptionSelect(option)}
             >
-              <Text>{option}</Text>
+              <Text style={dropDown.text}>{option}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -30,6 +30,12 @@ export function Dropdown ({ options }) {
     </View>
   );
 };
+
+const dropDown = StyleSheet.create({
+  text: {
+    fontSize: 28,
+    fontWeight:'500'
+  }});
 
 
 export default Dropdown;

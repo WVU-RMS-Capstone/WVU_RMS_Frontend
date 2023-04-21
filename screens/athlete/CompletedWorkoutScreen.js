@@ -1,41 +1,45 @@
 import 'react-native-gesture-handler'
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, TextInput, SafeAreaView} from 'react-native';
-import {View, Text, Button} from 'react-native-ui-lib'
+import {View, Text} from 'react-native-ui-lib'
+import { LargeButton } from '../../src/components/Buttons';
+import { useRoute } from '@react-navigation/native';
+
+
 
 function CompletedWorkoutScreen({ navigation, route }) {
   const routine = route.params.RoutineName;
+  const AD = route.params.AD;
   const sessionKey = route.params.sessionKey.sessionKey;
-
-  var notes = "";
-  var signOffCode = "";
-
-//   const submitNotes = () => {
+  const code = route.params.code;
   
-//     var api = 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=endActSign&notes=' 
-//     var notesAPI = api.concat(notes);
-//     var codeAPI = notesAPI.concat('&code=')
-//     var completeAPI = codeAPI.concat(signOffCode)
+ 
+
   
-//     fetch(completeAPI, {
-//        headers: {
-//         'Authorization': 'Bearer ' + sessionKey
-//        }
-//     })
+const MyBox = () => {
+ 
+  while( AD != "0"){
    
-//     .catch((error) => {
-//       console.error(error);
-//     })
-//   }
-  
-//  useEffect(() => {
+  return( <View > 
+     <TextInput
+    style = {styles.box2}
+    value = {value2}
+    placeholder = 'Enter AT Signoff Code Here'
+    placeholderTextColor={ 'black'}
+    maxLength={6}
+    onChangeText={text => onChangeText2(text)}>
 
-//   submitNotes();
+    </TextInput> 
+</View>
+  );}
 
-// }, [])
+  }
+
 
 
   const [value, onChangeText] = React.useState('');
+  const [value2, onChangeText2] = React.useState('');
+
 
   return (
 
@@ -46,32 +50,28 @@ function CompletedWorkoutScreen({ navigation, route }) {
             </Text>
       <View> 
       <TextInput
-        style = {styles.searchbar}
+        style = {styles.box}
         value = {value}
         placeholder = 'Enter Notes Here'
-        placeholderTextColor={ '#D3D3D3'}
+        placeholderTextColor={'black'}
+        maxLength={500}
         onChangeText={text => onChangeText(text)}>
-
     </TextInput>
-      <Button text70 background= {'#FFABO0'} label = "Notes"
-       onPress={() => navigation.navigate('NotesScreen')} />
+      
     </View>
-    <TextInput
-        style = {styles.searchbar}
-        value = {value}
-        placeholder = 'Enter AT Signoff Code Here'
-        placeholderTextColor={ '#D3D3D3'}
-        onChangeText={text => onChangeText(text)}>
-
-    </TextInput>
+    <View>
+        {MyBox()}
+    </View>
     <View style = {styles.buttonn}>
-      <Button label = "AT sign off"
-        onPress={() => navigation.navigate('AthleteHomeScreen')} />
+    <LargeButton   text = "Enter" onPress={() => {navigation.navigate('ReturnToHomeScreen', {note: value, signOff: value2, code: code, sessionKey: sessionKey} ) }} />
+
         </View>
     </View>
     </SafeAreaView>
   );
 }
+
+
 
 export default CompletedWorkoutScreen;
 
@@ -83,24 +83,41 @@ const styles = StyleSheet.create({
     flex: 1
   },
   title:{
-    fontSize: 30, 
+    fontSize: 45, 
     textAlign: "center",
     fontWeight:'bold', 
-    color: 'white',
-    marginBottom: 50
+    color: 'black',
+    marginBottom: 10
 
   },
-  searchbar: {
-    marginTop: 50,
-    height: 100,
-    borderWidth: 1,
-    paddingLeft: 20,
-    borderColor: '#051515',
-    backgroundColor: 'white',
-    margin: 5,
-    marginBottom: 20
+  box: {
+    textAlign: 'center',
+    borderRadius: 5,
+    padding: 10,
+    width: '90%',
+    height: 150,
+    borderRadius: 15,   
+    alignSelf: 'center',
+    backgroundColor: '#D9D9D9',
+    marginBottom: 25,
+    marginTop: 30,
+    fontSize: 25
   },
-  buttonn:{
+  box2: {
+    textAlign: 'center',
+    borderRadius: 5,
+    padding: 10,
+    width: '90%',
+    height: 100,
+    borderRadius: 15,   
+    alignSelf: 'center',
+    backgroundColor: '#D9D9D9',
+    marginBottom: 50,
     
+    fontSize: 25
+  },
+  buttonn: {
+    marginTop: 2
   }
+
 });
