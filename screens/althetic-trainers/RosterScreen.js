@@ -19,7 +19,8 @@ const styles = StyleSheet.create({
   
 });
 
-function RosterScreen({ navigation }) {
+function RosterScreen({ navigation, route }) {
+  const sessionKey = route.params.sessionKey;
   return (
     <View style={styles.container}>
        <FlatList
@@ -55,7 +56,7 @@ function RosterScreen({ navigation }) {
           {key: 'Jimmy C'},
           {key: 'Julie D'},
         ]}
-        renderItem={({item}) => <Button title={item.key} style={styles.item} onPress={() => navigation.navigate('AthleteProfileScreen')} />}
+        renderItem={({item}) => <Button title={item.key} style={styles.item} onPress={() => navigation.navigate('AthleteProfileScreen', {sessionKey :sessionKey})} />}
       />
     </View>
   );

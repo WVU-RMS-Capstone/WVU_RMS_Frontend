@@ -201,6 +201,8 @@ const ProgramPreviewScreen = () => {
             exercise2: exercise2.ExerciseName,
             exercise3: exercise3.ExerciseName, exerciseD1: exercise1.Descript,
             exerciseD2: exercise2.Descript, exerciseD3: exercise3.Descript,
+            exerciseL1: exercise1.Link, exerciseL2: exercise2.Link,
+            exerciseL3: exercise3.Link,
             sessionKey: { sessionKey }, code: code, AD: AD, ID: ID
           })} />
       </View>

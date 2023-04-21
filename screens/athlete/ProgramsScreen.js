@@ -8,13 +8,15 @@ import { MediumButton } from '../../src/components/Buttons';
 
 //Code to pull session token
 
-const session_token =   "3e546ebfa900ae47ca6b724edf8e9f8b6afc80ea7f8b2a409f1280697e0caa4e";
+
 
 var IDD = ""; 
 var AD = "0"; 
 
-const ProgramsScreen = () => { 
-   
+const ProgramsScreen = ({navigation, route}) => { 
+ 
+  const session_token =  route.params.sessionKey;
+  console.log(session_token);
   //USe this to switch what state displays like item.title or item.id 
   //Change to item.RoutineName when RoutineNAme starts returning string values.
    const renderItem2 = ({ item }) =>{
@@ -55,12 +57,13 @@ const ProgramsScreen = () => {
       const navigation = useNavigation();
       
       return(
-      <View style={styles.item}> 
-          <Button onPress={() =>  {navigation.navigate('SelectedProgramScreen', { RoutineName: title, 
-      sessionKey: {session_token}, ID: IDD, AD : AD}) }} 
-             title={title} 
-             color = {'white'}/> 
-      </View> 
+        <View style={styles.item}> 
+        <MediumButton
+        onPress={() =>  {navigation.navigate('SelectedProgramScreen', { RoutineName: title, 
+        sessionKey: {session_token}, ID: IDD, AD : AD}) }} 
+           text={title} 
+           color = {'black'}/> 
+    </View> 
       );
       }
 
@@ -83,7 +86,7 @@ const ProgramsScreen = () => {
 const fetchPremadePrograms = () => {
   
   const api = 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=getRoutines'
-
+  console.log(session_token);
   fetch(api, {
      headers: {
       'Authorization': 'Bearer ' + session_token
@@ -99,7 +102,7 @@ const fetchPremadePrograms = () => {
   }) 
   .catch((error) => {
     console.error(error);
-    {navigation.navigate('AthleteHomeScreens')}
+    {navigation.navigate('AthleteHomeScreen')}
      
   })
 }

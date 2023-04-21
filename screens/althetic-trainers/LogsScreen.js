@@ -13,7 +13,7 @@ function LogsScreen({ navigation }) {
   
   const fetchLogs = () => {
 
-    const session_token = "33de9a50078aed4ef2a7556a80c908795317ac51b0962b766d3b9d7554dddb52";
+    const sessionKey = route.params.sessionKey;
     const api = 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=pullLogs&sdate=';
     const appendedAPI = api.concat(startDate + '&edate=' + endDate + '&name=' + name + '&position=' + position);
     
@@ -22,7 +22,7 @@ function LogsScreen({ navigation }) {
 
     fetch(testAPI, {
       headers: {
-        'Authorization': 'Bearer ' + session_token
+        'Authorization': 'Bearer ' + sessionKey
       }
     })
       .then((response) => response.blob())
@@ -79,7 +79,7 @@ function LogsScreen({ navigation }) {
         onChangeText={setPosition}
         value={position} />
       <View style={{ paddingTop: '10%', width: '100%' }}>
-        <LargeButton text="Get Logs" onPress={() => navigation.navigate('ATHomeScreen')} />
+        <LargeButton text="Get Logs" onPress={() => navigation.navigate('ATHomeScreen', {sessionKey:sessionKey})} />
       </View>
     </View>
 

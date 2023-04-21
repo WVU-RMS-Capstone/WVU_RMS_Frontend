@@ -10,7 +10,7 @@ import { LargeButton } from '../../src/components/Buttons';
       const code = route.params.code;
       const sessionKey = route.params.sessionKey;
 
-      const [filterD, setFilter] = useState('');
+ 
 
       const submitNotes = () => {
   
@@ -19,14 +19,13 @@ import { LargeButton } from '../../src/components/Buttons';
       
         fetch(notesAPI, {
            headers: {
-            'Authorization': 'Bearer ' + sessionKey.session_token
+            'Authorization': 'Bearer ' + sessionKey
            }
         })
        .then((response) => response.json())
   .then((responseJson) => {
 
-    //Sets filterD and master to the response Json. This works with a placeholder API appropriately
-    setFilter(responseJson);
+
 
   }) 
         .catch((error) => {
@@ -45,14 +44,13 @@ import { LargeButton } from '../../src/components/Buttons';
           
           fetch(completeAPI, {
              headers: {
-              'Authorization': 'Bearer ' + sessionKey.session_token
+              'Authorization': 'Bearer ' + sessionKey
              }
           })
           .then((response) => response.json())
           .then((responseJson) => {
         
-            //Sets filterD and master to the response Json. This works with a placeholder API appropriately
-            setFilter(responseJson);
+      
         
           }) 
           .catch((error) => {
@@ -63,17 +61,14 @@ import { LargeButton } from '../../src/components/Buttons';
 
         useEffect(() => {     
       
-          if(note === " " && code === " " && signOff === " "){
-        
-          }
-          else{
+            console.log(signOff);
             if(signOff !== ""){
               submitNotes2();
             }
             else{
               submitNotes();
             }
-          }
+          
           return () => {
         
           }

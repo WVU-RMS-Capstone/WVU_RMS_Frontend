@@ -49,7 +49,7 @@ function WorkoutScreen({ navigation, route }) {
 
   .catch((error) => {
     console.error(error);
-    {navigation.navigate('ProgramsScreen')}
+    {navigation.navigate('AthleteHomeScreen')}
      
   })
 }
@@ -86,6 +86,7 @@ else{
 
 
   const MyVideo = () => {
+
     if(exerciseLink){
     return(
       <View style = {{height: 150}}> 
@@ -147,7 +148,7 @@ const  handlePress = () => {
        exercise3: exercise3, sessionKey:{sessionKey}, code: code, AD: AD, first: 2});
   }
   else {
-    navigation.navigate('CompletedWorkoutScreen', {RoutineName: routine, sessionKey:{sessionKey}, code:code, AD: AD});
+    navigation.navigate('CompletedWorkoutScreen', {RoutineName: routine, sessionKey: sessionKey, code:code, AD: AD});
   }
 } 
 
@@ -157,7 +158,7 @@ const  handlePrevPress = () => {
     exerciseNumber--;
     navigation.setParams( {exerciseNumber: exerciseNumber, RoutineName: routine, 
       setNums: setNums, repNums:repNums, exercise1: exercise1, exercise2: exercise2,
-       exercise3: exercise3, sessionKey:{sessionKey}, code: code, AD: AD});
+       exercise3: exercise3, sessionKey:sessionKey, code: code, AD: AD});
        toggleButton();
   }
   else if(exerciseNumber == 3){
@@ -165,7 +166,7 @@ const  handlePrevPress = () => {
     exerciseNumber--;
     navigation.setParams( {exerciseNumber: exerciseNumber, RoutineName: routine, 
       setNums: setNums, repNums:repNums, exercise1: exercise1, exercise2: exercise2,
-       exercise3: exercise3, sessionKey:{sessionKey}, code: code, AD: AD});
+       exercise3: exercise3, sessionKey:sessionKey, code: code, AD: AD});
   }
   else {
     

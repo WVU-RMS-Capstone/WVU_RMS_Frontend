@@ -2,17 +2,17 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import { LargeButton } from '../../src/components/Buttons';
 
-function AthleteHomeScreen({ navigation }) {
+function AthleteHomeScreen({ navigation, route }) {
+  const sessionKey = route.params.sessionKey;
+
+  console.log(sessionKey);
   return (
     <View style={styles.container}>
       <View style={styles.button}>
-        <LargeButton text="Premade Programs"
-          onPress={() => navigation.navigate('ProgramsScreen')} />
+        <LargeButton text="Programs"
+          onPress={() => navigation.navigate('ProgramsScreen', {sessionKey: sessionKey})} />
        </View>
-       <View style={styles.button}>
-        <LargeButton text="Exercises"
-          onPress={() => navigation.navigate('ExercisesScreen')} />
-       </View>
+       
        <View style={styles.button}>
         <LargeButton text="Progress"
           onPress={() => navigation.navigate('AthleteStatsScreen')} />
@@ -20,6 +20,10 @@ function AthleteHomeScreen({ navigation }) {
        <View style={styles.button}>
         <LargeButton text="Notes"
           onPress={() => navigation.navigate('NotesScreen')} />
+       </View>
+       <View style={styles.button}>
+        <LargeButton text="Logout"
+          onPress={() => navigation.navigate('LoginScreen')} />
        </View>
     </View>
   );
@@ -40,6 +44,7 @@ const styles = StyleSheet.create({
     marginTop:'10%', 
     paddingVertical:'1%', 
     paddingHorizontal:'2%',
-    alignSelf:'center'
+    alignSelf:'center',
+    fontSize: 10
   }
 });

@@ -10,10 +10,14 @@ import { useRoute } from '@react-navigation/native';
 function CompletedWorkoutScreen({ navigation, route }) {
   const routine = route.params.RoutineName;
   const AD = route.params.AD;
-  const sessionKey = route.params.sessionKey.sessionKey;
+  const sessionKey = route.params.sessionKey.session_token;
   const code = route.params.code;
   
- 
+  
+
+
+  const [value, onChangeText] = React.useState('');
+  const [value2, onChangeText2] = React.useState('');
 
   
 const MyBox = () => {
@@ -34,12 +38,6 @@ const MyBox = () => {
   );}
 
   }
-
-
-
-  const [value, onChangeText] = React.useState('');
-  const [value2, onChangeText2] = React.useState('');
-
 
   return (
 
@@ -63,7 +61,8 @@ const MyBox = () => {
         {MyBox()}
     </View>
     <View style = {styles.buttonn}>
-    <LargeButton   text = "Enter" onPress={() => {navigation.navigate('ReturnToHomeScreen', {note: value, signOff: value2, code: code, sessionKey: sessionKey} ) }} />
+    <LargeButton   text = "Enter" onPress={() => {
+      navigation.navigate('ReturnToHomeScreen', {note: value, signOff: value2, code: code, sessionKey: sessionKey} ) }} />
 
         </View>
     </View>
