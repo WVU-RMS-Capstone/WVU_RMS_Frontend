@@ -11,7 +11,7 @@ function LogsScreen({ navigation }) {
   const [logs, setLogs] = useState('');
 
   
-  const fetchLogs = () => {
+  const fetchLogs = ({route}) => {
 
     const sessionKey = route.params.sessionKey;
     const api = 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=pullLogs&sdate=';

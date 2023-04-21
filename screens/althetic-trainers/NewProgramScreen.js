@@ -22,6 +22,7 @@ function NewProgramScreen({ navigation, route }) {
   const [visible, setVisible] = React.useState('');
 
   const [assignID, setAssignID] = React.useState('');
+  const [data, setData] = React.useState('');
 
   const handleNameChangeText = (text) => {
     setName(text);
@@ -43,6 +44,16 @@ function NewProgramScreen({ navigation, route }) {
         'Authorization': 'Bearer ' + sessionKey
        }
     })
+
+    .then((response) => {
+      let res = response.json();
+      return res;
+  })
+  .then((json) => {
+         
+          setData(json);
+          
+      })
     
     .catch((error) => {
       console.error(error);
@@ -51,6 +62,7 @@ function NewProgramScreen({ navigation, route }) {
 
 const sendAndCont = () => {
   createNewRoutine();
+  console.log(data);
   navigation.navigate('ATHomeScreen', {sessionKey: sessionKey});
 }
 

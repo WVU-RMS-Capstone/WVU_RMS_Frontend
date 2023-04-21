@@ -4,6 +4,20 @@ import { LargeButton } from '../../src/components/Buttons';
 
 function ATHomeScreen({ navigation, route }) {
   const sessionKey = route.params.sessionKey;
+
+  const logout= () => {
+ 
+    const api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php?action=logout&userid=27"
+    fetch(api, {
+      // headers: {
+      //   'Authorization': 'Bearer ' + sessionKey
+      //  }
+    })
+    
+    .catch((error) => {
+      console.error(error);
+    })
+}
   return (
     <View style={styles.container}>
       <View style={styles.button}>
@@ -34,7 +48,7 @@ function ATHomeScreen({ navigation, route }) {
       <View style={styles.button}>
         <LargeButton text="Logout"
           adjustFontSizeToFit
-          onPress={() => navigation.navigate('LoginScreen')} />
+          onPress={() => {logout(); navigation.navigate('LoginScreen')}}  />
       </View>
     </View>
   );

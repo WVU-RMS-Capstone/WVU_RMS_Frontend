@@ -5,6 +5,26 @@ import { LargeButton } from '../../src/components/Buttons';
 function AthleteHomeScreen({ navigation, route }) {
   const sessionKey = route.params.sessionKey;
 
+  console.log("hi");
+  console.log(sessionKey);
+
+  
+
+  
+  const logout= () => {
+ 
+    const api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php?action=logout&userid=27"
+    fetch(api, {
+      // headers: {
+      //   'Authorization': 'Bearer ' + sessionKey
+      //  }
+    })
+    
+    .catch((error) => {
+      console.error(error);
+    })
+}
+
   console.log(sessionKey);
   return (
     <View style={styles.container}>
@@ -23,7 +43,7 @@ function AthleteHomeScreen({ navigation, route }) {
        </View>
        <View style={styles.button}>
         <LargeButton text="Logout"
-          onPress={() => navigation.navigate('LoginScreen')} />
+          onPress={() => {logout(); navigation.navigate('LoginScreen')} } />
        </View>
     </View>
   );

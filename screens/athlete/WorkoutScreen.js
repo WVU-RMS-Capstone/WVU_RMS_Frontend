@@ -27,6 +27,8 @@ function WorkoutScreen({ navigation, route }) {
  const exerciseD2 = route.params.exerciseD2;
  const exerciseD3 = route.params.exerciseD3;
  const sessionKey = route.params.sessionKey.sessionKey;
+ console.log(sessionKey);
+ console.log("hi");
 
  const setNumberArray = setNums.split("/");
  const repNumberArray = repNums.split("/");

@@ -5,20 +5,18 @@ import { LargeButton } from '../src/components/Buttons';
 
 function HomeScreen ({navigation}) {  
 
-    const [data, setData] = useState([]);
+    var [data, setData] = useState([]);
     const [name, setName] = useState("");
-    const [password, setPassword] = useState("");
+    var [password, setPassword] = useState("");
+    var one = 0;
+   
 
     let api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php?";
     let action='login';
 
     let testBackend = true;
 
-    function sendRequest() {
-        if(testBackend) {
-            setName('grantiscool');
-            setPassword('22222222');
-        }
+    async function sendRequest() { 
 
         let url = `${api}action=${action}&name=${name}&password=${password}`;
         console.log(url);
@@ -28,14 +26,30 @@ function HomeScreen ({navigation}) {
             return res;
         })
         .then((json) => {
-                
+               
                 setData(json);
+                
             })
         .catch(error => {
             console.log("2" + error);
         })
     }
 
+    
+const sendAndCont = () => {
+    sendRequest();
+  
+     
+         console.log(data);
+         if(data.length > 45){
+            console.log(data);
+            navigation.navigate('HomeScreen', {data});
+         }
+         else{
+            navigation.navigate('LoginScreen');
+         }
+    
+  }
     
     return (
         <SafeAreaView style={styles.container}>       
@@ -70,15 +84,9 @@ function HomeScreen ({navigation}) {
                 onPress={() =>  {
                     setName(name);
                     setPassword(password);
-                    sendRequest();
-                    console.log(data);
-                    data = "b0157344f67facaf6393f741c40ea919188f5028b87ff9f72df3d4edc58fe635";
-                    if(data.length < 45){
-                       {navigation.navigate('LoginScreen')};
-                    }
-                    else{
-                      {navigation.navigate('HomeScreen', {sessionKey: data})};
-                    }
+                    sendAndCont();
+                 
+                  
                 }}
             />
         </View>

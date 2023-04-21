@@ -35,7 +35,8 @@ function NewExerciseScreen({ navigation, route })  {
       var finalName = api.concat(name);
       var youTubeLink1 = finalName.concat('&link=');
       var youTubeLink = youTubeLink1.concat(link);
-      var finalDescription = youTubeLink.concat(description);
+      var youTubeLink2 = youTubeLink.concat('&description=')
+      var finalDescription = youTubeLink2.concat(description);
       console.log(finalDescription);
       fetch(finalDescription, {
         headers: {
@@ -50,7 +51,6 @@ function NewExerciseScreen({ navigation, route })  {
  
   const sendAndContune = () => {
     createNewExercise();
-    console.log(message);
     navigation.navigate('ATHomeScreen', {sessionKey: sessionKey});
   }
   return (

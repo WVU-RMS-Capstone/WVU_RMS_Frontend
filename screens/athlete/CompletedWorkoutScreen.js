@@ -13,6 +13,7 @@ function CompletedWorkoutScreen({ navigation, route }) {
   const sessionKey = route.params.sessionKey.session_token;
   const code = route.params.code;
   
+  console.log(sessionKey);
   
 
 
