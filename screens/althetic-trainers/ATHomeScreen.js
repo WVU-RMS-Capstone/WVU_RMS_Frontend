@@ -7,7 +7,7 @@ function ATHomeScreen({ navigation, route }) {
 
   const logout= () => {
  
-    const api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php?action=logout&userid=27"
+    const api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php?action=logout&userid=28"
     fetch(api, {
       // headers: {
       //   'Authorization': 'Bearer ' + sessionKey
@@ -45,11 +45,11 @@ function ATHomeScreen({ navigation, route }) {
           adjustFontSizeToFit
           onPress={() => navigation.navigate('LogsScreen', {sessionKey: sessionKey})} />
       </View>
-      <View style={styles.button}>
+      {/* <View style={styles.button}>
         <LargeButton text="Logout"
           adjustFontSizeToFit
           onPress={() => {logout(); navigation.navigate('LoginScreen')}}  />
-      </View>
+      </View> */}
     </View>
   );
 }

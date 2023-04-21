@@ -13,7 +13,7 @@ function AthleteHomeScreen({ navigation, route }) {
   
   const logout= () => {
  
-    const api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php?action=logout&userid=27"
+    const api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php?action=logout&userid=28"
     fetch(api, {
       // headers: {
       //   'Authorization': 'Bearer ' + sessionKey
@@ -41,10 +41,10 @@ function AthleteHomeScreen({ navigation, route }) {
         <LargeButton text="Notes"
           onPress={() => navigation.navigate('NotesScreen')} />
        </View>
-       <View style={styles.button}>
+       {/* <View style={styles.button}>
         <LargeButton text="Logout"
           onPress={() => {logout(); navigation.navigate('LoginScreen')} } />
-       </View>
+       </View> */}
     </View>
   );
 }
