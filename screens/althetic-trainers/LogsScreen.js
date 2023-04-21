@@ -3,17 +3,17 @@ import { View, StyleSheet, Text, FlatList, Item } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { LargeButton } from '../../src/components/Buttons';
 
-function LogsScreen({ navigation }) {
+function LogsScreen({ navigation, route }) {
   const [name, setName] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [position, setPosition] = useState('');
   const [logs, setLogs] = useState('');
-
+  const sessionKey = route.params.sessionKey;
   
-  const fetchLogs = ({route}) => {
+  const fetchLogs = () => {
 
-    const sessionKey = route.params.sessionKey;
+
     const api = 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=pullLogs&sdate=';
     const appendedAPI = api.concat(startDate + '&edate=' + endDate + '&name=' + name + '&position=' + position);
     
