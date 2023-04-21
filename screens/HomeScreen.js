@@ -11,7 +11,11 @@ function HomeScreen({ navigation }) {
         onPress={() => navigation.navigate('ATHomeScreen')} />
       <LargeButton text="Athlete View"
         onPress={() => navigation.navigate('AthleteHomeScreen')} />
-    
+
+      <LargeButton text="Login"
+        onPress={() => navigation.navigate('LoginScreen')} />
+      <LargeButton text="Sign Up"
+        onPress={() => navigation.navigate('SignUpScreen')} />
     </View>
   );
 }
