@@ -18,7 +18,7 @@ function SignUpScreen () {
     let type='P';
     let code='001';
 
-    let testBackend = true;
+    let testBackend = false;
 
     function sendRequest() {
         if(testBackend) {

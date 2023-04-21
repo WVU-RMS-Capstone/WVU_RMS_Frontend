@@ -12,7 +12,7 @@ function LoginScreen () {
     let api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php?";
     let action='login';
 
-    let testBackend = true;
+    let testBackend = false;
 
     function sendRequest() {
         if(testBackend) {
