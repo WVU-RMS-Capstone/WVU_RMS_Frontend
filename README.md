@@ -1,7 +1,10 @@
 # WVUPlayersCompanion
 
-New Packages: npx expo install react-native-reanimated , npm i "react-native-ui-lib"
-Background Color in App.tsx implemented to Dark Mode
+Packages and how to Install: 
+  npx expo install react-native-reanimated 
+  npm i "react-native-ui-lib"
+  
+Background Color in App.tsx can be changed to Dark Mode
 
 How to Access DB:
 
