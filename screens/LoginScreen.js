@@ -2,18 +2,14 @@ import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Text, SafeAreaView, TextInput} from 'react-native';
 import { LargeButton } from '../src/components/Buttons';
 
-function LoginScreen ({navigation}) {  
-
+function LoginScreen ({navigation}) {
+    
     var [data, setData] = useState([]);
     const [name, setName] = useState("");
-    var [password, setPassword] = useState("");
-    var one = 0;
-   
+    var [password, setPassword] = useState("");   
 
     let api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php?";
     let action='login';
-
-    let testBackend = true;
 
     async function sendRequest() { 
         let url = `${api}action=${action}&name=${name}&password=${password}`;
@@ -30,7 +26,6 @@ function LoginScreen ({navigation}) {
             console.log("2" + error);
         })
     }
-
     
     const sendAndCont = () => {
         sendRequest();
