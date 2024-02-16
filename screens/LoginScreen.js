@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Text, SafeAreaView, TextInput} from 'react-native';
 import { LargeButton } from '../src/components/Buttons';
 
-function HomeScreen ({navigation}) {  
+function LoginScreen ({navigation}) {  
 
     var [data, setData] = useState([]);
     const [name, setName] = useState("");
@@ -16,7 +16,6 @@ function HomeScreen ({navigation}) {
     let testBackend = true;
 
     async function sendRequest() { 
-
         let url = `${api}action=${action}&name=${name}&password=${password}`;
         console.log(url);
         fetch(url)
@@ -25,30 +24,26 @@ function HomeScreen ({navigation}) {
             return res;
         })
         .then((json) => {
-               
-                setData(json);
-                
-            })
+            setData(json);
+        })
         .catch(error => {
             console.log("2" + error);
         })
     }
 
     
-const sendAndCont = () => {
-    sendRequest();
-  
-     
-         console.log(data);
-         if(data.length > 45){
+    const sendAndCont = () => {
+        sendRequest();
+    
+        console.log(data);
+        if(data.length > 45){
             console.log(data);
             navigation.navigate('HomeScreen', {data});
-         }
-         else{
+        }
+        else{
             navigation.navigate('LoginScreen');
-         }
-    
-  }
+        }
+    }
     
     return (
         <SafeAreaView style={styles.container}>       
@@ -93,7 +88,8 @@ const sendAndCont = () => {
     );
     
 }
-export default HomeScreen;
+
+export default LoginScreen;
 
 const styles = StyleSheet.create({
     container: {
