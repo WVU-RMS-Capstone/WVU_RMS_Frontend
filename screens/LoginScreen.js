@@ -32,15 +32,10 @@ function LoginScreen({ navigation }) {
 
         console.log(data);
         if (data.length > 45) {
-            <Text style={styles.font}>Inccorect Login Information</Text>
-
             console.log(data);
             navigation.navigate('HomeScreen', { data });
         }
         else {
-            <View>
-                <Text style={styles.font}>Inccorect Login Information</Text>
-            </View>
             navigation.navigate('LoginScreen');
         }
     }
