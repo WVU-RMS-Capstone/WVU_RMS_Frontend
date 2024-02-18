@@ -1,42 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, SafeAreaView, TextInput } from 'react-native';
+import { View, StyleSheet, Text, SafeAreaView, TextInput, ActivityIndicatorBase } from 'react-native';
 import { LargeButton } from '../src/components/Buttons';
+import { FIREBASE_AUTH } from '../FirebaseConfig';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
 function LoginScreen({ navigation }) {
 
-    var [data, setData] = useState([]);
-    const [name, setName] = useState("");
-    var [password, setPassword] = useState("");
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const auth = FIREBASE_AUTH;
 
-    let api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php?";
-    let action = 'login';
-
-    async function sendRequest() {
-        let url = `${api}action=${action}&name=${name}&password=${password}`;
-        console.log(url);
-        fetch(url)
-            .then((response) => {
-                let res = response.json();
-                return res;
-            })
-            .then((json) => {
-                setData(json);
-            })
-            .catch(error => {
-                console.log("2" + error);
-            })
-    }
-
-    const sendAndCont = () => {
-        sendRequest();
-
-        console.log(data);
-        if (data.length > 45) {
-            console.log(data);
-            navigation.navigate('HomeScreen', { data });
-        }
-        else {
-            navigation.navigate('LoginScreen');
+    const signIn = async () => {
+        setLoading(true);
+        try {
+            const response = await signInWithEmailAndPassword(auth, email, password);
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -49,55 +32,34 @@ function LoginScreen({ navigation }) {
                     <Text style={styles.font}>Email</Text>
                     <TextInput
                         style={[styles.input, { backgroundColor: 'white' }]}
-                        value={name}
                         placeholder='Enter Email'
-                        onChangeText={setName}
+                        autoCapitalize='none'
+                        onChangeText={(text) => setEmail(text)}
                     />
                 </View>
-
-                {/* <Text style={styles.titlefont}>Login</Text>
-
-            <View style={styles.row}>
-                <Text style={styles.font}>Email</Text>
-                <TextInput
-                    style={[styles.input, {backgroundColor: 'white'}]}
-                    value={name}
-                    placeholder='Enter Username'
-                    onChangeText={setName}
-                />
-            </View> */}
-
-                {/* <View style={styles.inputContainer}>
-                <Text style={styles.font}>Password</Text>
-                <TextInput>
-                    
-                </TextInput>
-            </View> */}
 
                 <View style={styles.inputContainer}>
                     <Text style={styles.font}>Password</Text>
 
                     <TextInput
                         style={[styles.input, { backgroundColor: 'white' }]}
-                        value={password}
+                        // value={password}
                         placeholder='Enter Password'
-                        onChangeText={setPassword}
+                        onChangeText={(text) => setPassword(text)}
                         secureTextEntry={true}
                     />
                 </View>
 
                 <Text style={styles.font}></Text>
 
-                <LargeButton
-                    text='Log In'
-                    onPress={() => {
-                        setName(name);
-                        setPassword(password);
-                        sendAndCont();
-
-
-                    }}
-                />
+                {loading ? (
+                    <ActivityIndicatorBase size="large" color="#000ff" />
+                ) : (
+                    <>
+                        <LargeButton text="Login" onPress={signIn} />
+                    </>
+                )
+                }
             </View>
         </SafeAreaView>
     );
@@ -147,3 +109,36 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
     }
 });
+
+
+let api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php?";
+// let action = 'login';
+
+// async function sendRequest() {
+//     let url = `${api}action=${action}&name=${name}&password=${password}`;
+//     console.log(url);
+//     fetch(url)
+//         .then((response) => {
+//             let res = response.json();
+//             return res;
+//         })
+//         .then((json) => {
+//             setData(json);
+//         })
+//         .catch(error => {
+//             console.log("2" + error);
+//         })
+// }
+
+// const sendAndCont = () => {
+//     sendRequest();
+
+//     console.log(data);
+//     if (data.length > 45) {
+//         console.log(data);
+//         navigation.navigate('HomeScreen', { data });
+//     }
+//     else {
+//         navigation.navigate('LoginScreen');
+//     }
+// }
