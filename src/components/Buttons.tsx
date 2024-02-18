@@ -115,6 +115,48 @@ const largestyles = StyleSheet.create({
         // paddingVertical: "1%",
     }
 })
+
+export function LargeYellowButton({ text, onPress }) {
+    return (
+        <TouchableOpacity onPress={onPress}>
+            <View style={largeYellowstyles.button}>
+                <Text style={largeYellowstyles.buttonText}>{text}</Text>
+            </View>
+        </TouchableOpacity>
+    )
+}
+const largeYellowstyles = StyleSheet.create({
+    button: {
+        borderRadius: 25,
+        borderWidth: 1,
+        borderColor: "#757575",
+        // paddingTop: 6,
+        paddingBottom: 20,
+        paddingVertical: 15,
+        justifyContent: 'flex-end',
+        width: "100%",
+        // height: 90,
+        backgroundColor: '#FCCD0D',
+        alignSelf: 'center',
+
+        ...Platform.select({
+            ios: {
+                shadowColor: '#000000',
+                shadowOffset: { width: 10, height: 10 },
+                shadowOpacity: 0.2,
+                shadowRadius: 5,
+            },
+        })
+    },
+    buttonText: {
+        color: '#1E3861',
+        fontSize: 36,
+        fontWeight: "500",
+        textAlign: 'center',
+        // paddingVertical: "1%",
+    }
+})
+
 export function DateSelector({ text, onPress }) {
     return (
         // <TouchableOpacity onPress={onPress}>
