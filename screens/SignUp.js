@@ -8,6 +8,7 @@ function SignUp({ navigation }) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmedPassword] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [role, setRole] = useState('');
@@ -73,9 +74,9 @@ function SignUp({ navigation }) {
             <Text style={styles.label}>Confirm Password</Text>
             <TextInput
                 style={[styles.input2, { backgroundColor: 'white' }]}
-                value={password}
+                value={confirmPassword}
                 placeholder='Confirm Password'
-                onChangeText={(text) => setPassword(text)}
+                onChangeText={(text) => setConfirmedPassword(text)}
                 secureTextEntry={true}
             />
 
