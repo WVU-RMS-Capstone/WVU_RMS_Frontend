@@ -11,11 +11,36 @@ function LoginScreen({ navigation }) {
     const [loading, setLoading] = useState(false);
     const auth = FIREBASE_AUTH;
 
+    let api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php";
+    let action = 'createAccount';
+
+    async function sendRequest(UID) {
+        let url = `${api}action=${action}&firstName=${firstName}&lastName=${lastName}&UID=${UID}`;
+        console.log(url);
+        fetch(url)
+            .then((response) => {
+                let res = response.json();
+                return res;
+            })
+            .then((json) => {
+                setData(json);
+            })
+            .catch(error => {
+                console.log("2" + error);
+            })
+    }
+
     const signIn = async () => {
         setLoading(true);
         try {
             const response = await signInWithEmailAndPassword(auth, email, password);
+            // Add the following line when backend code is working
+            // sendRequest(response.user.uid);
             console.log(response);
+            // if row contain UID and Athlete
+            // then go to athlete home screen
+            // else if row contain UID and Trainer
+            // then go to AT home screen 
         } catch (error) {
             console.log(error);
         } finally {
@@ -111,7 +136,7 @@ const styles = StyleSheet.create({
 });
 
 
-let api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php?";
+// let api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php?";
 // let action = 'login';
 
 // async function sendRequest() {

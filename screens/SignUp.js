@@ -13,102 +13,132 @@ function SignUp({ navigation }) {
     const [lastName, setLastName] = useState('');
     const [role, setRole] = useState('');
     const [loading, setLoading] = useState(false);
+    const [data, setData] = useState([]);
     const auth = FIREBASE_AUTH;
 
+    let api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php";
+    let action = 'createaccount';
+
+    async function sendRequest(UID) {
+        let url = `${api}action=${action}&firstName=${firstName}&lastName=${lastName}&UID=${UID}&email=${email}`;
+        console.log(url);
+        fetch(url)
+            .then((response) => {
+                let res = response.json();
+                return res;
+            })
+            .then((json) => {
+                setData(json);
+            })
+            .catch(error => {
+                console.log("2" + error);
+            })
+    }
+
     const signUp = async () => {
-        setLoading(true);
-        try {
-            const response = await createUserWithEmailAndPassword(auth, email, password);
-            console.log(response);
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setLoading(false);
+        if (password == confirmPassword) {
+            setLoading(true);
+            try {
+                const response = await createUserWithEmailAndPassword(auth, email, password);
+                // Add the following line once finished with backend code
+                // sendRequest(response.user.uid);
+                // if (role === 'Athlete') {
+                //     navigation.navigate('AthleteHomeScreens',)
+                // }
+                console.log(response);
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setLoading(false);
+            }
+        } else {
+            console.log("Passwords do not match.");
         }
     }
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.titlefont}>| Rehabilitation Monitoring Systems</Text>
+        <SafeAreaView style={styles.container}>
+            <View style={styles.container}>
+                <Text style={styles.titlefont}>| Rehabilitation Monitoring Systems</Text>
 
-            <View style={styles.row}>
-                <Text style={styles.label}>First name</Text>
+                <View style={styles.row}>
+                    <Text style={styles.label}>First name</Text>
 
-                <Text style={styles.label}>Last Name</Text>
-            </View>
+                    <Text style={styles.label}>Last Name</Text>
+                </View>
 
-            <View style={styles.row}>
+                <View style={styles.row}>
+                    <TextInput
+                        style={[styles.input, { backgroundColor: 'white' }]}
+                        value={firstName}
+                        placeholder='First Name'
+                        onChangeText={setFirstName}
+                    />
+
+                    <TextInput
+                        style={[styles.input, { backgroundColor: 'white' }]}
+                        value={lastName}
+                        placeholder='Last Name'
+                        onChangeText={setLastName}
+                    />
+                </View>
+
+                <Text style={styles.label}>Email</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor: 'white' }]}
-                    value={firstName}
-                    placeholder='First Name'
-                    onChangeText={setFirstName}
+                    style={[styles.input2, { backgroundColor: 'white' }]}
+                    value={email}
+                    placeholder='Enter Email'
+                    onChangeText={setEmail}
                 />
 
+                <Text style={styles.label}>Password</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor: 'white' }]}
-                    value={lastName}
-                    placeholder='Last Name'
-                    onChangeText={setLastName}
+                    style={[styles.input2, { backgroundColor: 'white' }]}
+                    value={password}
+                    placeholder='Enter Password'
+                    onChangeText={setPassword}
+                    secureTextEntry={true}
                 />
+
+                <Text style={styles.label}>Confirm Password</Text>
+                <TextInput
+                    style={[styles.input2, { backgroundColor: 'white' }]}
+                    value={confirmPassword}
+                    placeholder='Confirm Password'
+                    onChangeText={setConfirmedPassword}
+                    secureTextEntry={true}
+                />
+
+                <Text style={styles.position}>Which Are You?</Text>
+
+                <View style={styles.pressableContainer}>
+                    <Pressable
+                        style={[styles.button, role === 'Athlete' && styles.selected]}
+                        onPress={() => setRole('Athlete')}
+                    >
+                        <Text style={styles.text}>Athlete</Text>
+                    </Pressable>
+                    <Pressable
+                        style={[styles.button, role === 'Trainer' && styles.selected]}
+                        onPress={() => setRole('Trainer')}
+                    >
+                        <Text style={styles.text}>Trainer</Text>
+                    </Pressable>
+                </View>
+
+                <Text style={styles.font}></Text>
+
+                {loading ? (
+                    <ActivityIndicatorBase size="large" color="#000ff" />
+                ) : (
+                    <>
+                        <LargeYellowButton text="Sign Up" onPress={signUp} />
+                    </>
+                )
+                }
+
             </View>
-
-            {/* <View style={styles.container}> */}
-            <Text style={styles.label}>Email</Text>
-            <TextInput
-                style={[styles.input2, { backgroundColor: 'white' }]}
-                value={password}
-                placeholder='Enter Email'
-                onChangeText={(text) => setEmail(text)}
-            />
-
-            <Text style={styles.label}>Password</Text>
-            <TextInput
-                style={[styles.input2, { backgroundColor: 'white' }]}
-                value={password}
-                placeholder='Enter Password'
-                onChangeText={(text) => setPassword(text)}
-                secureTextEntry={true}
-            />
-
-            <Text style={styles.label}>Confirm Password</Text>
-            <TextInput
-                style={[styles.input2, { backgroundColor: 'white' }]}
-                value={confirmPassword}
-                placeholder='Confirm Password'
-                onChangeText={(text) => setConfirmedPassword(text)}
-                secureTextEntry={true}
-            />
-
-            <Text style={styles.position}>Which Are You?</Text>
-
-            <View style={styles.pressableContainer}>
-                <Pressable
-                    style={[styles.button, role === 'Athlete' && styles.selected]}
-                    onPress={() => setRole('Athlete')}
-                >
-                    <Text style={styles.text}>Athlete</Text>
-                </Pressable>
-                <Pressable
-                    style={[styles.button, role === 'Trainer' && styles.selected]}
-                    onPress={() => setRole('Trainer')}
-                >
-                    <Text style={styles.text}>Trainer</Text>
-                </Pressable>
-            </View>
-
-            <Text style={styles.font}></Text>
-
-            {loading ? (
-                <ActivityIndicatorBase size="large" color="#000ff" />
-            ) : (
-                <>
-                    <LargeYellowButton text="Sign Up" onPress={signUp} />
-                </>
-            )
-            }
-
-        </View>
+        </SafeAreaView>
     );
 
 }
