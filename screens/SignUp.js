@@ -20,7 +20,7 @@ function SignUp({ navigation }) {
     let action = 'createaccount';
 
     async function sendRequest(UID) {
-        let url = `${api}?action=${action}&firstName=${firstName}&lastName=${lastName}&UID=${UID}&email=${email}`;
+        let url = `${api}?action=${action}&firstName=${firstName}&lastName=${lastName}&UID=${UID}&email=${email}&role=${role}`;
         console.log("Request URL: ", url);
         try {
             const response = await fetch(url);
@@ -115,20 +115,21 @@ function SignUp({ navigation }) {
 
                 <View style={styles.pressableContainer}>
                     <Pressable
-                        style={[styles.button, role === 'Athlete' && styles.selected]}
-                        onPress={() => setRole('Athlete')}
+                        style={[styles.button, role === "Athlete" && styles.selected]}
+                        onPress={() => setRole("Athlete")}
                     >
                         <Text style={styles.text}>Athlete</Text>
                     </Pressable>
                     <Pressable
-                        style={[styles.button, role === 'Trainer' && styles.selected]}
-                        onPress={() => setRole('Trainer')}
+                        style={[styles.button, role === "Trainer" && styles.selected]}
+                        onPress={() => setRole("Trainer")}
                     >
                         <Text style={styles.text}>Trainer</Text>
                     </Pressable>
+
                 </View>
 
-                <Text style={styles.font}></Text>
+                <Text style={styles.font}>role</Text>
 
                 {loading ? (
                     <ActivityIndicator size="large" color="#000ff" />
