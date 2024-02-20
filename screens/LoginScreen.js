@@ -12,11 +12,12 @@ function LoginScreen({ navigation }) {
     const auth = FIREBASE_AUTH;
 
     let api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php";
-    let action = 'createAccount';
+    let action = 'login';
 
     async function sendRequest(UID) {
         console.log("testing");
-        let url = `${api}?action=${action}&firstName=${firstName}&lastName=${lastName}&UID=${UID}`;
+        // firstName=${firstName}&lastName=${lastName}&
+        let url = `${api}?action=${action}&UID=${UID}&email=${email}`;
         console.log(url);
         fetch(url)
             .then((response) => {
