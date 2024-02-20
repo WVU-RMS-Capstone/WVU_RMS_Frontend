@@ -35,8 +35,9 @@ function LoginScreen({ navigation }) {
         try {
             const response = await signInWithEmailAndPassword(auth, email, password);
             // Add the following line when backend code is working
-            // sendRequest(response.user.uid);
+            user_data = sendRequest(response.user.uid);
             console.log(response);
+            console.log(user_data);
             // if row contain UID and Athlete
             // then go to athlete home screen
             // else if row contain UID and Trainer
