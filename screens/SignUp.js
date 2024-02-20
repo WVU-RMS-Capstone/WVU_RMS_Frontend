@@ -21,33 +21,31 @@ function SignUp({ navigation }) {
 
     async function sendRequest(UID) {
         let url = `${api}?action=${action}&firstName=${firstName}&lastName=${lastName}&UID=${UID}&email=${email}`;
-        console.log(url);
-        fetch(url)
-            .then((response) => {
-                console.log("Raw URL response: " + response.text)
-                let res = response.json();
-                console.log(res);
-                return res;
-            })
-            .then((json) => {
-                setData(json);
-            })
-            .catch(error => {
-                console.log("Error coming from url: " + error);
-            })
+        console.log("Request URL: ", url);
+        try {
+            const response = await fetch(url);
+            const text = await response.text(); // Get the raw response text
+            console.log("Raw Response: ", text); // Log the raw text
+            const json = JSON.parse(text); // Parse the text as JSON
+            console.log("Parsed JSON: ", json);
+            setData(json);
+            return json;
+        } catch (error) {
+            console.error("Error fetching data: ", error);
+        }
     }
 
     const signUp = async () => {
         if (password == confirmPassword) {
             setLoading(true);
             try {
-                const response = await createUserWithEmailAndPassword(auth, email, password);
+                const auth_response = await createUserWithEmailAndPassword(auth, email, password);
                 // Add the following line once finished with backend code
-                await sendRequest(response.user.uid);
+                const user_data = await sendRequest(auth_response.user.uid);
                 // if (role === 'Athlete') {
                 //     navigation.navigate('AthleteHomeScreens',)
                 // }
-                console.log(response);
+                console.log(user_data);
                 console.log("Almost to the next screen");
                 navigation.navigate('ATHomeScreen');
             } catch (error) {
