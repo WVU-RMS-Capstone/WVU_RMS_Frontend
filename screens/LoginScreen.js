@@ -15,7 +15,8 @@ function LoginScreen({ navigation }) {
     let action = 'createAccount';
 
     async function sendRequest(UID) {
-        let url = `${api}action=${action}&firstName=${firstName}&lastName=${lastName}&UID=${UID}`;
+        console.log("testing");
+        let url = `${api}?action=${action}&firstName=${firstName}&lastName=${lastName}&UID=${UID}`;
         console.log(url);
         fetch(url)
             .then((response) => {
@@ -26,7 +27,7 @@ function LoginScreen({ navigation }) {
                 setData(json);
             })
             .catch(error => {
-                console.log("2" + error);
+                console.log("Error coming from url: " + error);
             })
     }
 
@@ -42,7 +43,7 @@ function LoginScreen({ navigation }) {
             // then go to athlete home screen
             // else if row contain UID and Trainer
             // then go to AT home screen 
-            
+
             navigation.navigate('ATHomeScreen');
         } catch (error) {
             console.log(error);
@@ -50,7 +51,7 @@ function LoginScreen({ navigation }) {
             setLoading(false);
         }
     }
-    
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -81,7 +82,7 @@ function LoginScreen({ navigation }) {
 
                 <Text style={styles.font}></Text>
 
-                {loading 
+                {loading
                     ? <ActivityIndicator size="large" color="#000ff" />
                     : <LargeButton text="Login" onPress={signIn} />
                 }

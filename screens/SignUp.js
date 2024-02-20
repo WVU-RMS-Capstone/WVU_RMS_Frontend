@@ -15,23 +15,24 @@ function SignUp({ navigation }) {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
     const auth = FIREBASE_AUTH;
-
+    // https://restapi-playerscompanion.azurewebsites.net/users/auth.php?action=createaccount&firstName=testing&lastName=testing&UID=2&email=testing@
     let api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php";
     let action = 'createaccount';
 
     async function sendRequest(UID) {
-        let url = `${api}action=${action}&firstName=${firstName}&lastName=${lastName}&UID=${UID}&email=${email}`;
+        let url = `${api}?action=${action}&firstName=${firstName}&lastName=${lastName}&UID=${UID}&email=${email}`;
         console.log(url);
         fetch(url)
             .then((response) => {
                 let res = response.json();
+                console.log(res);
                 return res;
             })
             .then((json) => {
                 setData(json);
             })
             .catch(error => {
-                console.log("2" + error);
+                console.log("Error coming from url: " + error);
             })
     }
 
@@ -41,13 +42,15 @@ function SignUp({ navigation }) {
             try {
                 const response = await createUserWithEmailAndPassword(auth, email, password);
                 // Add the following line once finished with backend code
-                // sendRequest(response.user.uid);
+                sendRequest(response.user.uid);
                 // if (role === 'Athlete') {
                 //     navigation.navigate('AthleteHomeScreens',)
                 // }
                 console.log(response);
+                console.log("Almost to the next screen");
+                navigation.navigate('ATHomeScreen');
             } catch (error) {
-                console.log(error);
+                console.log("This is an error: " + error);
             } finally {
                 setLoading(false);
             }
