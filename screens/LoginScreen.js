@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, SafeAreaView, TextInput, ActivityIndicatorBase } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, Text, SafeAreaView, TextInput, ActivityIndicator } from 'react-native';
 import { LargeButton } from '../src/components/Buttons';
 import { FIREBASE_AUTH } from '../FirebaseConfig';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 function LoginScreen({ navigation }) {
 
@@ -41,12 +41,15 @@ function LoginScreen({ navigation }) {
             // then go to athlete home screen
             // else if row contain UID and Trainer
             // then go to AT home screen 
+            
+            navigation.navigate('ATHomeScreen');
         } catch (error) {
             console.log(error);
         } finally {
             setLoading(false);
         }
     }
+    
 
     return (
         <SafeAreaView style={styles.container}>
@@ -77,13 +80,9 @@ function LoginScreen({ navigation }) {
 
                 <Text style={styles.font}></Text>
 
-                {loading ? (
-                    <ActivityIndicatorBase size="large" color="#000ff" />
-                ) : (
-                    <>
-                        <LargeButton text="Login" onPress={signIn} />
-                    </>
-                )
+                {loading 
+                    ? <ActivityIndicator size="large" color="#000ff" />
+                    : <LargeButton text="Login" onPress={signIn} />
                 }
             </View>
         </SafeAreaView>
