@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Pressable, StyleSheet, Text, SafeAreaView, TextInput, ActivityIndicatorBase, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Pressable, StyleSheet, Text, SafeAreaView, TextInput, ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native';
 import { LargeButton, LargeYellowButton } from '../src/components/Buttons';
 import { FIREBASE_AUTH } from '../FirebaseConfig';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
@@ -24,6 +24,7 @@ function SignUp({ navigation }) {
         console.log(url);
         fetch(url)
             .then((response) => {
+                console.log("Raw URL response: " + response.text)
                 let res = response.json();
                 console.log(res);
                 return res;
@@ -42,7 +43,7 @@ function SignUp({ navigation }) {
             try {
                 const response = await createUserWithEmailAndPassword(auth, email, password);
                 // Add the following line once finished with backend code
-                sendRequest(response.user.uid);
+                await sendRequest(response.user.uid);
                 // if (role === 'Athlete') {
                 //     navigation.navigate('AthleteHomeScreens',)
                 // }
@@ -132,7 +133,7 @@ function SignUp({ navigation }) {
                 <Text style={styles.font}></Text>
 
                 {loading ? (
-                    <ActivityIndicatorBase size="large" color="#000ff" />
+                    <ActivityIndicator size="large" color="#000ff" />
                 ) : (
                     <>
                         <LargeYellowButton text="Sign Up" onPress={signUp} />
