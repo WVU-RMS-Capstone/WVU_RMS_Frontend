@@ -18,3 +18,16 @@ npm i
 npx expo start
 ```
 5. Scan the QR code to load the app on your phone
+
+### Resetting Dependencies
+If you're having issues relating to package dependencies, reinstall your node modules as follows.
+
+1. Delete `node_modules` folder:
+```
+sudo rm -rd node_modules
+```
+
+2. Install dependencies again:
+```
+npm i
+```
