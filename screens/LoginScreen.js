@@ -4,8 +4,9 @@ import { LargeButton } from '../src/components/Buttons';
 import { FIREBASE_AUTH } from '../FirebaseConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
-function LoginScreen({ navigation }) {
+function LoginScreen({ route, navigation}) {
 
+    const { devMode } = route.params;
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -14,6 +15,17 @@ function LoginScreen({ navigation }) {
 
     let api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php";
     let action = 'login';
+
+    console.log(devMode)
+    if (devMode == 'trainer') {
+        setEmail('john.trainer@example.com');
+        setPassword('password');
+        signIn();
+    } else if (devMode == 'athlete') {
+        setEmail('john.athlete@example.com');
+        setPassword('password');
+        signIn();
+    }
 
     async function sendRequest(UID) {
         // firstName=${firstName}&lastName=${lastName}&
@@ -39,7 +51,7 @@ function LoginScreen({ navigation }) {
             console.log(response);
             if (user_data == "Athlete") {
                 navigation.navigate('AthleteHomeScreen');
-            } else if (user_data == "ATHomeScreen") {
+            } else if (user_data == "Trainer") {
                 navigation.navigate('ATHomeScreen');
             } else {
                 console.log("Invalid Role");

@@ -13,6 +13,10 @@ function HomeScreen({ navigation, route }) {
         onPress={() => navigation.navigate('LoginScreen', { sessionKey: sessionKey })} />
       <LargeButton text="Create Account"
         onPress={() => navigation.navigate('SignUp', { sessionKey: sessionKey })} />
+      <LargeButton text="[DEV] Trainer"
+        onPress={() => navigation.navigate('LoginScreen', { devMode: 'trainer' })} />
+      <LargeButton text="[DEV] Athlete"
+        onPress={() => navigation.navigate('SignUp', { devMode: 'athlete' })} />
 
     </View>
   );
