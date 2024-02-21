@@ -42,7 +42,7 @@ function SignUp({ navigation }) {
                 const user_data = await sendRequest(auth_response.user.uid);
                 if (role == "Athlete") {
                     navigation.navigate('AthleteHomeScreen');
-                } else if (role == "ATHomeScreen") {
+                } else if (role == "Trainer") {
                     navigation.navigate('ATHomeScreen');
                 } else {
                     console.log("No Role Selected");
@@ -130,7 +130,7 @@ function SignUp({ navigation }) {
 
                 </View>
 
-                <Text style={styles.font}>role</Text>
+                <Text style={styles.font}></Text>
 
                 {loading ? (
                     <ActivityIndicator size="large" color="#000ff" />
@@ -151,7 +151,7 @@ export default SignUp;
 
 const styles = StyleSheet.create({
     container: {
-        //   marginTop: 50,
+        // marginTop: 0,
         padding: 16,
         flex: 1,
         backgroundColor: '#AEB6C5'
@@ -194,8 +194,8 @@ const styles = StyleSheet.create({
         fontSize: 32,
         textAlign: 'center',
         fontWeight: 'bold',
-        marginTop: 50,
-        marginBottom: 50,
+        // marginTop: 50,
+        marginBottom: 30,
         color: '#1E3861',
     },
     font: {
@@ -224,7 +224,6 @@ const styles = StyleSheet.create({
     },
     selected: {
         backgroundColor: '#1E3861',
-        color: '#D4DAE4'
     },
     text: {
         fontSize: 16,
