@@ -9,27 +9,25 @@ function LoginScreen({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const [data, setData] = useState([]);
     const auth = FIREBASE_AUTH;
 
     let api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php";
     let action = 'login';
 
     async function sendRequest(UID) {
-        console.log("testing");
         // firstName=${firstName}&lastName=${lastName}&
         let url = `${api}?action=${action}&UID=${UID}&email=${email}`;
         console.log(url);
-        fetch(url)
-            .then((response) => {
-                let res = response.json();
-                return res;
-            })
-            .then((json) => {
-                setData(json);
-            })
-            .catch(error => {
-                console.log("Error coming from url: " + error);
-            })
+        try {
+            const response = await fetch(url);
+            const text = await response.text(); // Get the raw response text
+            const json = JSON.parse(text); // Parse the text as JSON
+            setData(json);
+            return json;
+        } catch (error) {
+            console.error("Error fetching data: ", error);
+        }
     }
 
     const signIn = async () => {
@@ -37,15 +35,15 @@ function LoginScreen({ navigation }) {
         try {
             const response = await signInWithEmailAndPassword(auth, email, password);
             // Add the following line when backend code is working
-            user_data = sendRequest(response.user.uid);
+            user_data = await sendRequest(response.user.uid);
             console.log(response);
-            console.log(user_data);
-            // if row contain UID and Athlete
-            // then go to athlete home screen
-            // else if row contain UID and Trainer
-            // then go to AT home screen 
-
-            navigation.navigate('ATHomeScreen');
+            if (user_data == "Athlete") {
+                navigation.navigate('AthleteHomeScreen');
+            } else if (user_data == "ATHomeScreen") {
+                navigation.navigate('ATHomeScreen');
+            } else {
+                console.log("Invalid Role");
+            }
         } catch (error) {
             console.log(error);
         } finally {

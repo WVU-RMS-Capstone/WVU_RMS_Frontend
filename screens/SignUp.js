@@ -25,9 +25,7 @@ function SignUp({ navigation }) {
         try {
             const response = await fetch(url);
             const text = await response.text(); // Get the raw response text
-            console.log("Raw Response: ", text); // Log the raw text
             const json = JSON.parse(text); // Parse the text as JSON
-            console.log("Parsed JSON: ", json);
             setData(json);
             return json;
         } catch (error) {
@@ -42,11 +40,14 @@ function SignUp({ navigation }) {
                 const auth_response = await createUserWithEmailAndPassword(auth, email, password);
                 // Add the following line once finished with backend code
                 const user_data = await sendRequest(auth_response.user.uid);
-                // if (role === 'Athlete') {
-                //     navigation.navigate('AthleteHomeScreens',)
-                // }
+                if (role == "Athlete") {
+                    navigation.navigate('AthleteHomeScreen');
+                } else if (role == "ATHomeScreen") {
+                    navigation.navigate('ATHomeScreen');
+                } else {
+                    console.log("No Role Selected");
+                }
                 console.log(user_data);
-                console.log("Almost to the next screen");
                 navigation.navigate('ATHomeScreen');
             } catch (error) {
                 console.log("This is an error: " + error);
