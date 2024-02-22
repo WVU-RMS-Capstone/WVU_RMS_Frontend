@@ -1,7 +1,16 @@
-// Learn more https://docs.expo.io/guides/customizing-metro
-const { getDefaultConfig } = require('expo/metro-config');
+const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
 
-const defaultConfig = getDefaultConfig(__dirname);
-defaultConfig.resolver.assetExts.push('cjs');
+module.exports = function (baseConfig) {
+  const defaultConfig = mergeConfig(baseConfig, getDefaultConfig(__dirname));
+  const {resolver: {assetExts, sourceExts}} = defaultConfig;
 
-module.exports = defaultConfig;
+  return mergeConfig(
+    defaultConfig,
+    {
+      resolver: {
+        assetExts: assetExts.filter(ext => ext !== 'svg'),
+        sourceExts: [...sourceExts, 'svg'],
+      },
+    },
+  );
+};

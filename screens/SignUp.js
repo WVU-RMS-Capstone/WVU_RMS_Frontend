@@ -48,7 +48,6 @@ function SignUp({ navigation }) {
                     console.log("No Role Selected");
                 }
                 console.log(user_data);
-                navigation.navigate('ATHomeScreen');
             } catch (error) {
                 console.log("This is an error: " + error);
             } finally {
