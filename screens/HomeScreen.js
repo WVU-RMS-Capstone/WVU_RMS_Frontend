@@ -16,7 +16,7 @@ function HomeScreen({ navigation, route }) {
       <LargeButton text="[DEV] Trainer"
         onPress={() => navigation.navigate('LoginScreen', { devMode: 'trainer' })} />
       <LargeButton text="[DEV] Athlete"
-        onPress={() => navigation.navigate('SignUp', { devMode: 'athlete' })} />
+        onPress={() => navigation.navigate('LoginScreen', { devMode: 'athlete' })} />
 
     </View>
   );

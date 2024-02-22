@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, SafeAreaView, TextInput, ActivityIndicator } from 'react-native';
 import { LargeButton } from '../src/components/Buttons';
 import { FIREBASE_AUTH } from '../FirebaseConfig';
@@ -10,22 +10,10 @@ function LoginScreen({ route, navigation}) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const [data, setData] = useState([]);
     const auth = FIREBASE_AUTH;
 
     let api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php";
     let action = 'login';
-
-    console.log(devMode)
-    if (devMode == 'trainer') {
-        setEmail('john.trainer@example.com');
-        setPassword('password');
-        signIn();
-    } else if (devMode == 'athlete') {
-        setEmail('john.athlete@example.com');
-        setPassword('password');
-        signIn();
-    }
 
     async function sendRequest(UID) {
         // firstName=${firstName}&lastName=${lastName}&
@@ -35,7 +23,6 @@ function LoginScreen({ route, navigation}) {
             const response = await fetch(url);
             const text = await response.text(); // Get the raw response text
             const json = JSON.parse(text); // Parse the text as JSON
-            setData(json);
             return json;
         } catch (error) {
             console.error("Error fetching data: ", error);
@@ -62,7 +49,22 @@ function LoginScreen({ route, navigation}) {
             setLoading(false);
         }
     }
-
+    
+    const devSignIn = async () => {
+        if (devMode == 'trainer') {
+            console.log("Loading dev mode as Trainer");
+            await signInWithEmailAndPassword(auth, 'john.trainer@example.com', 'password');
+            navigation.navigate('ATHomeScreen');
+        } else if (devMode == 'athlete') {
+            console.log("Loading dev mode as Athlete");
+            await signInWithEmailAndPassword(auth, 'john.athlete@example.com', 'password');
+            navigation.navigate('AthleteHomeScreen');
+        } 
+    }
+    
+    useEffect(() => {
+        devSignIn();
+    });
 
     return (
         <SafeAreaView style={styles.container}>

@@ -42,13 +42,12 @@ function SignUp({ navigation }) {
                 const user_data = await sendRequest(auth_response.user.uid);
                 if (role == "Athlete") {
                     navigation.navigate('AthleteHomeScreen');
-                } else if (role == "ATHomeScreen") {
+                } else if (role == "Trainer") {
                     navigation.navigate('ATHomeScreen');
                 } else {
                     console.log("No Role Selected");
                 }
                 console.log(user_data);
-                navigation.navigate('ATHomeScreen');
             } catch (error) {
                 console.log("This is an error: " + error);
             } finally {
