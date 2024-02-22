@@ -34,27 +34,41 @@ function SignUp({ navigation }) {
     }
 
     const signUp = async () => {
-        if (password == confirmPassword) {
-            setLoading(true);
-            try {
-                const auth_response = await createUserWithEmailAndPassword(auth, email, password);
-                // Add the following line once finished with backend code
-                const user_data = await sendRequest(auth_response.user.uid);
-                if (role == "Athlete") {
-                    navigation.navigate('AthleteHomeScreen');
-                } else if (role == "Trainer") {
+        if (firstName != "" && lastName != "" && role != "") {
+            if (password == confirmPassword) {
+                setLoading(true);
+                try {
+                    const auth_response = await createUserWithEmailAndPassword(auth, email, password);
+                    // Add the following line once finished with backend code
+                    const user_data = await sendRequest(auth_response.user.uid);
+                    if (role == "Athlete") {
+                        navigation.navigate('AthleteHomeScreen');
+                    } else if (role == "Trainer") {
+                        navigation.navigate('ATHomeScreen');
+                    } else {
+                        console.log("No Role Selected");
+                    }
+                    console.log(user_data);
                     navigation.navigate('ATHomeScreen');
-                } else {
-                    console.log("No Role Selected");
+                } catch (error) {
+                    console.log("This is an error: " + error);
+                    alert("Sign up failed: " + error);
+                } finally {
+                    setLoading(false);
                 }
-                console.log(user_data);
-            } catch (error) {
-                console.log("This is an error: " + error);
-            } finally {
-                setLoading(false);
+            } else {
+                console.log("Passwords do not match.");
+                alert("Passwords do not match. Try Again.");
             }
         } else {
-            console.log("Passwords do not match.");
+            if (firstName == "") {
+                alert("Missing Input on First Name");
+            } else if (lastName == "") {
+                alert("Missing Input on Last Name");
+            } else if (role == "") {
+                alert("Role was not selected");
+            }
+            console.log("Missing Input");
         }
     }
 
@@ -118,13 +132,13 @@ function SignUp({ navigation }) {
                         style={[styles.button, role === "Athlete" && styles.selected]}
                         onPress={() => setRole("Athlete")}
                     >
-                        <Text style={styles.text}>Athlete</Text>
+                        <Text style={[styles.text, role === "Athlete" && styles.selectedText]}>Athlete</Text>
                     </Pressable>
                     <Pressable
                         style={[styles.button, role === "Trainer" && styles.selected]}
                         onPress={() => setRole("Trainer")}
                     >
-                        <Text style={styles.text}>Trainer</Text>
+                        <Text style={[styles.text, role === "Trainer" && styles.selectedText]}>Trainer</Text>
                     </Pressable>
 
                 </View>
@@ -230,44 +244,7 @@ const styles = StyleSheet.create({
         color: '#1E3861',
         textAlign: 'center',
     },
+    selectedText: {
+        color: '#fff',
+    },
 });
-
-
-// <SafeAreaView style={styles.container}>
-//     <View>
-//         <Text style={styles.titlefont}>| Rehabilitation Monitoring Systems</Text>
-
-//         <View style={styles.inputContainer}>
-//             <Text style={styles.font}>Email</Text>
-//             <TextInput
-//                 style={[styles.input, { backgroundColor: 'white' }]}
-//                 placeholder='Enter Email'
-//                 autoCapitalize='none'
-//                 onChangeText={(text) => setEmail(text)}
-//             />
-//         </View>
-
-//         <View style={styles.inputContainer}>
-//             <Text style={styles.font}>Password</Text>
-
-//             <TextInput
-//                 style={[styles.input, { backgroundColor: 'white' }]}
-//                 // value={password}
-//                 placeholder='Enter Password'
-//                 onChangeText={(text) => setPassword(text)}
-//                 secureTextEntry={true}
-//             />
-//         </View>
-
-//         <Text style={styles.font}></Text>
-
-//         {loading ? (
-//             <ActivityIndicatorBase size="large" color="#000ff" />
-//         ) : (
-//             <>
-//                 <LargeButton text="Sign Up" onPress={signUp} />
-//             </>
-//         )
-//         }
-//     </View>
-// </SafeAreaView>
