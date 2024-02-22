@@ -1,6 +1,6 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
@@ -21,15 +21,17 @@ import CompletedWorkoutScreen from './screens/athlete/CompletedWorkoutScreen';
 import SelectedProgramScreen from './screens/athlete/SelectedProgramScreen';
 import ProgramPreviewScreen from './screens/athlete/ProgramPreviewScreen';
 import ReturnToHomeScreen from './screens/athlete/ReturnToHomeScreen';
+import SignUp from './screens/SignUp';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="login" screenOptions={{ headerTitle:"", headerTransparent:true }}>
-        <Stack.Screen name="LoginScreen" component={LoginScreen} />
+      <Stack.Navigator initialRouteName="Home" screenOptions={{ headerTitle: "", headerTransparent: true }}>
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="ATHomeScreen" component={ATHomeScreen} />
         <Stack.Screen name="RosterScreen" component={RosterScreen} />
         <Stack.Screen name="AthleteStatsScreen" component={AthleteStatsScreen} />
@@ -43,10 +45,10 @@ export default function App() {
         <Stack.Screen name="NotesScreen" component={NotesScreen} />
         <Stack.Screen name="AthleteHomeScreen" component={AthleteHomeScreen} />
         <Stack.Screen name="CompletedWorkoutScreen" component={CompletedWorkoutScreen} options={{
-            gestureEnabled: false,
-            headerShown: true,
-            headerLeft: () => <></>,
-          }} />
+          gestureEnabled: false,
+          headerShown: true,
+          headerLeft: () => <></>,
+        }} />
         <Stack.Screen name="ProgramPreviewScreen" component={ProgramPreviewScreen} />
         <Stack.Screen name="SelectedProgramScreen" component={SelectedProgramScreen} />
         <Stack.Screen name="ReturnToHomeScreen" component={ReturnToHomeScreen} />
