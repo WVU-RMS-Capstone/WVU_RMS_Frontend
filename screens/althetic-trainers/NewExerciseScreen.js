@@ -1,169 +1,216 @@
-import React from 'react';
-import {View, StyleSheet, Text, TextInput, ScrollView} from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, Text, TextInput, ScrollView, SafeAreaView } from 'react-native';
 import { LargeButton } from '../../src/components/Buttons';
 import { Dropdown } from '../../src/components/Dropdown';
-import {PickerIOS} from '@react-native-picker/picker';
+import { PickerIOS } from '@react-native-picker/picker';
+import ImagePicker from 'react-native-image-picker';
 
 
-function NewExerciseScreen({ navigation, route })  {
+function NewExerciseScreen({ navigation, route }) {
 
+  const [video, setVideo] = useState('');
+  const [cover, setCover] = useState('');
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [sets, setSets] = useState('');
+  const [reps, setReps] = useState('');
+  const [part, setParts] = useState('');
+  const [data, setData] = useState([]);
 
-  const bodyParts = ['Abdomen', 'Ankles', 'Arms', 'Back', 'Buttocks', 'Calves', 'Chest', 'Elbows', 'Feet', 'Forearms', 'Hips', 'Knees', 'Legs', 'Neck', 'Shoulders', 'Thighs', 'Wrists'];
-  let sessionKey = route.params.sessionKey;
-  const [name, setName] = React.useState('');
-  const [sets, setSets] = React.useState('');
-  const [reps, setReps] = React.useState('');
-  const [link, setLink] = React.useState('');
-  const [description, setDescription] = React.useState('');
- 
-  const handleNameChangeText = (text) => {
-    setName(text);
-  };
-  const handleSetsChangeText = (text) => {
-    setSets(text);
-  };
-  const handleRepsChangeText = (text) => {
-    setReps(text);
-  };
-  const handleDescriptionChangeText = (text) => {
-    setDescription(text);
-  };
-  
-  const createNewExercise = () => {
-      const api = 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=addExercise&name=';
-      var finalName = api.concat(name);
-      var youTubeLink1 = finalName.concat('&link=');
-      var youTubeLink = youTubeLink1.concat(link);
-      var youTubeLink2 = youTubeLink.concat('&description=')
-      var finalDescription = youTubeLink2.concat(description);
-      console.log(finalDescription);
-      fetch(finalDescription, {
-        headers: {
-          'Authorization': 'Bearer ' + sessionKey
-         }
-      })
+  let api = "https://restapi-playerscompanion.azurewebsites.net/users/workout.php";
+  let action = 'createexercise';
 
-      .catch((error) => {
-        console.error(error);
-      })
+  async function sendRequest() {
+    let url = `${api}?action=${action}&Video=${video}&Cover=${cover}&Name=${name}&Description=${description}&Sets=${sets}&Reps=${reps}&BodyPart=${part}`;
+    console.log("Request URL: ", url);
+    try {
+      const response = await fetch(url);
+      const text = await response.text();
+      const json = JSON.parse(text);
+      setData(json);
+      return json;
+    } catch (error) {
+      console.error("Error Fetching Data: ", error);
+    }
   }
- 
-  const sendAndContune = () => {
-    createNewExercise();
-    navigation.navigate('ATHomeScreen', {sessionKey: sessionKey});
+
+  const sendAndContune = async () => {
+    try {
+      const res = await sendRequest();
+      console.log(res)
+      navigation.navigate('ATHomeScreen');
+    } catch (error) {
+      console.error("Error Recieved: ", error);
+    }
   }
   return (
- 
+
+    <SafeAreaView style={styles.container}>
       <View style={styles.container}>
-    <View style={styles.box}>  
-      <Text style={styles.font}>Name:</Text>
-      <TextInput style={styles.textInput}  onChangeText={setName} value={name}/>
-      </View>
-
-      <View style={{paddingTop: 30, zIndex:5}}>
-      <View style={styles.box }>  
-        <Text style={styles.font}>Body Part:</Text>
-        <Dropdown options={bodyParts} />
-      </View>
-      </View>
-
-      <View style={{flexDirection: "row", justifyContent: "space-evenly", paddingTop: 30}}>
-        <View style={styles.smallBox} >
-          <Text style={styles.font}>Sets:</Text>
-          <TextInput style={styles.textInput} onChangeText={setSets} value={sets}/>
-        </View>
-        <View style={styles.smallBox} >
-          <Text style={styles.font}>Reps:</Text>
-          <TextInput style={styles.textInput} onChangeText={setReps} value={reps}/>
-        </View>
-      </View>
-
-      <View style = {{paddingTop: 30}}>
-      <View style={styles.box}>  
-      <Text style={styles.font}>Video Link:</Text>
-      <TextInput style={styles.textInput}  onChangeText={setLink} value={link}/>
-      </View>
-      </View>
-
-      <View style={{paddingTop: 30}}>
-      <View style={styles.description}>
-          <Text style={styles.font}>Description:</Text>
+        <View style={styles.row}>
           <TextInput
-            style={styles.textInput}
-            textAlignVertical="top"
-            onChangeText={setDescription}
-            value={description}
+            style={[styles.rowInput, { backgroundColor: 'white' }]}
+            value={video}
+            placeholder='Video'
+            onChangeText={setVideo}
           />
-      </View>
-      </View>
-      
+          <TextInput
+            style={[styles.rowInput, { backgroundColor: 'white' }]}
+            value={cover}
+            placeholder='Cover'
+            onChangeText={setCover}
+          />
+        </View>
 
-      <View style={{paddingTop: 30}}>
-        <LargeButton  text="Done" onPress={() => sendAndContune()} />
+        <Text style={styles.whitespace}></Text>
+
+        <TextInput
+          style={[styles.input, { backgroundColor: 'white' }]}
+          value={name}
+          placeholder='Name'
+          onChangeText={setName}
+        />
+        <TextInput
+          style={[styles.descrit, { backgroundColor: 'white' }]}
+          value={description}
+          placeholder='Description'
+          onChangeText={setDescription}
+        />
+
+        <View style={styles.row}>
+          <TextInput
+            style={[styles.number, { backgroundColor: 'white' }]}
+            value={sets}
+            placeholder='Sets'
+            onChangeText={setSets}
+          />
+          <TextInput
+            style={[styles.number, { backgroundColor: 'white' }]}
+            value={reps}
+            placeholder='Reps'
+            onChangeText={setReps}
+          />
         </View>
-        </View>
- 
+
+        <TextInput
+          style={[styles.input, { backgroundColor: 'white' }]}
+          value={part}
+          placeholder='Body Part'
+          onChangeText={setParts}
+        />
+
+        <Text style={styles.whitespace}></Text>
+
+        <LargeButton
+          text="Done" onPress={() => sendAndContune()}
+        />
+
+      </View>
+    </SafeAreaView>
+
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignContent: 'center',
-    paddingTop: 10,
-  }, 
+    backgroundColor: '#AEB6C5',
+    // paddingTop: 16,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly'
+  },
   input: {
+    height: 50,
+    borderColor: 'gray',
     borderWidth: 1,
-    borderColor: 'black',
-    borderRadius: 5,
-    padding: 10,
-    width: '100%',
-    marginBottom: 10,
-    fontSize: 16,
-  },
-  box: {
-    borderRadius: 5,
-    padding: 10,
-    width: '90%',
-    height: 75,
     borderRadius: 15,
-    flexDirection: 'row',
-    alignItems: 'center',
-    textAlign:'center',
-    alignSelf: 'center',
-    fontSize: 30,
-    fontWeight: '500',
-    backgroundColor: '#D9D9D9',
-  },
- description: {
-    borderRadius: 5,
+    marginHorizontal: 20,
+    marginVertical: 5,
     padding: 10,
-    width: '90%',
-    height: 75,
+    // width: '50%',
+  },
+  rowInput: {
+    borderColor: 'gray',
+    borderWidth: 1,
     borderRadius: 15,
-    flexDirection: 'row',
-    alignSelf: 'center',
-    backgroundColor: '#D9D9D9',
-  },
-  font: {
-    fontSize: 32,
-    marginRight: 10,
-  },
-  textInput: {
-    fontSize: 24,
-    flex: 1,
-  },
-  smallBox: {
-    borderRadius: 5,
     padding: 10,
+    marginTop: 4,
     width: '40%',
-    height: 103,
-    borderRadius: 15,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#D9D9D9',
+    height: 90,
+    textAlign: 'center',
   },
+  whitespace: {
+    marginBottom: 30,
+  },
+  descrit: {
+    height: 100,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 15,
+    marginHorizontal: 20,
+    marginVertical: 5,
+    padding: 10,
+    textAlignVertical: 'top',
+    // width: '50%',
+  },
+  number: {
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 15,
+    padding: 10,
+    marginTop: 4,
+    width: '40%',
+    height: 60,
+    textAlign: 'justify',
+    marginHorizontal: 20,
+  },
+  button: {
+    color: 'white',
+  },
+  // box: {
+  //   borderRadius: 5,
+  //   padding: 10,
+  //   width: '90%',
+  //   height: 75,
+  //   borderRadius: 15,
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   textAlign: 'center',
+  //   alignSelf: 'center',
+  //   fontSize: 30,
+  //   fontWeight: '500',
+  //   backgroundColor: '#D9D9D9',
+  // },
+  // description: {
+  //   borderRadius: 5,
+  //   padding: 10,
+  //   width: '90%',
+  //   height: 75,
+  //   borderRadius: 15,
+  //   flexDirection: 'row',
+  //   alignSelf: 'center',
+  //   backgroundColor: '#D9D9D9',
+  // },
+  // font: {
+  //   fontSize: 32,
+  //   marginRight: 10,
+  // },
+  // textInput: {
+  //   fontSize: 24,
+  //   flex: 1,
+  // },
+  // smallBox: {
+  //   borderRadius: 5,
+  //   padding: 10,
+  //   width: '40%',
+  //   height: 103,
+  //   borderRadius: 15,
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   backgroundColor: '#D9D9D9',
+  // },
 })
 
 export default NewExerciseScreen;
