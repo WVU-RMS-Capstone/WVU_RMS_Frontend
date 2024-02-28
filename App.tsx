@@ -22,6 +22,7 @@ import SelectedProgramScreen from './screens/athlete/SelectedProgramScreen';
 import ProgramPreviewScreen from './screens/athlete/ProgramPreviewScreen';
 import ReturnToHomeScreen from './screens/athlete/ReturnToHomeScreen';
 import SignUp from './screens/SignUp';
+import ProgramsScreen from './screens/athlete/ProgramsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -44,6 +45,7 @@ export default function App() {
         <Stack.Screen name="ExercisesScreen" component={ExercisesScreen} />
         <Stack.Screen name="NotesScreen" component={NotesScreen} />
         <Stack.Screen name="AthleteHomeScreen" component={AthleteHomeScreen} />
+        <Stack.Screen name="ProgramsScreen" component={ProgramsScreen} />
         <Stack.Screen name="CompletedWorkoutScreen" component={CompletedWorkoutScreen} options={{
           gestureEnabled: false,
           headerShown: true,
