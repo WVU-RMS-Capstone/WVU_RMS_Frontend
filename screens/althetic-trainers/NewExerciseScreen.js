@@ -18,7 +18,7 @@ function NewExerciseScreen({ navigation, route }) {
   const [part, setParts] = useState('');
   const [data, setData] = useState([]);
 
-  let api = "https://restapi-playerscompanion.azurewebsites.net/users/workout.php";
+  let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
   let action = 'createexercise';
 
   async function sendRequest() {
