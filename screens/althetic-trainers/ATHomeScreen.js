@@ -26,6 +26,11 @@ function ATHomeScreen({ navigation }) {
           onPress={() => navigation.navigate('NewProgramScreen')} />
       </View>
       <View style={styles.button}>
+        <LargeButton text="View Roster"
+          adjustFontSizeToFit
+          onPress={() => navigation.navigate('RosterScreen')} />
+      </View>
+      <View style={styles.button}>
         <LargeButton text="Create Excercise"
           adjustFontSizeToFit
           onPress={() => navigation.navigate('NewExerciseScreen')} />
@@ -58,10 +63,9 @@ export default ATHomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1, 
+    backgroundColor: '#AEB6C5',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop:'45%',
-    marginBottom:"55%"
   }
   ,
   button:{

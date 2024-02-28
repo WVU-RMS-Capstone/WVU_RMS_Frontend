@@ -19,8 +19,9 @@ const styles = StyleSheet.create({
   
 });
 
+//Flat, unresponsive list, maybe add more depth and player photo, more like a list on spotify
 function RosterScreen({ navigation, route }) {
-  const sessionKey = route.params.sessionKey;
+  //const sessionKey = route.params.sessionKey;
   return (
     <View style={styles.container}>
        <FlatList
