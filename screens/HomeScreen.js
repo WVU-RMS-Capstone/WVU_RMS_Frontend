@@ -1,25 +1,56 @@
 import React from 'react';
-import { View, Button } from 'react-native';
-import { MediumButton, SmallButton, LargeButton } from '../src/components/Buttons';
+import { View, Button, Text, StyleSheet, SafeAreaView } from 'react-native';
+//import { View, StyleSheet, Text, SafeAreaView, TextInput, ActivityIndicator } from 'react-native';
+import { MediumButton, SmallButton, LargeButton, LargeYellowButton, InverseLargeButton } from '../src/components/Buttons';
 import { SmallTile, MediumTile, LargeTile } from '../src/components/Tiles';
 function HomeScreen({ navigation, route }) {
   const sessionKey = "59b5b70d2bf568ce979f62f668d04712f7622c9408024a161bdcbeb62ae6505e";
 
+
   return (
-
-    <View style={{ width: '100%', marginVertical: '50%' }}>
-
-      <LargeButton text="Login"
-        onPress={() => navigation.navigate('LoginScreen', { sessionKey: sessionKey })} />
-      <LargeButton text="Create Account"
-        onPress={() => navigation.navigate('SignUp', { sessionKey: sessionKey })} />
-      <LargeButton text="[DEV] Trainer"
-        onPress={() => navigation.navigate('LoginScreen', { devMode: 'trainer' })} />
-      <LargeButton text="[DEV] Athlete"
-        onPress={() => navigation.navigate('LoginScreen', { devMode: 'athlete' })} />
-
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View style={{ width: '100%', marginTop: 200}}>
+      <Text style={[styles.titlefont]}> Rehabilitation Monitoring System</Text>
+  
+        <LargeButton text="Login"
+          onPress={() => navigation.navigate('LoginScreen', {sessionKey: sessionKey })} />
+        <InverseLargeButton text="Create Account"
+          onPress={() => navigation.navigate('SignUp', { sessionKey: sessionKey })} />
+        <LargeButton text="[DEV] Trainer"
+          onPress={() => navigation.navigate('LoginScreen', { devMode: 'trainer' })} />
+        <LargeButton text="[DEV] Athlete"
+          onPress={() => navigation.navigate('LoginScreen', { devMode: 'athlete' })} />
+      </View>
+    </SafeAreaView>
   );
 }
 
+
+
 export default HomeScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#AEB6C5',
+    justifyContent: 'flex-end', 
+    alignItems: 'center', 
+    paddingBottom: 50, 
+  },
+  buttonContainer: {
+    marginTop: 20,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    backgroundColor: '#AEB6C5'
+  },
+  titlefont: {
+    fontSize: 40,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    marginTop: 5,
+    marginBottom: 10,
+    color: '#1E3861',
+  },
+})
