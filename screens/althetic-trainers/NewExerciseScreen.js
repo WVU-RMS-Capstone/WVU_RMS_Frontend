@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, TextInput, ScrollView, SafeAreaView } from 'react-native';
+import { View, StyleSheet, Text, TextInput, ScrollView, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 import { LargeButton } from '../../src/components/Buttons';
 import { Dropdown } from '../../src/components/Dropdown';
 import { PickerIOS } from '@react-native-picker/picker';
 import ImagePicker from 'react-native-image-picker';
+import Video from 'react-native-video';
 
 
 function NewExerciseScreen({ navigation, route }) {
 
   const [video, setVideo] = useState('');
   const [cover, setCover] = useState('');
-  const [name, setName] = useState('');
+  const [name, setName] = useState(null);
   const [description, setDescription] = useState('');
   const [sets, setSets] = useState('');
   const [reps, setReps] = useState('');
   const [part, setParts] = useState('');
   const [data, setData] = useState([]);
 
-  let api = "https://restapi-playerscompanion.azurewebsites.net/users/workout.php";
+  let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
   let action = 'createexercise';
 
   async function sendRequest() {
@@ -43,6 +44,23 @@ function NewExerciseScreen({ navigation, route }) {
       console.error("Error Recieved: ", error);
     }
   }
+
+  const selectCoverImg = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status != 'granted') {
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsyn({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+    })
+
+    if (!result.cancelled) {
+      setCover(result.uri);
+    }
+  }
   return (
 
     <SafeAreaView style={styles.container}>
@@ -54,12 +72,28 @@ function NewExerciseScreen({ navigation, route }) {
             placeholder='Video'
             onChangeText={setVideo}
           />
-          <TextInput
+          <TouchableOpacity onPress={selectCoverImg}>
+            {cover ? (
+              <Image
+                source={{ uri: cover }}
+                style={styles.coverImg}
+              />
+            ) : (
+              <Text style={[styles.rowInput, { backgroundColor: 'white' }]}>
+                Cover
+              </Text>
+            )}
+          </TouchableOpacity>
+          {/* <TextInput
             style={[styles.rowInput, { backgroundColor: 'white' }]}
             value={cover}
             placeholder='Cover'
             onChangeText={setCover}
-          />
+          /> */}
+          {/* <Video
+            source={{ uri: video }}
+            style={styles.video}
+          /> */}
         </View>
 
         <Text style={styles.whitespace}></Text>
@@ -165,9 +199,18 @@ const styles = StyleSheet.create({
     height: 60,
     textAlign: 'justify',
     marginHorizontal: 20,
+    marginVertical: 5,
   },
   button: {
     color: 'white',
+  },
+  coverImg: {
+    width: '50%',
+    height: 50,
+  },
+  video: {
+    // width: '100%',
+    // height: 200,
   },
   // box: {
   //   borderRadius: 5,
