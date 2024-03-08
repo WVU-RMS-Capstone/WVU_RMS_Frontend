@@ -20,7 +20,7 @@ function NewExerciseScreen({ navigation, route }) {
   const [data, setData] = useState([]);
   const [response, setResponse] = useState(null);
 
-  let api = "https://restapi-playerscompanion.azurewebsites.net/users/workout.php";
+  let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
   let action = 'createexercise';
 
   async function sendRequest() {
