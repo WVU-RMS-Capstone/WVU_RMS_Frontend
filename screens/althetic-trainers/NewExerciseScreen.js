@@ -3,8 +3,9 @@ import { View, StyleSheet, Text, TextInput, ScrollView, SafeAreaView, Image, Tou
 import { LargeButton } from '../../src/components/Buttons';
 import { Dropdown } from '../../src/components/Dropdown';
 import { PickerIOS } from '@react-native-picker/picker';
-import ImagePicker from 'react-native-image-picker';
+import * as ImagePicker from 'react-native-image-picker';
 import Video from 'react-native-video';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
 
 function NewExerciseScreen({ navigation, route }) {
@@ -17,6 +18,7 @@ function NewExerciseScreen({ navigation, route }) {
   const [reps, setReps] = useState('');
   const [part, setParts] = useState('');
   const [data, setData] = useState([]);
+  const [response, setResponse] = useState(null);
 
   let api = "https://restapi-playerscompanion.azurewebsites.net/users/workout.php";
   let action = 'createexercise';
@@ -45,33 +47,29 @@ function NewExerciseScreen({ navigation, route }) {
     }
   }
 
-  const selectCoverImg = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status != 'granted') {
-      return;
-    }
+  const selectCoverImg = React.useCallback((type, options) => {
+    try {
+      // const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      // if (status != 'granted') {
+      //   return;
+      // }
 
-    const result = await ImagePicker.launchImageLibraryAsyn({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-    })
+      const result = ImagePicker.launchImageLibrary(options, setResponse);
 
-    if (!result.cancelled) {
-      setCover(result.uri);
+      if (!result.cancelled) {
+        setCover(result.uri);
+      }
+    } catch (error) {
+      console.error("Error: ", error);
     }
-  }
+  }, []);
+
+
   return (
 
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
-        <View style={styles.row}>
-          <TextInput
-            style={[styles.rowInput, { backgroundColor: 'white' }]}
-            value={video}
-            placeholder='Video'
-            onChangeText={setVideo}
-          />
+        <View style={{ marginHorizontal: '30%' }}>
           <TouchableOpacity onPress={selectCoverImg}>
             {cover ? (
               <Image
@@ -79,21 +77,11 @@ function NewExerciseScreen({ navigation, route }) {
                 style={styles.coverImg}
               />
             ) : (
-              <Text style={[styles.rowInput, { backgroundColor: 'white' }]}>
+              <Text style={[styles.coverButton, { backgroundColor: 'white' }]}>
                 Cover
               </Text>
             )}
           </TouchableOpacity>
-          {/* <TextInput
-            style={[styles.rowInput, { backgroundColor: 'white' }]}
-            value={cover}
-            placeholder='Cover'
-            onChangeText={setCover}
-          /> */}
-          {/* <Video
-            source={{ uri: video }}
-            style={styles.video}
-          /> */}
         </View>
 
         <Text style={styles.whitespace}></Text>
@@ -104,6 +92,14 @@ function NewExerciseScreen({ navigation, route }) {
           placeholder='Name'
           onChangeText={setName}
         />
+
+        <TextInput
+          style={[styles.input, { backgroundColor: 'white' }]}
+          value={video}
+          placeholder='Video Link'
+          onChangeText={setVideo}
+        />
+
         <TextInput
           style={[styles.descrit, { backgroundColor: 'white' }]}
           value={description}
@@ -140,7 +136,7 @@ function NewExerciseScreen({ navigation, route }) {
         />
 
       </View>
-    </SafeAreaView>
+    </SafeAreaView >
 
   );
 }
@@ -167,11 +163,21 @@ const styles = StyleSheet.create({
   },
   rowInput: {
     borderColor: 'gray',
-    borderWidth: 1,
+    // borderWidth: 1,
     borderRadius: 15,
-    padding: 10,
+    padding: 20,
     marginTop: 4,
     width: '40%',
+    height: 90,
+    textAlign: 'center',
+  },
+  coverButton: {
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 15,
+    padding: 20,
+    marginTop: 4,
+    width: 150,
     height: 90,
     textAlign: 'center',
   },
@@ -203,10 +209,12 @@ const styles = StyleSheet.create({
   },
   button: {
     color: 'white',
+    borderWidth: 1,
   },
   coverImg: {
     width: '50%',
     height: 50,
+    borderRadius: 15,
   },
   video: {
     // width: '100%',
