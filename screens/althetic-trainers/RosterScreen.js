@@ -9,37 +9,41 @@ function RosterScreen({ navigation, route }) {
   let action = 'getroster';
   const [roster, setRoster] = useState([]);
   const [search, setSearch] = useState('');
-  const [name, setName] = useState('');
 
-  const sendRequest = async () => {
-    let url = `${api}?action=${action}`;
-    console.log(url);
-    try {
-      const response = await fetch(url);
-      const text = await response.text(); // Get the raw response text
-      const json = JSON.parse(text); // Parse the text as JSON
-      console.log(json);
-      setRoster(json);
-      return json;
-    } catch (error) {
-      console.error("Error fetching data: ", error);
-    }
-  }
+  useEffect(() => {
+    const sendRequest = async () => {
+      let url = `${api}?action=${action}`;
+      console.log(url);
+      try {
+        const response = await fetch(url);
+        const text = await response.text(); // Get the raw response text
+        const json = JSON.parse(text); // Parse the text as JSON
+        console.log(json);
+        setRoster(json);
+        return json;
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+
+    sendRequest();
+  }, []);
+
 
   const searchFilter = (text) => {
-    const updatedData = roster.filter((item) => {
-      const item_data = '${item.firstname.toUpperCase()} ${item.lastname.toUpperCase()}';
-      const text_data = text.toUpperCase();
-      return item_data.indexOf(text_data) > -1;
-    });
-    setSearch(text);
-    setRoster(updatedData);
+    if (text) {
+      const updatedData = roster.filter((item) => {
+        const item_data = `${item.data[0].toUpperCase()} ${item.data[1].toUpperCase()}`;
+        const text_data = text.toUpperCase();
+        return item_data.indexOf(text_data) > -1;
+      });
+      setSearch(text);
+      setRoster(updatedData);
+    } else {
+      setRoster(roster)
+      setSearch('')
+    }
   }
-
-  // issues with these lines of code, constant loading of data probably going to crash system eventually
-  useEffect(() => {
-    sendRequest();
-  }, [/**sendRequest */]);
 
 
   return (
