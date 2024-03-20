@@ -8,6 +8,7 @@ function RosterScreen({ navigation, route }) {
   let api = "https://restapi-playerscompanion.azurewebsites.net/users/athleteLogs.php";
   let action = 'getroster';
   const [roster, setRoster] = useState([]);
+  const [filteredRoster, setFilteredRoster] = useState([]);
   const [search, setSearch] = useState('');
 
   useEffect(() => {
@@ -20,6 +21,7 @@ function RosterScreen({ navigation, route }) {
         const json = JSON.parse(text); // Parse the text as JSON
         console.log(json);
         setRoster(json);
+        setFilteredRoster(json);
         return json;
       } catch (error) {
         console.error("Error fetching data: ", error);
@@ -38,9 +40,9 @@ function RosterScreen({ navigation, route }) {
         return item_data.indexOf(text_data) > -1;
       });
       setSearch(text);
-      setRoster(updatedData);
+      setFilteredRoster(updatedData);
     } else {
-      setRoster(roster)
+      setFilteredRoster(roster)
       setSearch('')
     }
   }
@@ -61,7 +63,7 @@ function RosterScreen({ navigation, route }) {
 
       <FlatList
         style={styles.box}
-        data={roster}
+        data={filteredRoster}
         renderItem={({ item }) =>
           <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('AthleteProfileScreen')}>
             <View style={styles.row}>
