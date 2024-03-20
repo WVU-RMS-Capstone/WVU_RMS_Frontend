@@ -3,29 +3,29 @@ import { View, StyleSheet, FlatList, Text, Button, SafeAreaView, TextInput, Pres
 import { setEnabled } from 'react-native/Libraries/Performance/Systrace';
 
 function ExercisesScreen() {
-  // let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
-  // let action = 'getexercise';
-  // const [exercise, getExercise] = useState([]);
-  // const [search, setSearch] = useState('');
+  let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
+  let action = 'fetchallexercises';
+  const [rawExercises, setRawExercises] = useState([]);
+  const [search, setSearch] = useState('');
 
-  // useEffect(() => {
-  //   const sendRequest = async () => {
-  //     let url = `${api}?action=${action}`;
-  //     console.log(url);
-  //     try {
-  //       const response = await fetch(url);
-  //       const text = await response.text(); // Get the raw response text
-  //       const json = JSON.parse(text); // Parse the text as JSON
-  //       console.log(json);
-  //       getExercise(json);
-  //       return json;
-  //     } catch (error) {
-  //       console.error("Error fetching data: ", error);
-  //     }
-  //   };
+  useEffect(() => {
+    const sendRequest = async () => {
+      let url = `${api}?action=${action}`;
+      console.log(url);
+      try {
+        const response = await fetch(url);
+        const text = await response.text(); // Get the raw response text
+        const json = JSON.parse(text); // Parse the text as JSON
+        console.log(json);
+        setRawExercises(json);
+        return json;
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
 
-  //   sendRequest();
-  // }, []);
+    sendRequest();
+  }, []);
 
   // const searchFilter = (text) => {
   //   if (text) {
@@ -35,12 +35,34 @@ function ExercisesScreen() {
   //       return item_data.indexOf(text_data) > -1;
   //     });
   //     setSearch(text);
-  //     getExercise(updatedData);
+  //     setExercises(updatedData);
   //   } else {
-  //     getExercise(exercise)
+  //     setExercises(exercise)
   //     setSearch('')
   //   }
   // }
+  
+  // Here is where you'd do any sorting of the exercises into categories
+  // Temporarily, all loaded exercises are being put in the 
+  const prepareExercises = () => {
+    var exercises = [];
+    
+    for (e in rawExercises) {
+      data = rawExercises[e]['data'];
+      
+      // Convert the raw exercise data into something FlatList can handle
+      // TODO: corralate an exerciseID to a button in the FlatList
+      // TODO: categorize this exercise based on body part
+      const temp = {
+        key: data['Name']
+      }
+      
+      // Add to list of categorized exercises
+      exercises.push(temp);
+    }
+    
+    return exercises;
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -60,16 +82,7 @@ function ExercisesScreen() {
           <Text style={styles.label}>Foot</Text>
           <FlatList
             style={styles.box}
-            data={[
-              { key: 'Devin A' },
-              { key: 'Dan B' },
-              { key: 'Dominic C' },
-              { key: 'Jackson D' },
-              { key: 'James E' },
-              { key: 'Joel F' },
-              { key: 'John G' },
-              { key: 'Jillian H' },
-            ]}
+            data={prepareExercises()}
             horizontal={true}
             renderItem={({ item }) =>
               <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('SelectedFeaturedProgramScreen')}>
