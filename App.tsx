@@ -30,6 +30,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home" screenOptions={{ headerTitle: "", headerTransparent: true }}>
+        {/* <Stack.Screen name="ExercisesScreen" component={ExercisesScreen} /> */}
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="SignUp" component={SignUp} />
@@ -42,7 +43,6 @@ export default function App() {
         <Stack.Screen name="FeaturedProgramsScreen" component={FeaturedProgramsScreen} />
         <Stack.Screen name="LogsScreen" component={LogsScreen} />
         <Stack.Screen name="AssignProgramsScreen" component={AssignProgramsScreen} />
-        <Stack.Screen name="ExercisesScreen" component={ExercisesScreen} />
         <Stack.Screen name="NotesScreen" component={NotesScreen} />
         <Stack.Screen name="AthleteHomeScreen" component={AthleteHomeScreen} />
         <Stack.Screen name="CompletedWorkoutScreen" component={CompletedWorkoutScreen} options={{
