@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, FlatList, Text, Button, SafeAreaView, TextInput, Pressable, TouchableOpacity, ScrollView } from 'react-native';
 import { setEnabled } from 'react-native/Libraries/Performance/Systrace';
 
-function ExercisesScreen() {
+function ExercisesScreen({ navigation, route }) {
   let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
   let action = 'fetchallexercises';
   const [rawExercises, setRawExercises] = useState([]);
+  const [filteredExercises, setFilteredExercises] = useState([]);
   const [search, setSearch] = useState('');
 
   useEffect(() => {
@@ -18,6 +19,7 @@ function ExercisesScreen() {
         const json = JSON.parse(text); // Parse the text as JSON
         console.log(json);
         setRawExercises(json);
+        setFilteredExercises(json);
         return json;
       } catch (error) {
         console.error("Error fetching data: ", error);
@@ -27,40 +29,40 @@ function ExercisesScreen() {
     sendRequest();
   }, []);
 
-  // const searchFilter = (text) => {
-  //   if (text) {
-  //     const updatedData = exercise.filter((item) => {
-  //       const item_data = `${item.data[0].toUpperCase()} ${item.data[1].toUpperCase()}`;
-  //       const text_data = text.toUpperCase();
-  //       return item_data.indexOf(text_data) > -1;
-  //     });
-  //     setSearch(text);
-  //     setExercises(updatedData);
-  //   } else {
-  //     setExercises(exercise)
-  //     setSearch('')
-  //   }
-  // }
-  
+  const searchFilter = (text) => {
+    if (text) {
+      const updatedData = rawExercises.filter((item) => {
+        const item_data = `${item.data.Name.toUpperCase()}`;
+        const text_data = text.toUpperCase();
+        return item_data.indexOf(text_data) > -1;
+      });
+      setSearch(text);
+      setFilteredExercises(updatedData);
+    } else {
+      setFilteredExercises(rawExercises)
+      setSearch('')
+    }
+  }
+
   // Here is where you'd do any sorting of the exercises into categories
   // Temporarily, all loaded exercises are being put in the 
   const prepareExercises = () => {
     var exercises = [];
-    
+
     for (e in rawExercises) {
       data = rawExercises[e]['data'];
-      
+
       // Convert the raw exercise data into something FlatList can handle
       // TODO: corralate an exerciseID to a button in the FlatList
       // TODO: categorize this exercise based on body part
       const temp = {
         key: data['Name']
       }
-      
+
       // Add to list of categorized exercises
       exercises.push(temp);
     }
-    
+
     return exercises;
   }
 
@@ -72,8 +74,8 @@ function ExercisesScreen() {
           clearButtonMode='always'
           placeholder='Search Exercise'
           autoCapitalize='none'
-        // value={search}
-        // onChangeText={(text) => searchFilter(text)}
+          value={search}
+          onChangeText={(text) => searchFilter(text)}
         />
       </View>
 
@@ -81,20 +83,18 @@ function ExercisesScreen() {
         <ScrollView style={{}}>
           <Text style={styles.label}>Foot</Text>
           <FlatList
-            style={styles.box}
             data={prepareExercises()}
             horizontal={true}
             renderItem={({ item }) =>
               <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('SelectedFeaturedProgramScreen')}>
                 <View style={styles.row}>
-                  <Text style={styles.first}>{item.key}</Text>
+                  <Text>{item.key}</Text>
                 </View>
               </TouchableOpacity>
             }
           />
           <Text style={styles.label}>Leg</Text>
           <FlatList
-            style={styles.box}
             data={[
               { key: 'Devin A' },
               { key: 'Dan B' },
@@ -109,14 +109,13 @@ function ExercisesScreen() {
             renderItem={({ item }) =>
               <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('SelectedFeaturedProgramScreen')}>
                 <View style={styles.row}>
-                  <Text style={styles.first}>{item.key}</Text>
+                  <Text>{item.key}</Text>
                 </View>
               </TouchableOpacity>
             }
           />
           <Text style={styles.label}>Knee</Text>
           <FlatList
-            style={styles.box}
             data={[
               { key: 'Devin A' },
               { key: 'Dan B' },
@@ -131,13 +130,12 @@ function ExercisesScreen() {
             renderItem={({ item }) =>
               <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('SelectedFeaturedProgramScreen')}>
                 <View style={styles.row}>
-                  <Text style={styles.first}>{item.key}</Text>
+                  <Text>{item.key}</Text>
                 </View>
               </TouchableOpacity>
             }
           /><Text style={styles.label}>Foot</Text>
           <FlatList
-            style={styles.box}
             data={[
               { key: 'Devin A' },
               { key: 'Dan B' },
@@ -152,14 +150,13 @@ function ExercisesScreen() {
             renderItem={({ item }) =>
               <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('SelectedFeaturedProgramScreen')}>
                 <View style={styles.row}>
-                  <Text style={styles.first}>{item.key}</Text>
+                  <Text>{item.key}</Text>
                 </View>
               </TouchableOpacity>
             }
           />
           <Text style={styles.label}>Foot</Text>
           <FlatList
-            style={styles.box}
             data={[
               { key: 'Devin A' },
               { key: 'Dan B' },
@@ -174,14 +171,13 @@ function ExercisesScreen() {
             renderItem={({ item }) =>
               <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('SelectedFeaturedProgramScreen')}>
                 <View style={styles.row}>
-                  <Text style={styles.first}>{item.key}</Text>
+                  <Text>{item.key}</Text>
                 </View>
               </TouchableOpacity>
             }
           />
           <Text style={styles.label}>Foot</Text>
           <FlatList
-            style={styles.box}
             data={[
               { key: 'Devin A' },
               { key: 'Dan B' },
@@ -196,7 +192,7 @@ function ExercisesScreen() {
             renderItem={({ item }) =>
               <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('SelectedFeaturedProgramScreen')}>
                 <View style={styles.row}>
-                  <Text style={styles.first}>{item.key}</Text>
+                  <Text>{item.key}</Text>
                 </View>
               </TouchableOpacity>
             }
@@ -238,8 +234,9 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     marginRight: 25,
     marginTop: 10,
-    height: 75,
-    width: 75,
+    height: 25,
+    width: 100,
+    alignItems: 'center',
     borderRadius: 10,
     paddingBottom: 10,
     ...Platform.select({
@@ -251,26 +248,8 @@ const styles = StyleSheet.create({
       },
     })
   },
-  first: {
-    textAlign: 'center'
-  },
-  last: {
-    marginTop: 15,
-    marginLeft: 5
-  },
-  circle: {
-    width: 35,
-    height: 35,
-    borderRadius: 100 / 2,
-    backgroundColor: "#2C3C63",
-    marginTop: 8,
-    marginLeft: 30
-  },
   row: {
     flexDirection: "row",
-  },
-  box: {
-    // marginBottom: 130
   },
   button: {
     // paddingLeft: 150,
