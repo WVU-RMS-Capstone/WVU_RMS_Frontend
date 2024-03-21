@@ -78,7 +78,7 @@ function ExercisesScreen({ navigation, route }) {
   var categoryLists = [];
   
   // Categorize the raw exercise data
-  exercises = categorizedExercises();
+  const exercises = categorizedExercises();
   
   // For each of the exercise categories, define a View containing a Text label and a Flatlist.
   // The FlatList is populated with each exercise.
