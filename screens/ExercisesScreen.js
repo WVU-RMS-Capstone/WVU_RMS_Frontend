@@ -60,7 +60,7 @@ function ExercisesScreen({ navigation, route }) {
       }
       
     // Get the body part for this exercise
-    const bodyPart = data['BodyPart'];
+    const bodyPart = data['BodyPart'].toUpperCase();
 
     // If this body part hasn't been seen before, initialize an empty array for it
     if (!exercises[bodyPart]) {
