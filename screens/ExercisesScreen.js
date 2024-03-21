@@ -46,7 +46,7 @@ function ExercisesScreen({ navigation, route }) {
 
   // Here is where you'd do any sorting of the exercises into categories
   // Temporarily, all loaded exercises are being put in the 
-  const prepareExercises = () => {
+  const categorizedExercises = () => {
     var exercises = [];
 
     for (e in rawExercises) {
@@ -54,16 +54,51 @@ function ExercisesScreen({ navigation, route }) {
 
       // Convert the raw exercise data into something FlatList can handle
       // TODO: corralate an exerciseID to a button in the FlatList
-      // TODO: categorize this exercise based on body part
+      // TODO: Add the cover image?
       const temp = {
         key: data['Name']
       }
+      
+    // Get the body part for this exercise
+    const bodyPart = data['BodyPart'];
 
-      // Add to list of categorized exercises
-      exercises.push(temp);
+    // If this body part hasn't been seen before, initialize an empty array for it
+    if (!exercises[bodyPart]) {
+      exercises[bodyPart] = [];
+    }
+
+    // Add this exercise to the list of exercises for its body part
+    exercises[bodyPart].push(temp);
     }
 
     return exercises;
+  }
+  
+  // This will contain each of the dynamically generated FlatLists for each body part
+  var categoryLists = [];
+  
+  // Categorize the raw exercise data
+  exercises = categorizedExercises();
+  
+  // For each of the exercise categories, define a View containing a Text label and a Flatlist.
+  // The FlatList is populated with each exercise.
+  for (e in exercises) {
+    categoryLists.push(
+      <View key={e}>
+        <Text style={styles.label}>{e}</Text>
+        <FlatList
+          data={exercises[e]}
+          horizontal={true}
+          renderItem={({ item }) =>
+            <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('SelectedFeaturedProgramScreen')}>
+              <View style={styles.row}>
+                <Text>{item.key}</Text>
+              </View>
+            </TouchableOpacity>
+          }
+        />
+      </View>
+    );
   }
 
   return (
@@ -81,122 +116,7 @@ function ExercisesScreen({ navigation, route }) {
 
       <View style={{ maxHeight: '62%' }}>
         <ScrollView style={{}}>
-          <Text style={styles.label}>Foot</Text>
-          <FlatList
-            data={prepareExercises()}
-            horizontal={true}
-            renderItem={({ item }) =>
-              <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('SelectedFeaturedProgramScreen')}>
-                <View style={styles.row}>
-                  <Text>{item.key}</Text>
-                </View>
-              </TouchableOpacity>
-            }
-          />
-          <Text style={styles.label}>Leg</Text>
-          <FlatList
-            data={[
-              { key: 'Devin A' },
-              { key: 'Dan B' },
-              { key: 'Dominic C' },
-              { key: 'Jackson D' },
-              { key: 'James E' },
-              { key: 'Joel F' },
-              { key: 'John G' },
-              { key: 'Jillian H' },
-            ]}
-            horizontal={true}
-            renderItem={({ item }) =>
-              <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('SelectedFeaturedProgramScreen')}>
-                <View style={styles.row}>
-                  <Text>{item.key}</Text>
-                </View>
-              </TouchableOpacity>
-            }
-          />
-          <Text style={styles.label}>Knee</Text>
-          <FlatList
-            data={[
-              { key: 'Devin A' },
-              { key: 'Dan B' },
-              { key: 'Dominic C' },
-              { key: 'Jackson D' },
-              { key: 'James E' },
-              { key: 'Joel F' },
-              { key: 'John G' },
-              { key: 'Jillian H' },
-            ]}
-            horizontal={true}
-            renderItem={({ item }) =>
-              <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('SelectedFeaturedProgramScreen')}>
-                <View style={styles.row}>
-                  <Text>{item.key}</Text>
-                </View>
-              </TouchableOpacity>
-            }
-          /><Text style={styles.label}>Foot</Text>
-          <FlatList
-            data={[
-              { key: 'Devin A' },
-              { key: 'Dan B' },
-              { key: 'Dominic C' },
-              { key: 'Jackson D' },
-              { key: 'James E' },
-              { key: 'Joel F' },
-              { key: 'John G' },
-              { key: 'Jillian H' },
-            ]}
-            horizontal={true}
-            renderItem={({ item }) =>
-              <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('SelectedFeaturedProgramScreen')}>
-                <View style={styles.row}>
-                  <Text>{item.key}</Text>
-                </View>
-              </TouchableOpacity>
-            }
-          />
-          <Text style={styles.label}>Foot</Text>
-          <FlatList
-            data={[
-              { key: 'Devin A' },
-              { key: 'Dan B' },
-              { key: 'Dominic C' },
-              { key: 'Jackson D' },
-              { key: 'James E' },
-              { key: 'Joel F' },
-              { key: 'John G' },
-              { key: 'Jillian H' },
-            ]}
-            horizontal={true}
-            renderItem={({ item }) =>
-              <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('SelectedFeaturedProgramScreen')}>
-                <View style={styles.row}>
-                  <Text>{item.key}</Text>
-                </View>
-              </TouchableOpacity>
-            }
-          />
-          <Text style={styles.label}>Foot</Text>
-          <FlatList
-            data={[
-              { key: 'Devin A' },
-              { key: 'Dan B' },
-              { key: 'Dominic C' },
-              { key: 'Jackson D' },
-              { key: 'James E' },
-              { key: 'Joel F' },
-              { key: 'John G' },
-              { key: 'Jillian H' },
-            ]}
-            horizontal={true}
-            renderItem={({ item }) =>
-              <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('SelectedFeaturedProgramScreen')}>
-                <View style={styles.row}>
-                  <Text>{item.key}</Text>
-                </View>
-              </TouchableOpacity>
-            }
-          />
+          { categoryLists }
         </ScrollView>
       </View>
 
