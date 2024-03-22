@@ -47,95 +47,83 @@ function NewExerciseScreen({ navigation, route }) {
     }
   }
 
-  const selectCoverImg = React.useCallback((type, options) => {
-    try {
-      // const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      // if (status != 'granted') {
-      //   return;
-      // }
+  const ImagePicker = () => {
+    let options = {
+      storageOptions: {
+        path: 'image',
+      },
+    };
 
-      const result = ImagePicker.launchImageLibrary(options, setResponse);
-
-      if (!result.cancelled) {
-        setCover(result.uri);
-      }
-    } catch (error) {
-      console.error("Error: ", error);
-    }
-  }, []);
+    launchImageLibrary(options, response => {
+      setSelectImage(response.assets[0].uri)
+      console.log(response);
+    });
+  };
 
 
   return (
 
     <SafeAreaView style={styles.container}>
-      <View style={styles.container}>
-        <View style={{ marginHorizontal: '30%' }}>
-          <TouchableOpacity onPress={selectCoverImg}>
-            {cover ? (
-              <Image
-                source={{ uri: cover }}
-                style={styles.coverImg}
-              />
-            ) : (
-              <Text style={[styles.coverButton, { backgroundColor: 'white' }]}>
-                Cover
-              </Text>
-            )}
-          </TouchableOpacity>
-        </View>
-
-        <Text style={styles.whitespace}></Text>
-
-        <TextInput
-          style={[styles.input, { backgroundColor: 'white' }]}
-          value={name}
-          placeholder='Name'
-          onChangeText={setName}
-        />
-
-        <TextInput
-          style={[styles.input, { backgroundColor: 'white' }]}
-          value={video}
-          placeholder='Video Link'
-          onChangeText={setVideo}
-        />
-
-        <TextInput
-          style={[styles.descrit, { backgroundColor: 'white' }]}
-          value={description}
-          placeholder='Description'
-          onChangeText={setDescription}
-        />
-
-        <View style={styles.row}>
-          <TextInput
-            style={[styles.number, { backgroundColor: 'white' }]}
-            value={sets}
-            placeholder='Sets'
-            onChangeText={setSets}
-          />
-          <TextInput
-            style={[styles.number, { backgroundColor: 'white' }]}
-            value={reps}
-            placeholder='Reps'
-            onChangeText={setReps}
-          />
-        </View>
-
-        <TextInput
-          style={[styles.input, { backgroundColor: 'white' }]}
-          value={part}
-          placeholder='Body Part'
-          onChangeText={setParts}
-        />
-
-        <Text style={styles.whitespace}></Text>
-
-        <LargeButton
-          text="Done" onPress={() => sendAndContune()}
-        />
-
+      <View style={styles.coverButton}>
+        <TouchableOpacity style={styles.coverImg} onPress={() => {
+          ImagePicker();
+        }}>
+          <Text>Insert Cover</Text>
+        </TouchableOpacity>
       </View>
+
+      <Text style={styles.whitespace}></Text>
+
+      <TextInput
+        style={[styles.input, { backgroundColor: 'white' }]}
+        value={name}
+        placeholder='Name'
+        onChangeText={setName}
+      />
+
+      <TextInput
+        style={[styles.input, { backgroundColor: 'white' }]}
+        value={video}
+        placeholder='Video Link'
+        onChangeText={setVideo}
+      />
+
+      <TextInput
+        style={[styles.descrit, { backgroundColor: 'white' }]}
+        value={description}
+        placeholder='Description'
+        onChangeText={setDescription}
+      />
+
+      <View style={styles.row}>
+        <TextInput
+          style={[styles.number, { backgroundColor: 'white' }]}
+          value={sets}
+          placeholder='Sets'
+          onChangeText={setSets}
+        />
+        <TextInput
+          style={[styles.number, { backgroundColor: 'white' }]}
+          value={reps}
+          placeholder='Reps'
+          onChangeText={setReps}
+        />
+      </View>
+
+      <TextInput
+        style={[styles.input, { backgroundColor: 'white' }]}
+        value={part}
+        placeholder='Body Part'
+        onChangeText={setParts}
+      />
+
+      <Text style={styles.whitespace}></Text>
+
+      < LargeButton
+        text="Done" onPress={() => sendAndContune()}
+      />
+
+
     </SafeAreaView >
 
   );
@@ -145,7 +133,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#AEB6C5',
-    // paddingTop: 16,
   },
   row: {
     flexDirection: 'row',
@@ -156,14 +143,14 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 15,
-    marginHorizontal: 20,
+    justifyContent: 'center',
+    alignSelf: 'center',
     marginVertical: 5,
     padding: 10,
-    // width: '50%',
+    width: '90%',
   },
   rowInput: {
     borderColor: 'gray',
-    // borderWidth: 1,
     borderRadius: 15,
     padding: 20,
     marginTop: 4,
@@ -172,14 +159,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   coverButton: {
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 15,
-    padding: 20,
-    marginTop: 4,
-    width: 150,
-    height: 90,
-    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center'
+
   },
   whitespace: {
     marginBottom: 30,
@@ -193,7 +175,6 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     padding: 10,
     textAlignVertical: 'top',
-    // width: '50%',
   },
   number: {
     borderColor: 'gray',
@@ -212,56 +193,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   coverImg: {
-    width: '50%',
-    height: 50,
+    backgroundColor: 'white',
+    width: '45%',
+    height: 100,
     borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-  video: {
-    // width: '100%',
-    // height: 200,
-  },
-  // box: {
-  //   borderRadius: 5,
-  //   padding: 10,
-  //   width: '90%',
-  //   height: 75,
-  //   borderRadius: 15,
-  //   flexDirection: 'row',
-  //   alignItems: 'center',
-  //   textAlign: 'center',
-  //   alignSelf: 'center',
-  //   fontSize: 30,
-  //   fontWeight: '500',
-  //   backgroundColor: '#D9D9D9',
-  // },
-  // description: {
-  //   borderRadius: 5,
-  //   padding: 10,
-  //   width: '90%',
-  //   height: 75,
-  //   borderRadius: 15,
-  //   flexDirection: 'row',
-  //   alignSelf: 'center',
-  //   backgroundColor: '#D9D9D9',
-  // },
-  // font: {
-  //   fontSize: 32,
-  //   marginRight: 10,
-  // },
-  // textInput: {
-  //   fontSize: 24,
-  //   flex: 1,
-  // },
-  // smallBox: {
-  //   borderRadius: 5,
-  //   padding: 10,
-  //   width: '40%',
-  //   height: 103,
-  //   borderRadius: 15,
-  //   flexDirection: 'row',
-  //   alignItems: 'center',
-  //   backgroundColor: '#D9D9D9',
-  // },
 })
 
 export default NewExerciseScreen;
