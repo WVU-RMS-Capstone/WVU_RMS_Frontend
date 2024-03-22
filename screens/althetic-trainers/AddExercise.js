@@ -14,8 +14,6 @@ function AddExercise({ navigation, route }) {
     const [search, setSearch] = useState('');
     const [selectedItems, setSelectedItems] = useState([]);
 
-    // console.log("Data: ", listOfExercises);
-
     useEffect(() => {
         const sendRequest = async () => {
             let url = `${api}?action=${action}`;
@@ -41,7 +39,7 @@ function AddExercise({ navigation, route }) {
     const searchFilter = (text) => {
         if (text) {
             const updatedData = exercises.filter((item) => {
-                const item_data = `${item.data[0].toUpperCase()} ${item.data[1].toUpperCase()}`;
+                const item_data = `${item.data.Name.toUpperCase()}`;
                 const text_data = text.toUpperCase();
                 return item_data.indexOf(text_data) > -1;
             });
@@ -53,37 +51,6 @@ function AddExercise({ navigation, route }) {
         }
     }
 
-    // const handleSelectedItem = (item) => {
-    //     // const isSelected = selectedItems.find(selectedItems => selectedItems.id === item.id);
-
-    //     if (selectedItems.includes(item)) {
-    //         setSelectedItems(selectedItems.filter(selectedItems => selectedItems !== item.id));
-    //         // console.log(selectedItems);
-    //     } else {
-    //         setSelectedItems([...selectedItems, item.data.Name]);
-    //         console.log(selectedItems);
-    //     }
-    // };
-
-    // const renderItem = ({ item }) => (
-    //     <TouchableOpacity style={[styles.ath, selectedItems.includes(item.data.Name) ? styles.selected : null]} onPress={() => handleSelectedItem(item)}>
-    //         <View>
-    //             <Text style={styles.first}>{item.data.Name}</Text>
-    //         </View>
-    //     </TouchableOpacity>
-    // );
-    // console.log("Selected Items: ", selectedItems);
-    // const handOnPress = (item) => {
-    //     const newItem = selectedItems.map((val) => {
-    //         if (val.data.exerciseID === item.data.exerciseID) {
-    //             return { ...val, selectedItems: !val.selectedItems }
-    //         } else {
-    //             return val;
-    //         }
-    //     })
-    //     setSelectedItems(newItem);
-    // }
-    console.log("Selcted Items: ", selectedItems)
     const handleSelectedItem = (item) => {
         if (selectedItems.includes(item)) {
             let items = selectedItems.filter((ID) => ID !== item);
@@ -93,19 +60,6 @@ function AddExercise({ navigation, route }) {
             setSelectedItems([...selectedItems, item]);
             setListOfExercises([...selectedItems, item]);
         }
-        // if (selectedItems.includes(itemID)) {
-        //     setSelectedItems(selectedItems.filter((id) => id !== itemID));
-        // } else {
-        //     setSelectedItems([...selectedItems, itemID]);
-        // }
-
-        // setexercises(
-        //     exercises.map((exercises) =>
-        //         exercises.id === itemID
-        //             ? { ...exercises, isSelected: !exercises.isSelected }
-        //             : exercises
-        //     )
-        // );
     };
 
 
@@ -115,27 +69,12 @@ function AddExercise({ navigation, route }) {
                 <TextInput
                     style={[styles.input, { backgroundColor: 'white' }]}
                     clearButtonMode='always'
-                    placeholder='Search Athlete'
+                    placeholder='Search Exercise'
                     autoCapitalize='none'
                     value={search}
                     onChangeText={(text) => searchFilter(text)}
                 />
             </View>
-
-            {/* <FlatList
-                style={styles.box}
-                data={filteredexercises}
-                keyExtractor={item => item.id}
-                renderItem={({ item }) => {
-                    return (
-                        <TouchableOpacity onPress={() => handOnPress(item)}>
-                            <View style={[styles.ath, selectedItems.includes(item) ? styles.selected : null]}>
-                                <Text style={styles.first}>{item.data.Name}</Text>
-                            </View>
-                        </TouchableOpacity>
-                    )
-                }}
-            /> */}
 
             <FlatList
                 style={styles.box}

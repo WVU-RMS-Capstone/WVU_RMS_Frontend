@@ -9,9 +9,8 @@ function NewProgramScreen({ navigation, route }) {
   const [program, setProgram] = useState('');
   const [data, setData] = useState([]);
   const [selectImage, setSelectImage] = useState('');
+  const [exercises, setExercises] = useState([]);
   const { listOfExercises, setListOfExercises } = React.useContext(ExerciseContext);
-
-  console.log(listOfExercises);
 
   let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
   let action = 'createprogram';
