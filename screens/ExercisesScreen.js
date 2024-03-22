@@ -30,6 +30,8 @@ function ExercisesScreen({ navigation, route }) {
   }, []);
 
   const searchFilter = (text) => {
+    console.log(filteredExercises);
+    console.log(text);
     if (text) {
       const updatedData = rawExercises.filter((item) => {
         const item_data = `${item.data.Name.toUpperCase()}`;
@@ -44,8 +46,7 @@ function ExercisesScreen({ navigation, route }) {
     }
   }
 
-  // Here is where you'd do any sorting of the exercises into categories
-  // Temporarily, all loaded exercises are being put in the 
+  // Sort exercises into categories
   const categorizedExercises = () => {
     var exercises = [];
 
@@ -74,31 +75,54 @@ function ExercisesScreen({ navigation, route }) {
     return exercises;
   }
   
-  // This will contain each of the dynamically generated FlatLists for each body part
-  var categoryLists = [];
+  // This will return each of the dynamically generated FlatLists for each body part.
+  const categorizedLists = () => {
+    const lists = [];
   
-  // Categorize the raw exercise data
-  const exercises = categorizedExercises();
+    // Categorize the raw exercise data
+    const exercises = categorizedExercises();
+    
+    // For each of the exercise categories, define a View containing a Text label and a Flatlist.
+    // The FlatList is populated with each exercise.
+    for (e in exercises) {
+      lists.push(
+        <View key={e}>
+          <Text style={styles.label}>{e}</Text>
+          <FlatList
+            data={exercises[e]}
+            horizontal={true}
+            renderItem={({ item }) =>
+              <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('SelectedFeaturedProgramScreen')}>
+                <View style={styles.row}>
+                  <Text>{item.key}</Text>
+                </View>
+              </TouchableOpacity>
+            }
+          />
+        </View>
+      );
+    }
+    
+    return lists;
+  }
   
-  // For each of the exercise categories, define a View containing a Text label and a Flatlist.
-  // The FlatList is populated with each exercise.
-  for (e in exercises) {
-    categoryLists.push(
-      <View key={e}>
-        <Text style={styles.label}>{e}</Text>
-        <FlatList
-          data={exercises[e]}
-          horizontal={true}
-          renderItem={({ item }) =>
-            <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('SelectedFeaturedProgramScreen')}>
-              <View style={styles.row}>
-                <Text>{item.key}</Text>
-              </View>
-            </TouchableOpacity>
-          }
-        />
-      </View>
-    );
+  // This will return a View containing a list of exercises as a result of the filtered search results.
+  const searchResultList = () => {
+    const list = [];
+    
+    for (e in filteredExercises) {
+      list.push(
+        <View key={e}>
+          <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('SelectedFeaturedProgramScreen')}>
+            <View style={styles.row}>
+              <Text>{filteredExercises[e].data.Name}</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+    
+    return list;
   }
 
   return (
@@ -116,7 +140,14 @@ function ExercisesScreen({ navigation, route }) {
 
       <View style={{ maxHeight: '62%' }}>
         <ScrollView style={{}}>
-          { categoryLists }
+          { 
+            // By default, show categorized exercises.
+            // If searching, show search results instead.
+            (!search.length) ? 
+            categorizedLists()
+            :
+            searchResultList()
+          }
         </ScrollView>
       </View>
 
