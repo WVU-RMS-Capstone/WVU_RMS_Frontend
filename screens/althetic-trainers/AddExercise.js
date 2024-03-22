@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Searchbar } from 'react-native-paper';
 import { View, FlatList, StyleSheet, Text, Button, SafeAreaView, TextInput, Pressable, TouchableOpacity } from 'react-native';
 import { LargeButton } from '../../src/components/Buttons';
+import { ExerciseContext } from './NewProgramScreen';
 
 function AddExercise({ navigation, route }) {
-    // const { listOfExercises } = route.params;
+    const { listOfExercises, setListOfExercises } = React.useContext(ExerciseContext);
 
     let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
     let action = 'fetchallexercises';
@@ -85,9 +86,12 @@ function AddExercise({ navigation, route }) {
     console.log("Selcted Items: ", selectedItems)
     const handleSelectedItem = (item) => {
         if (selectedItems.includes(item)) {
-            setSelectedItems(selectedItems.filter((ID) => ID !== item));
+            let items = selectedItems.filter((ID) => ID !== item);
+            setSelectedItems(items);
+            setListOfExercises(items)
         } else {
             setSelectedItems([...selectedItems, item]);
+            setListOfExercises([...selectedItems, item]);
         }
         // if (selectedItems.includes(itemID)) {
         //     setSelectedItems(selectedItems.filter((id) => id !== itemID));
