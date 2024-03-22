@@ -9,11 +9,9 @@ function NewProgramScreen({ navigation, route }) {
   const [program, setProgram] = useState('');
   const [data, setData] = useState([]);
   const [selectImage, setSelectImage] = useState('');
-  // const [listOfExercises, setListOfExercises] = useState(route.params);
-  // const { listOfExercises } = route.params;
-  const listOfExercises = route.params;
-  console.log(listOfExercises);
+  const { listOfExercises, setListOfExercises } = React.useContext(ExerciseContext);
 
+  console.log(listOfExercises);
 
   let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
   let action = 'createprogram';
@@ -55,8 +53,6 @@ function NewProgramScreen({ navigation, route }) {
     });
   };
 
-
-
   const selectCoverImg = React.useCallback((type, options) => {
     try {
       // const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -95,7 +91,7 @@ function NewProgramScreen({ navigation, route }) {
         data={listOfExercises}
         renderItem={({ item }) =>
           <View style={styles.exercise}>
-            <Text style={styles.exerciseText}>{item.selectedItems.Name}</Text>
+            <Text style={styles.exerciseText}>{item.Name}</Text>
           </View>
         }
       />
@@ -106,17 +102,17 @@ function NewProgramScreen({ navigation, route }) {
             <Text style={styles.buttonText}>Done</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('AddExercise', { listOfExercises })}>
+        <TouchableOpacity onPress={() => navigation.navigate('AddExercise')}>
           <View style={styles.button}>
             <Text style={styles.buttonText}>Add Exercises</Text>
           </View>
         </TouchableOpacity>
       </View>
-    </SafeAreaView >
-
+    </SafeAreaView>
   );
 }
 
+export const ExerciseContext = React.createContext();
 export default NewProgramScreen;
 const styles = StyleSheet.create({
   container: {
