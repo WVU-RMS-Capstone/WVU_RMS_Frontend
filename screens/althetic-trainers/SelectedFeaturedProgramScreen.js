@@ -3,7 +3,6 @@ import {View, StyleSheet, FlatList, Text, TextInput, Checkbox, DatePicker} from 
 import { LargeButton, DateSelector } from '../../src/components/Buttons';
 
 function SelectedFeaturedProgramScreen({ navigation }) {
-  const session_token = "87dd921c352ae2540dcbb918fe5297f12fe399345dbfae7960313443f57ed3aa";
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
   const [startOpen, setStartOpen] = useState(false)
@@ -37,45 +36,30 @@ function SelectedFeaturedProgramScreen({ navigation }) {
     }
   }
 
-const getRoster = () => {
-   // EXAMPLE: https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=roster&name=Chase&position=WR
-  const api = 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=roster&name=';
-  fetch(api, {
-     headers: {
-      'Authorization': 'Bearer ' + session_token
-     }
-  })
-  .then((response) => response.json())
-  .then((responseJson) => {
-    setAssigned(responseJson);
-    setFilter(responseJson);
-    setMaster(responseJson);
-  }) 
-  .catch((error) => {
-    console.error(error);
-    {navigation.navigate('AthleteHomeScreens')}
-     
-  })
-}
-useEffect(() => { getRoster() }, []);
-const assignUserRoutines = () => {
-  //EXAMPLE: https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=assignUserRoutines&user=1&routine=1&notes=Rest&check=1
-  const api  = ' https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=assignUserRoutines&user=1&routine=1&notes=Rest&check=1';
+  const getRoster = () => {
 
-  fetch(finalDescription, {
-    headers: {
-      'Authorization': 'Bearer ' + sessionKey
-     }
-  })
-  .catch((error) => {
-    console.error(error);
-  })
-}
-const completedAssign = () => {
-  // assignUserRoutines()
-  navigation.navigate('HomeScreen');
-} 
+  }
+  
+  useEffect(() => { getRoster() }, []);
+  
+  const assignUserRoutines = () => {
+    //EXAMPLE: https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=assignUserRoutines&user=1&routine=1&notes=Rest&check=1
+    const api  = ' https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=assignUserRoutines&user=1&routine=1&notes=Rest&check=1';
 
+    fetch(finalDescription, {
+      headers: {
+        'Authorization': 'Bearer ' + sessionKey
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+  }
+  
+  const completedAssign = () => {
+    // assignUserRoutines()
+    navigation.navigate('HomeScreen');
+  } 
 
   return (
     <View style={styles.container}>
@@ -83,68 +67,34 @@ const completedAssign = () => {
         <Text style={styles.selectedProgram}>Name of selected program</Text>
         <Text style={styles.activeWeek}>Active Week</Text>
       </View>
-
-  <View style={styles.dateRange}>
-    <DateSelector text={startText} onPress={() => setStartOpen(true)} />
-      <DatePicker
-        modal
-        open={startOpen}
-        date={startDate}
-        mode="date"
-        onConfirm={(startDate) => {
-          setStartOpen(false);
-          setStartDate(startDate);
-          setStartText(startDate.toLocaleDateString(undefined, options));
-        }}
-        onCancel={() => {
-          setStartOpen(false);
-        }}
-      />
-       <DateSelector text={endText} onPress={() => setEndOpen(true)} />
-     <DatePicker
-        modal
-        open={endOpen}
-        date={endDate}
-        mode="date"
-        onConfirm={(endDate) => {
-          setEndOpen(false);
-          setEndDate(endDate);
-          setEndText(endDate.toLocaleDateString(undefined, options));
-        }}
-        onCancel={() => {
-          setEndOpen(false);
-        }}
-      />
-</View>
+      
       <View style={styles.assign}> 
-      <CheckBox style={styles.checkbox} disabled={false} value={toggleCheckBox} onValueChange={(newValue) => setToggleCheckBox(newValue)}/>
-      <Text style={styles.assignText}>Assign to all athletes</Text>
-    </View>
-    <View style={styles.searchBox}>
+        <Text style={styles.assignText}>Assign to all athletes</Text>
+      </View>
+      <View style={styles.searchBox}>
         <TextInput
-             style = {styles.searchInput}
-             value = {search}
-             placeholder= {"Search Athletes Here"}
-             placeholderTextColor={'#5A5A5A'}
-             cent
-             onChangeText={(text) => searchFilter(text)}
-           >
-
-          </TextInput> 
-        </View>
-        <FlatList  windowSize={3} initialNumToRender={3} maxToRenderPerBatch={3} onScrollToIndexFailed={() => {}}
-            data={filteredRoster} keyExtractor={item => item.data.UserId} ItemSeparatorComponent={Separator} renderItem={({ item }) => (
-          <View style={styles.players}> 
-            <Text style={styles.playersText}>{`${item.data.FirstName}`} </Text>
-            <Text style={styles.playersText}>{ `${item.data.LastName}`}</Text>
-         </View>
-      )}
-    />
+            style = {styles.searchInput}
+            value = {search}
+            placeholder= {"Search Athletes Here"}
+            placeholderTextColor={'#5A5A5A'}
+            cent
+            onChangeText={(text) => searchFilter(text)}
+        ></TextInput> 
+      </View>
+      <FlatList  windowSize={3} initialNumToRender={3} maxToRenderPerBatch={3} onScrollToIndexFailed={() => {}}
+          data={filteredRoster} keyExtractor={item => item.data.UserId} ItemSeparatorComponent={Separator} renderItem={({ item }) => (
+            <View style={styles.players}> 
+              <Text style={styles.playersText}>{`${item.data.FirstName}`} </Text>
+              <Text style={styles.playersText}>{ `${item.data.LastName}`}</Text>
+            </View>
+          )}
+      />
       <LargeButton text="Done"
         onPress={() => completedAssign()} />
     </View>
   );
 }
+  
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -237,4 +187,5 @@ const styles = StyleSheet.create({
     justifyContent:'space-around'
   }
 });
+
 export default SelectedFeaturedProgramScreen;

@@ -30,8 +30,6 @@ function ExercisesScreen({ navigation, route }) {
   }, []);
 
   const searchFilter = (text) => {
-    console.log(filteredExercises);
-    console.log(text);
     if (text) {
       const updatedData = rawExercises.filter((item) => {
         const item_data = `${item.data.Name.toUpperCase()}`;
