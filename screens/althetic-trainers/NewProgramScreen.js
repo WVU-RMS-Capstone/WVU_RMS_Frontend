@@ -4,73 +4,16 @@ import { MediumButton } from '../../src/components/Buttons';
 import { LargeButton } from '../../src/components/Buttons';
 import ImagePicker, { launchImageLibrary } from 'react-native-image-picker'
 
-// EXAMPLE: https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=createRoutine&name=Legs1&IDs=4/11/13&reps=10/10/10&sets=3/4/5&visible=1
-
-
 function NewProgramScreen({ navigation, route }) {
-  // let sessionKey = route.params.sessionKey;
-  // const [name, setName] = React.useState('');
-  // const [reps1, setReps1] = React.useState('');
-  // const [sets1, setSets1] = React.useState('');
-  // const [id1, setid1] = React.useState('');
-  // const [reps2, setReps2] = React.useState('');
-  // const [sets2, setSets2] = React.useState('');
-  // const [id2, setid2] = React.useState('');
-  // const [reps3, setReps3] = React.useState('');
-  // const [sets3, setSets3] = React.useState('');
-  // const [id3, setid3] = React.useState('');
-  // const [visible, setVisible] = React.useState('');
-
-  // const [assignID, setAssignID] = React.useState('');
-  // const [data, setData] = React.useState('');
-
-  // const handleNameChangeText = (text) => {
-  //   setName(text);
-  // };
-
-  // const createNewRoutine = () => {
-  //   var ids = id1 + '/' + id2 + '/' + id3;
-  //   var sets = sets1 + '/' + sets2 + '/' + sets3;
-  //   var reps = reps1 + '/' + reps2 + '/' + reps3;
-  //   // EXAMPLE: https://createRoutine&name=Legs1&IDs=4/11/13&reps=10/10/10&sets=3/4/5&visible=1
-  //   const api = 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=createRoutine&name=';
-  //   var finalName = api.concat(name);
-  //   var repapi = finalName.concat('&IDs=');
-  //   var repsapi = repapi.concat(ids);
-  //   repsapi = repsapi + '&reps=' + reps + '&sets=' + sets + '&visible=' + visible;
-  //   console.log(repsapi);
-  //   fetch(repsapi, {
-  //     headers: {
-  //       'Authorization': 'Bearer ' + sessionKey
-  //     }
-  //   })
-
-  //     .then((response) => {
-  //       let res = response.json();
-  //       return res;
-  //     })
-  //     .then((json) => {
-
-  //       setData(json);
-
-  //     })
-
-  //     .catch((error) => {
-  //       console.error(error);
-  //     })
-  // }
-
-  // const sendAndCont = () => {
-  //   createNewRoutine();
-  //   console.log(data);
-  //   navigation.navigate('ATHomeScreen', { sessionKey: sessionKey });
-  // }
-
   const [cover, setCover] = useState('');
   const [program, setProgram] = useState('');
-  const [exercises, setExercises] = useState([]);
   const [data, setData] = useState([]);
   const [selectImage, setSelectImage] = useState('');
+  // const [listOfExercises, setListOfExercises] = useState(route.params);
+  // const { listOfExercises } = route.params;
+  const listOfExercises = route.params;
+  console.log(listOfExercises);
+
 
   let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
   let action = 'createprogram';
@@ -142,7 +85,6 @@ function NewProgramScreen({ navigation, route }) {
         <TextInput
           style={[styles.input, { backgroundColor: 'white' }]}
           value={program}
-
           placeholder='Program Name'
           onChangeText={setProgram}
         />
@@ -150,16 +92,10 @@ function NewProgramScreen({ navigation, route }) {
 
       <FlatList
         style={styles.box}
-        data={[
-          { key: 'RDL' },
-          { key: 'Lateral Band Movements' },
-          { key: 'Box Jumps' },
-          { key: 'Step Downs' }
-        ]}
-        exercise={data}
+        data={listOfExercises}
         renderItem={({ item }) =>
           <View style={styles.exercise}>
-            <Text style={styles.exerciseText}>{item.key}</Text>
+            <Text style={styles.exerciseText}>{item.selectedItems.Name}</Text>
           </View>
         }
       />
@@ -170,7 +106,7 @@ function NewProgramScreen({ navigation, route }) {
             <Text style={styles.buttonText}>Done</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('ExercisesScreen')}>
+        <TouchableOpacity onPress={() => navigation.navigate('AddExercise', { listOfExercises })}>
           <View style={styles.button}>
             <Text style={styles.buttonText}>Add Exercises</Text>
           </View>
