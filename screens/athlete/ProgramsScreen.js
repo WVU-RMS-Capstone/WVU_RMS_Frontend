@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Button, StyleSheet, FlatList, SafeAreaView, Text, StatusBar, ScrollView, TextInput, Card} from 'react-native';
+import {View, Button, StyleSheet, FlatList, SafeAreaView, Text, StatusBar, ScrollView, TextInput, Card, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SmallTile } from '../../src/components/Tiles';
 import { MediumButton } from '../../src/components/Buttons';
@@ -9,27 +9,47 @@ import { SelectList } from 'react-native-dropdown-select-list';
 function ProgramsScreen({ route, navigation }) {
 
   const [selected, setSelected] = useState("");
-  // const [data, setData] = useState([]);
 
-  // useEffect(() =>
-  //   axios.get('')
-  //     .then((response) => {
-  //       let newArray = response.data.map((item) => {
-  //         return {key: item.id, value: item.name}
-  //       })
+  let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
+  let action = 'fetchpremadeprograms';
+  const [programs, setPrograms] = useState([]);
+  const [filteredprograms, setFilteredprograms] = useState([]);
+  const [search, setSearch] = useState('');
+  const [selectedItems, setSelectedItems] = useState([]);
 
-  //       setData(newArray)
-  //     })
-  //     .catch((error) => {
-  //       console.log(error)
-  //     })
-  // ,[])
+  useEffect(() => {
+      const sendRequest = async () => {
+          let url = `${api}?action=${action}`;
+          console.log(url);
+          try {
+              const response = await fetch(url);
+              const text = await response.text(); // Get the raw response text
+              const json = JSON.parse(text); // Parse the text as JSON
+              console.log(json);
+              setPrograms(json);
+              setFilteredprograms(json);
+              // setSelectedItems(json);
+              return json;
+          } catch (error) {
+              console.error("Error fetching data: ", error);
+          }
+      };
 
-  const data = [
-    {key:'1', value: 'Knee'},
-    {key:'2', value: 'Leg'},
-    {key:'3', value: 'foot'},
-  ]
+      sendRequest();
+  }, []);
+
+  const ImagePicker = () => {
+    let options = {
+      storageOptions: {
+        path: 'image',
+      },
+    };
+
+    launchImageLibrary(options, response => {
+      setSelectImage(response.assets[0].uri)
+      console.log(response);
+    });
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -44,15 +64,13 @@ function ProgramsScreen({ route, navigation }) {
 
       <Text style={{ marginBottom: 10 }}></Text>
 
-      <View style={styles.row}>
-        <TextInput
-          // Update Later, need to call backend to get workout video?
-          style={[styles.pictureHolder, { backgroundColor: 'white' }]}
-          placeholder='Using As Space Filler'
-          autoCapitalize='none'
-        // onChangeText={(text) => setEmail(text)}
-        />
-        <Text style={[styles.font, { justifyContent: 'center' }]}>Assigned Workout</Text>
+      <View style={[styles.row]}>
+        <TouchableOpacity style={styles.coverImg} onPress={() => {
+          ImagePicker();
+        }}>
+          <Text>Insert Cover</Text>
+        </TouchableOpacity>
+        <Text>Assigned Program{"\n"}_________</Text>
       </View>
 
       <Text style={{ marginBottom: 10 }}></Text>
@@ -64,7 +82,7 @@ function ProgramsScreen({ route, navigation }) {
           placeholder='Select Workout'
           // setSelected={setSelected}
           setSelected={(val) => setSelected(val)}
-          data={data}
+          data={filteredprograms}
           save="value"
         />
       </View>
@@ -96,15 +114,15 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-evenly'
   },
-  pictureHolder: {
+  coverImg: {
+    backgroundColor: 'white',
+    width: '40%',
     height: 100,
-    borderColor: 'gray',
-    borderWidth: 1,
     borderRadius: 15,
-    paddingHorizontal: 30,
-    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   font: {
     fontSize: 15,
