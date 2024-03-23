@@ -12,11 +12,38 @@ function NewProgramScreen({ navigation, route }) {
   const [exercises, setExercises] = useState([]);
   const { listOfExercises, setListOfExercises } = React.useContext(ExerciseContext);
 
-  let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
-  let action = 'createprogram';
+  let programAPi = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
+  let programAction = 'createprogram';
+  let exerciseAPI = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
+  let exerciseAction = 'addprogramexercises';
 
-  async function sendRequest() {
-    let url = `${api}?action=${action}&Cover=${cover}&ProgramName=${program}&Exercise=${exercises}`;
+  async function sendProgram() {
+    if (program != "") {
+      let url = `${programAPi}?action=${programAction}&Cover=${cover}&ProgramName=${program}`;
+      console.log("Request URL: ", url);
+      try {
+        const response = await fetch(url);
+        const text = await response.text();
+        const json = JSON.parse(text);
+        setData(json);
+        return json;
+      } catch (error) {
+        console.error("Error Fetching Data: ", error);
+      }
+    } else {
+      console.log("Program Name Not Entered.");
+      alert("Program Name Not Entered. Try Again.");
+    }
+  }
+
+  async function sendExercises() {
+    const workoutObj = {};
+    const exerciseIDs = listOfExercises.map(item => item.exerciseID);
+    for (let i = 0; i < exerciseIDs.length; i++) {
+      let index = i + 1;
+      workoutObj[`Workout${index}`] = exerciseIDs[i];
+    }
+    let url = `${exerciseAPI}?action=${exerciseAction}&${Object.entries(workoutObj).map(([key, value]) => `${key}=${value}`).join("&")}`;
     console.log("Request URL: ", url);
     try {
       const response = await fetch(url);
@@ -29,11 +56,18 @@ function NewProgramScreen({ navigation, route }) {
     }
   }
 
+
+
   const sendAndContune = async () => {
     try {
-      const res = await sendRequest();
-      console.log(res)
-      navigation.navigate('ATHomeScreen');
+      const res = await sendProgram();
+      if (res == true) {
+        const res2 = await sendExercises();
+        console.log(res2)
+        console.log(res)
+        // add section to erase data from list of exercises so it doesnt stay there when AT leaves page
+        navigation.navigate('ATHomeScreen');
+      }
     } catch (error) {
       console.error("Error Recieved: ", error);
     }
