@@ -93,7 +93,7 @@ function ProgramsScreen({ route, navigation }) {
           <TouchableOpacity onPress={() => {
             const selectedPorgram = filteredprograms.find(program => program.data.ProgramID === selected);
             if (selectedPorgram) {
-              navigation.navigate('ProgramPreviewScreen', { programID: selectedPorgram.ProgramID });
+              navigation.navigate('ProgramPreviewScreen', { program: selectedPorgram });
             } else {
               alert('Please select a program first.');
             }
