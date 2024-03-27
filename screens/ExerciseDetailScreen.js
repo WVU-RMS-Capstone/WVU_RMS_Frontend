@@ -34,6 +34,7 @@ function ExerciseDetailScreen({ navigation, route }) {
     const onStateChange = useCallback((state) => {
         if (state === "ended") {
           console.log("Video has ended...");
+          // TODO: Put prompt here to load next exercise in program if needed
         }
       }, []);
 

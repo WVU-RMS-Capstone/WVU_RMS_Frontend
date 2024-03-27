@@ -22,7 +22,10 @@ function AthleteHomeScreen({ navigation, route }) {
         <LargeButton text="Programs"
           onPress={() => navigation.navigate('ProgramsScreen')} />
       </View>
-
+      <View style={styles.button}>
+        <LargeButton text="Exercises"
+          onPress={() => navigation.navigate('ExercisesScreen')} />
+      </View>
       <View style={styles.button}>
         <LargeButton text="Progress"
           onPress={() => navigation.navigate('AthleteStatsScreen')} />

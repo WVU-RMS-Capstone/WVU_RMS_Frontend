@@ -31,7 +31,6 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home" screenOptions={{ headerTitle: "", headerTransparent: true }}>
-        <Stack.Screen name="ExercisesScreen" component={ExercisesScreen} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="SignUp" component={SignUp} />
@@ -41,6 +40,7 @@ export default function App() {
         <Stack.Screen name="AthleteProfileScreen" component={AthleteProfileScreen} />
         <Stack.Screen name="NewProgramScreen" component={NewProgramScreen} />
         <Stack.Screen name="NewExerciseScreen" component={NewExerciseScreen} />
+        <Stack.Screen name="ExercisesScreen" component={ExercisesScreen} />
         <Stack.Screen name="ExerciseDetailScreen" component={ExerciseDetailScreen} />
         <Stack.Screen name="FeaturedProgramsScreen" component={FeaturedProgramsScreen} />
         <Stack.Screen name="LogsScreen" component={LogsScreen} />
