@@ -158,10 +158,6 @@ function ExercisesScreen({ navigation, route }) {
               }
             </ScrollView>
           </View>
-
-          <View style={{}} >
-            <Text style={styles.button}>Place buttons here</Text>
-          </View>
         </>
         :
         <ActivityIndicator />
