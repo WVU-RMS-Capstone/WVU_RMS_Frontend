@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, FlatList, Text, Button, SafeAreaView, TextInput, Pressable, TouchableOpacity, ScrollView } from 'react-native';
+import { ActivityIndicator } from 'react-native-paper';
 import { setEnabled } from 'react-native/Libraries/Performance/Systrace';
 
 function ExercisesScreen({ navigation, route }) {
   let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
   let action = 'fetchallexercises';
+  const [loading, setLoading] = useState(false);
   const [rawExercises, setRawExercises] = useState([]);
   const [filteredExercises, setFilteredExercises] = useState([]);
   const [search, setSearch] = useState('');
 
   useEffect(() => {
     const sendRequest = async () => {
+      setLoading(true);
+      
       let url = `${api}?action=${action}`;
       console.log(url);
       try {
@@ -21,10 +25,11 @@ function ExercisesScreen({ navigation, route }) {
         console.log(json);
         setRawExercises(json);
         setFilteredExercises(json);
-        return json;
       } catch (error) {
         console.error("Error fetching data: ", error);
       }
+      
+      setLoading(false);
     };
 
     sendRequest();
@@ -127,34 +132,40 @@ function ExercisesScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.searchBox}>
-        <TextInput
-          style={[styles.input, { backgroundColor: 'white' }]}
-          clearButtonMode='always'
-          placeholder='Search Exercise'
-          autoCapitalize='none'
-          value={search}
-          onChangeText={(text) => searchFilter(text)}
-        />
-      </View>
+      {
+        (!loading) ?
+        <>
+          <View style={styles.searchBox}>
+            <TextInput
+              style={[styles.input, { backgroundColor: 'white' }]}
+              clearButtonMode='always'
+              placeholder='Search Exercise'
+              autoCapitalize='none'
+              value={search}
+              onChangeText={(text) => searchFilter(text)}
+            />
+          </View>
 
-      <View style={{ maxHeight: '62%' }}>
-        <ScrollView style={{}}>
-          { 
-            // By default, show categorized exercises.
-            // If searching, show search results instead.
-            (!search.length) ? 
-            categorizedLists()
-            :
-            searchResultList()
-          }
-        </ScrollView>
-      </View>
+          <View style={{ maxHeight: '62%' }}>
+            <ScrollView style={{}}>
+              { 
+                // By default, show categorized exercises.
+                // If searching, show search results instead.
+                (!search.length) ? 
+                categorizedLists()
+                :
+                searchResultList()
+              }
+            </ScrollView>
+          </View>
 
-      <View style={{}} >
-        <Text style={styles.button}>Place buttons here</Text>
-      </View>
-
+          <View style={{}} >
+            <Text style={styles.button}>Place buttons here</Text>
+          </View>
+        </>
+        :
+        <ActivityIndicator />
+      }
     </SafeAreaView >
   );
 }

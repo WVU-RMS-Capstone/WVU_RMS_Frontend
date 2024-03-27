@@ -1,22 +1,22 @@
 import React, { useEffect, useState, useCallback} from 'react';
 import { View, StyleSheet, Text, TextInput, ScrollView, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 import { LargeButton } from '../src/components/Buttons';
-import { Dropdown } from '../src/components/Dropdown';
-import { PickerIOS } from '@react-native-picker/picker';
-import * as ImagePicker from 'react-native-image-picker';
 import YoutubePlayer from 'react-native-youtube-iframe';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { ActivityIndicator } from 'react-native';
 
 
 function ExerciseDetailScreen({ navigation, route }) {
 
     const { exerciseID } = route.params;
+    const [loading, setLoading] = useState(false);
     const [data, setData] = useState({});
 
     let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
     let action = 'fetchexercise';
 
     async function sendRequest() {
+        setLoading(true);
+        
         let url = `${api}?action=${action}&exerciseID=${exerciseID}`;
         console.log("Request URL: ", url);
         try {
@@ -25,10 +25,11 @@ function ExerciseDetailScreen({ navigation, route }) {
             console.log(text);
             const json = JSON.parse(text);
             setData(json);
-            return json;
         } catch (error) {
             console.error("Error Fetching Data: ", error);
         }
+        
+        setLoading(false);
     }
     
     const onStateChange = useCallback((state) => {
@@ -44,18 +45,23 @@ function ExerciseDetailScreen({ navigation, route }) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.container}>
-                <YoutubePlayer
-                    height={300}
-                    videoId={"gZWmldqgWaE"}
-                    onChangeState={onStateChange}
-                />
-                <Text style={styles.rowInput}>Name: {data.Name}</Text>
-                <Text style={styles.rowInput}>Description: {data.Description}</Text>
-                <Text style={styles.rowInput}>Body Part: {data.BodyPart}</Text>
-                <Text style={styles.rowInput}>Reps: {data.Reps}</Text>
-                <Text style={styles.rowInput}>Sets: {data.Sets}</Text>
-            </View>
+            {
+                (!loading) ?
+                <View style={styles.container}>
+                    <YoutubePlayer
+                        height={300}
+                        videoId={"gZWmldqgWaE"}
+                        onChangeState={onStateChange}
+                    />
+                    <Text style={styles.rowInput}>Name: {data.Name}</Text>
+                    <Text style={styles.rowInput}>Description: {data.Description}</Text>
+                    <Text style={styles.rowInput}>Body Part: {data.BodyPart}</Text>
+                    <Text style={styles.rowInput}>Reps: {data.Reps}</Text>
+                    <Text style={styles.rowInput}>Sets: {data.Sets}</Text>
+                </View>
+                :
+                <ActivityIndicator />
+            }
         </SafeAreaView>
     );
 }
