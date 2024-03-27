@@ -25,6 +25,7 @@ import SignUp from './screens/SignUp';
 import ProgramsScreen from './screens/athlete/ProgramsScreen';
 import AddExercise from './screens/althetic-trainers/AddExercise';
 import EditProfile from './screens/athlete/EditProfile';
+import ExerciseDetailScreen from './screens/ExerciseDetailScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +57,7 @@ export default function App() {
             headerLeft: () => <></>,
           }} />
           <Stack.Screen name="ExercisesScreen" component={ExercisesScreen} />
+          <Stack.Screen name="ExerciseDetailScreen" component={ExerciseDetailScreen} />
           <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerTitle: "Profile" }} />
           <Stack.Screen name="ProgramPreviewScreen" component={ProgramPreviewScreen} />
           <Stack.Screen name="SelectedProgramScreen" component={SelectedProgramScreen} />
