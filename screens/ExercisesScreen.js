@@ -16,6 +16,7 @@ function ExercisesScreen({ navigation, route }) {
       try {
         const response = await fetch(url);
         const text = await response.text(); // Get the raw response text
+        console.log(text);
         const json = JSON.parse(text); // Parse the text as JSON
         console.log(json);
         setRawExercises(json);
@@ -55,7 +56,8 @@ function ExercisesScreen({ navigation, route }) {
       // TODO: corralate an exerciseID to a button in the FlatList
       // TODO: Add the cover image?
       const temp = {
-        key: data['Name']
+        key: data['Name'],
+        id: data['exerciseID']
       }
       
     // Get the body part for this exercise
@@ -90,7 +92,7 @@ function ExercisesScreen({ navigation, route }) {
             data={exercises[e]}
             horizontal={true}
             renderItem={({ item }) =>
-              <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('SelectedFeaturedProgramScreen')}>
+              <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('ExerciseDetailScreen', { exerciseID: item.id })}>
                 <View style={styles.row}>
                   <Text>{item.key}</Text>
                 </View>
@@ -111,7 +113,7 @@ function ExercisesScreen({ navigation, route }) {
     for (e in filteredExercises) {
       list.push(
         <View key={e}>
-          <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('SelectedFeaturedProgramScreen')}>
+          <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('ExerciseDetailScreen')}>
             <View style={styles.row}>
               <Text>{filteredExercises[e].data.Name}</Text>
             </View>

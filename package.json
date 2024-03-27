@@ -27,6 +27,8 @@
     "react-native-image-picker": "^7.1.2",
     "react-native-paper": "^5.12.3",
     "react-native-video": "^5.2.1",
+    "react-native-webview": "^13.8.2",
+    "react-native-youtube-iframe": "^2.3.0",
     "react-navigation": "^5.0.0"
   },
   "devDependencies": {
