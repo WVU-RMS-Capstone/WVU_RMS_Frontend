@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Button, Text, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Button, Text, StyleSheet, SafeAreaView, Image } from 'react-native';
 //import { View, StyleSheet, Text, SafeAreaView, TextInput, ActivityIndicator } from 'react-native';
 import { MediumButton, SmallButton, LargeButton, LargeYellowButton, InverseLargeButton } from '../src/components/Buttons';
 import { SmallTile, MediumTile, LargeTile } from '../src/components/Tiles';
@@ -9,11 +9,15 @@ function HomeScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ width: '100%', marginTop: 200}}>
-      <Text style={[styles.titlefont]}> Rehabilitation Monitoring System</Text>
-  
+      <View style={{ width: '100%', marginTop: 200 }}>
+        <View style={styles.title}>
+          <View style={{ alignItems: 'center' }} >
+            <Image source={require('../assets/Logo.png')} />
+          </View>
+          <Text style={[styles.titlefont]} > _______{"\n"}Rehabilitation Monitoring System</Text>
+        </View>
         <LargeButton text="Login"
-          onPress={() => navigation.navigate('LoginScreen', {sessionKey: sessionKey })} />
+          onPress={() => navigation.navigate('LoginScreen', { sessionKey: sessionKey })} />
         <InverseLargeButton text="Create Account"
           onPress={() => navigation.navigate('SignUp', { sessionKey: sessionKey })} />
         <LargeButton text="[DEV] Trainer"
@@ -33,9 +37,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#AEB6C5',
-    justifyContent: 'flex-end', 
-    alignItems: 'center', 
-    paddingBottom: 50, 
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingBottom: 50,
   },
   buttonContainer: {
     marginTop: 20,

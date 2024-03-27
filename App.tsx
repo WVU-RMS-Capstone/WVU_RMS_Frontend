@@ -8,7 +8,7 @@ import ATHomeScreen from './screens/althetic-trainers/ATHomeScreen';
 import AthleteHomeScreen from './screens/athlete/AthleteHomeScreens';
 import RosterScreen from './screens/althetic-trainers/RosterScreen';
 import AthleteStatsScreen from './screens/AthleteStatsScreen';
-import NewProgramScreen, { ExerciseContext} from './screens/althetic-trainers/NewProgramScreen';
+import NewProgramScreen, { ExerciseContext } from './screens/althetic-trainers/NewProgramScreen';
 import NewExerciseScreen from './screens/althetic-trainers/NewExerciseScreen';
 import FeaturedProgramSelectionScreen from './screens/althetic-trainers/SelectedFeaturedProgramScreen';
 import AthleteProfileScreen from './screens/althetic-trainers/AthleteProfileScreen';
@@ -24,17 +24,17 @@ import ReturnToHomeScreen from './screens/athlete/ReturnToHomeScreen';
 import SignUp from './screens/SignUp';
 import ProgramsScreen from './screens/athlete/ProgramsScreen';
 import AddExercise from './screens/althetic-trainers/AddExercise';
+import EditProfile from './screens/athlete/EditProfile';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [listOfExercises, setListOfExercises] = React.useState([]);
-  
+
   return (
     <ExerciseContext.Provider value={{ listOfExercises, setListOfExercises }}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home" screenOptions={{ headerTitle: "", headerTransparent: true }}>
-          {/* <Stack.Screen name="ExercisesScreen" component={ExercisesScreen} /> */}
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="SignUp" component={SignUp} />
@@ -55,6 +55,8 @@ export default function App() {
             headerShown: true,
             headerLeft: () => <></>,
           }} />
+          <Stack.Screen name="ExercisesScreen" component={ExercisesScreen} />
+          <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerTitle: "Profile" }} />
           <Stack.Screen name="ProgramPreviewScreen" component={ProgramPreviewScreen} />
           <Stack.Screen name="SelectedProgramScreen" component={SelectedProgramScreen} />
           <Stack.Screen name="ReturnToHomeScreen" component={ReturnToHomeScreen} />
