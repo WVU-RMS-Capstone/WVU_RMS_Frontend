@@ -23,7 +23,6 @@ function AssignProgramsScreen({ navigation, route }) {
       const response = await fetch(url);
       const text = await response.text();
       const json = JSON.parse(text);
-      setData(json);
       return json;
     } catch (error) {
       console.error("Error Fetching Data: ", error);

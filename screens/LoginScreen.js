@@ -35,9 +35,9 @@ function LoginScreen({ route, navigation }) {
             user_data = await sendRequest(response.user.uid);
             console.log(response);
             if (user_data == "Athlete") {
-                navigation.navigate('AthleteHomeScreen');
+                navigation.navigate('AthleteHomeScreen', { UID: response.user.uid });
             } else if (user_data == "Trainer") {
-                navigation.navigate('ATHomeScreen');
+                navigation.navigate('ATHomeScreen', { UID: response.user.uid });
             } else {
                 console.log("Invalid Role");
             }
@@ -51,12 +51,12 @@ function LoginScreen({ route, navigation }) {
     const devSignIn = async () => {
         if (devMode == 'trainer') {
             console.log("Loading dev mode as Trainer");
-            await signInWithEmailAndPassword(auth, 'john.trainer@example.com', 'password');
-            navigation.navigate('ATHomeScreen');
+            const response = await signInWithEmailAndPassword(auth, 'john.trainer@example.com', 'password');
+            navigation.navigate('ATHomeScreen', { UID: response.user.uid });
         } else if (devMode == 'athlete') {
             console.log("Loading dev mode as Athlete");
-            await signInWithEmailAndPassword(auth, 'john.athlete@example.com', 'password');
-            navigation.navigate('AthleteHomeScreen');
+            const response = await signInWithEmailAndPassword(auth, 'john.athlete@example.com', 'password');
+            navigation.navigate('AthleteHomeScreen', { UID: response.user.uid });
         }
     }
 

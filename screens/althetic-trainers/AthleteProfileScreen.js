@@ -13,7 +13,7 @@ function AthleteProfileScreen({ navigation, route }) {
 
   useEffect(() => {
     const sendRequest = async () => {
-      let url = `${getAthleteProgramAPI}?action=${getAthleteProgramAction}`;
+      let url = `${getAthleteProgramAPI}?action=${getAthleteProgramAction}&AthleteUID=${athlete.data.UID}`;
       console.log(url);
       try {
         const response = await fetch(url);
@@ -35,16 +35,16 @@ function AthleteProfileScreen({ navigation, route }) {
       <View style={[styles.circleContainer]}>
         <View style={styles.circle}></View>
         <Text style={styles.athlete}>{athlete.data.FirstName} {athlete.data.LastName}</Text>
-        <Text style={styles.program}>Assigned Program: {program}</Text>
+        <Text style={styles.program}>Assigned Program: {program[0] && program[0].data ? program[0].data.ProgramName : "Not Assigned"}</Text>
       </View>
-      <View style={[styles.buttonContainer, { marginTop: '25%' }]}>
+      <View style={[styles.buttonContainer, { marginTop: '10%' }]}>
         <LargeButton text="Assign Program" onPress={() => navigation.navigate('AssignProgramsScreen', { UID: athlete.data.UID })} />
       </View>
       <View style={[styles.buttonContainer, { marginTop: '5%' }]}>
         <LargeButton text="View Stats" adjustFontSizeToFit onPress={() => navigation.navigate('AthleteStatsScreen')} />
       </View>
       <View style={[styles.buttonContainer, { marginTop: '5%' }]}>
-        <LargeButton text="View Notes" adjustFontSizeToFit onPress={() => navigation.navigate('NewProgramScreen')} />
+        <LargeButton text="View Notes" adjustFontSizeToFit onPress={() => navigation.navigate('NotesScreen', { UID: athlete.data.UID })} />
       </View>
     </View>
   );

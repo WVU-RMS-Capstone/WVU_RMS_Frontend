@@ -8,15 +8,39 @@ import SelectedProgramScreen from './SelectedProgramScreen';
 
 
 function ProgramsScreen({ route, navigation }) {
+  const { UID } = route.params;
+  // console.log(UID);
   let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
   let action = 'fetchpremadeprograms';
   const [programs, setPrograms] = useState([]);
   const [filteredprograms, setFilteredprograms] = useState([]);
   const [selected, setSelected] = useState(null);
   const [programSelected, setProgramSelected] = useState(false);
+  let getAthleteProgramAPI = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
+  let getAthleteProgramAction = 'getathleteprogram';
+  const [assignedProgram, setAssignedProgram] = useState([]);
 
   useEffect(() => {
-    const sendRequest = async () => {
+    const getAssignedProgram = async () => {
+      let url = `${getAthleteProgramAPI}?action=${getAthleteProgramAction}&AthleteUID=${UID}`;
+      console.log(url);
+      try {
+        const response = await fetch(url);
+        const text = await response.text(); // Get the raw response text
+        const json = JSON.parse(text); // Parse the text as JSON
+        console.log(json);
+        setAssignedProgram(json);
+        return json;
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+
+    getAssignedProgram();
+  }, []);
+
+  useEffect(() => {
+    const getListOfPrograms = async () => {
       let url = `${api}?action=${action}`;
       console.log(url);
       try {
@@ -33,7 +57,7 @@ function ProgramsScreen({ route, navigation }) {
       }
     };
 
-    sendRequest();
+    getListOfPrograms();
   }, []);
 
   const ImagePicker = () => {
@@ -62,10 +86,10 @@ function ProgramsScreen({ route, navigation }) {
         }}>
           <Text>Cover</Text>
         </TouchableOpacity>
-        <Text style={[{ alignSelf: 'center' }]}>Assigned Program:{"\n\t"}_________</Text>
+        <Text style={[{ alignSelf: 'center', textAlign: 'center' }]}>Assigned Program:{"\n"}{assignedProgram[0] && assignedProgram[0].data ? assignedProgram[0].data.ProgramName : "Not Assigned"}</Text>
       </View>
       <View style={styles.buttonpos}>
-        <TouchableOpacity onPress={() => navigation.navigate('ProgramPreviewScreen')}>
+        <TouchableOpacity onPress={() => navigation.navigate('ProgramPreviewScreen', { program: assignedProgram[0].data.ProgramID })}>
           <View style={styles.button}>
             <Text style={[styles.buttonText, { color: '#FCCD0D' }]}>Continue With Assigned Program</Text>
           </View>
@@ -92,8 +116,9 @@ function ProgramsScreen({ route, navigation }) {
         <View style={[{ marginTop: '75%' }]}>
           <TouchableOpacity onPress={() => {
             const selectedPorgram = filteredprograms.find(program => program.data.ProgramID === selected);
+            // console.log(selectedPorgram);
             if (selectedPorgram) {
-              navigation.navigate('ProgramPreviewScreen', { program: selectedPorgram });
+              navigation.navigate('ProgramPreviewScreen', { program: selectedPorgram.data.ProgramID });
             } else {
               alert('Please select a program first.');
             }
@@ -104,26 +129,6 @@ function ProgramsScreen({ route, navigation }) {
           </TouchableOpacity>
         </View>
       )}
-
-      {/* <View style={styles.buttonpos}>
-        <TouchableOpacity onPress={() => navigation.navigate('ProgramPreviewScreen')}>
-          <View style={styles.button}>
-            <Text style={[styles.buttonText, { color: '#FCCD0D' }]}>Continue With Assigned Program</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => {
-          const selectedPorgram = filteredprograms.find(program => program.data.ProgramID === selected);
-          if (selectedPorgram) {
-            navigation.navigate('ProgramPreviewScreen', { programID: selectedPorgram.ProgramID });
-          } else {
-            alert('Please select a program first.');
-          }
-        }}>
-          <View style={[styles.button, { backgroundColor: '#FCCD0D' }]}>
-            <Text style={[styles.buttonText, { color: '#1E3861' }]}>Continue With Chosen Program</Text>
-          </View>
-        </TouchableOpacity>
-      </View> */}
     </SafeAreaView>
   );
 

@@ -3,7 +3,8 @@ import { View, StyleSheet, SafeAreaView, Text, TouchableOpacity, Image } from 'r
 import { LargeButton } from '../../src/components/Buttons';
 
 function AthleteHomeScreen({ navigation, route }) {
-  // const { UID } = route.params;
+  const { UID } = route.params;
+  console.log(UID);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -19,7 +20,7 @@ function AthleteHomeScreen({ navigation, route }) {
       </View>
       <View style={{ marginTop: '50%' }}>
         <View style={styles.row}>
-          <TouchableOpacity onPress={() => navigation.navigate('ProgramsScreen')}>
+          <TouchableOpacity onPress={() => navigation.navigate('ProgramsScreen', { UID: UID })}>
             <View style={styles.button}>
               <Text style={styles.buttonText}>Premade Program</Text>
             </View>

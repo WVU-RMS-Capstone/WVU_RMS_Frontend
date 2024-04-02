@@ -26,6 +26,7 @@ import ProgramsScreen from './screens/athlete/ProgramsScreen';
 import AddExercise from './screens/althetic-trainers/AddExercise';
 import EditProfile from './screens/athlete/EditProfile';
 import ExerciseDetailScreen from './screens/ExerciseDetailScreen';
+import CreateNotesScreen from './screens/althetic-trainers/CreateNotesScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -63,6 +64,7 @@ export default function App() {
           <Stack.Screen name="SelectedProgramScreen" component={SelectedProgramScreen} />
           <Stack.Screen name="ReturnToHomeScreen" component={ReturnToHomeScreen} />
           <Stack.Screen name="ProgramsScreen" component={ProgramsScreen} />
+          <Stack.Screen name="CreateNotesScreen" component={CreateNotesScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </ExerciseContext.Provider>
