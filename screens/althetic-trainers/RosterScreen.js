@@ -35,7 +35,7 @@ function RosterScreen({ navigation, route }) {
   const searchFilter = (text) => {
     if (text) {
       const updatedData = roster.filter((item) => {
-        const item_data = `${item.data[0].toUpperCase()} ${item.data[1].toUpperCase()}`;
+        const item_data = `${item.data.FirstName.toUpperCase()} ${item.data.LastName.toUpperCase()}`;
         const text_data = text.toUpperCase();
         return item_data.indexOf(text_data) > -1;
       });
@@ -65,11 +65,11 @@ function RosterScreen({ navigation, route }) {
         style={styles.box}
         data={filteredRoster}
         renderItem={({ item }) =>
-          <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('AthleteProfileScreen')}>
+          <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('AthleteProfileScreen', { athlete: item })}>
             <View style={styles.row}>
               <View style={styles.circle} />
-              <Text style={styles.first}>{item.data[0]}</Text>
-              <Text style={styles.last}>{item.data[1]}</Text>
+              <Text style={styles.first}>{item.data.FirstName}</Text>
+              <Text style={styles.last}>{item.data.LastName}</Text>
             </View>
           </TouchableOpacity>
         }
