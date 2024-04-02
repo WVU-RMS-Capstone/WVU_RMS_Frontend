@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, FlatList, Text, Button, SafeAreaView, TextInput, Pressable, TouchableOpacity, ScrollView } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
-import { setEnabled } from 'react-native/Libraries/Performance/Systrace';
 
 function ExercisesScreen({ navigation, route }) {
   let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
@@ -10,6 +9,8 @@ function ExercisesScreen({ navigation, route }) {
   const [rawExercises, setRawExercises] = useState([]);
   const [filteredExercises, setFilteredExercises] = useState([]);
   const [search, setSearch] = useState('');
+  
+  const maxCategoryItems = 5;
 
   useEffect(() => {
     const sendRequest = async () => {
@@ -89,17 +90,24 @@ function ExercisesScreen({ navigation, route }) {
     
     // For each of the exercise categories, define a View containing a Text label and a Flatlist.
     // The FlatList is populated with each exercise.
-    for (e in exercises) {
+    for (let e in exercises) {
       lists.push(
         <View key={e}>
           <Text style={styles.label}>{e}</Text>
           <FlatList
-            data={exercises[e]}
+            data={exercises[e].slice(0, maxCategoryItems)} // Limit to first 'maxCategoryItems' exercises
             horizontal={true}
             renderItem={({ item }) =>
               <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('ExerciseDetailScreen', { exerciseID: item.id })}>
                 <View style={styles.row}>
                   <Text>{item.key}</Text>
+                </View>
+              </TouchableOpacity>
+            }
+            ListFooterComponent={ // Add "Show All" button as last item
+              <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('AllExercisesScreen', { category: e })}>
+                <View style={styles.row}>
+                  <Text>Show All</Text>
                 </View>
               </TouchableOpacity>
             }
