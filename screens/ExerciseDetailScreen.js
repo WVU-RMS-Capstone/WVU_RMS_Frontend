@@ -71,7 +71,7 @@ function ExerciseDetailScreen({ navigation, route }) {
         <SafeAreaView style={styles.container}>
             <YoutubePlayer
                 height={300}
-                videoId={"gZWmldqgWaE"}
+                videoId={data.video}
                 onChangeState={onStateChange}
             />
             <ScrollView>
