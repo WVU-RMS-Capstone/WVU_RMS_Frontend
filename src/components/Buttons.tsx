@@ -84,16 +84,18 @@ export function LargeButton({ text, onPress }) {
         </TouchableOpacity>
     )
 }
+
+//Default button (Blue with yellow text)
 const largestyles = StyleSheet.create({
     button: {
         borderRadius: 25,
         borderWidth: 1,
         borderColor: "#757575",
         // paddingTop: 6,
-        paddingBottom: 20,
-        paddingVertical: 15,
+        paddingBottom: 15,
+        paddingVertical: 5,
         justifyContent: 'flex-end',
-        width: "75%",
+        width: "70%",
         // height: 90,
         backgroundColor: '#1E3861',
         alignSelf: 'center',
@@ -109,7 +111,7 @@ const largestyles = StyleSheet.create({
     },
     buttonText: {
         color: '#FCCD0D',
-        fontSize: 36,
+        fontSize: 32,
         fontWeight: "500",
         textAlign: 'center',
         // paddingVertical: "1%",
@@ -130,12 +132,10 @@ const largeYellowstyles = StyleSheet.create({
         borderRadius: 25,
         borderWidth: 1,
         borderColor: "#757575",
-        // paddingTop: 6,
-        paddingBottom: 20,
-        paddingVertical: 15,
+        paddingBottom: 15,
+        paddingVertical: 5,
         justifyContent: 'flex-end',
-        width: "100%",
-        // height: 90,
+        width: "70%",
         backgroundColor: '#FCCD0D',
         alignSelf: 'center',
 
@@ -150,12 +150,21 @@ const largeYellowstyles = StyleSheet.create({
     },
     buttonText: {
         color: '#1E3861',
-        fontSize: 36,
+        fontSize: 32,
         fontWeight: "500",
         textAlign: 'center',
-        // paddingVertical: "1%",
     }
 })
+
+export function InverseLargeButton({ text, onPress }) {
+    return (
+        <TouchableOpacity onPress={onPress}>
+            <View style={largeYellowstyles.button}>
+                <Text style={largeYellowstyles.buttonText}>{text}</Text>
+            </View>
+        </TouchableOpacity>
+    )
+}
 
 export function DateSelector({ text, onPress }) {
     return (

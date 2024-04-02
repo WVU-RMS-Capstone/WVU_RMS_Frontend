@@ -1,212 +1,62 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, FlatList, SafeAreaView, ScrollView, SectionList, View, Text } from 'react-native';
-import { LargeButton } from '../../src/components/Buttons';
-
+import { StyleSheet, Image, TextInput, TouchableOpacity, FlatList, SafeAreaView, ScrollView, SectionList, View, Text } from 'react-native';
+import { LargeButton, InverseLargeButton } from '../../src/components/Buttons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
+function ProgramPreviewScreen({ navigation, route }) {
+  const { program } = route.params;
+  const [code, setCode] = useState('');
+  console.log(program)
 
-const testExercises = [
-  { ExerciseName: "1", Descrip: "Tricep Extensions" }
-];
-const testExercises2 = [
-  { ExerciseName: "2", Descrip: "Pullups" }
-];
-const test = ([testExercises, testExercises2]);
+  const ImagePicker = () => {
+    let options = {
+      storageOptions: {
+        path: 'image',
+      },
+    };
 
-const ProgramPreviewScreen = () => {
-
-  //Should iterate through and display exerciseName
-  //Change to username if using placeholderAPI
-  const renderItem = ({ item }) => (
-    <Item title={item.ExerciseName} />);
-
-  const Item = ({ title }) => {
-
-    return (
-      <View style={styles.item}>
-        <Text styles={styles.ListText}>
-          {title}
-        </Text>
-      </View>
-    );
-  }
-
-  //Pulls values given from previous screen
-  const route = useRoute();
-
-  const ID = route.params.ID;
-  const AD = route.params.AD;
-  const setNums1 = route.params.setNums;
-  const repNums1 = route.params.repNums;
-  const ExerciseIds1 = route.params.exerciseIds;
-  const code = route.params.code;
-  const sessionKey = route.params.sessionKey;
-  const routine = route.params.RoutineName;
-
-
-  var exerciseIdArray = ExerciseIds1.split("/");
-
-
-  const [exercise1, setExercise1] = useState([]);
-  const [exercise2, setExercise2] = useState([]);
-  const [exercise3, setExercise3] = useState([]);
-
-
-  const fetchExercises = () => {
-
-
-    //Appends exercise Id to end of appropriate API before calling 
-    var api = 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=getExercise&ID=';
-
-    var appendedAPI = api.concat(exerciseIdArray[0]);
-
-    fetch(appendedAPI, {
-      headers: {
-        'Authorization': 'Bearer ' + sessionKey.session_token
-      }
-    })
-
-
-      .then((response) => response.json())
-      .then((responseJson) => {
-        //Handles the exercise number and 
-
-        setExercise1(responseJson);
-
-      })
-      .catch((error) => {
-        console.error(error);
-        { navigation.navigate('ProgramsScreen') }
-      })
-  }
-
-  const fetchExercises2 = () => {
-
-
-    //Appends exercise Id to end of appropriate API before calling 
-    var api = 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=getExercise&ID=';
-
-    var appendedAPI = api.concat(exerciseIdArray[1]);
-
-    fetch(appendedAPI, {
-      headers: {
-        'Authorization': 'Bearer ' + sessionKey.session_token
-      }
-    })
-
-
-      .then((response) => response.json())
-      .then((responseJson) => {
-        //Handles the exercise number and 
-
-        // setExercise1([exercise1],responseJson);
-        setExercise2(responseJson);
-
-      })
-      .catch((error) => {
-        console.error(error);
-        { navigation.navigate('ProgramsScreen') }
-      })
-  }
-
-  const fetchExercises3 = () => {
-
-
-    //Appends exercise Id to end of appropriate API before calling 
-    var api = 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=getExercise&ID=';
-
-    var appendedAPI = api.concat(exerciseIdArray[2]);
-
-    fetch(appendedAPI, {
-      headers: {
-        'Authorization': 'Bearer ' + sessionKey.session_token
-      }
-    })
-
-
-      .then((response) => response.json())
-      .then((responseJson) => {
-        //Handles the exercise number and 
-        setExercise3(responseJson);
-
-        // setExercise1([exercise1],responseJson);
-
-      })
-      .catch((error) => {
-        console.error(error);
-        { navigation.navigate('ProgramsScreen') }
-      })
-  }
-
-  useEffect(() => {
-    //Calls fetchExercise multiple times to return contents of exercise with given ID numbers
-    fetchExercises();
-    fetchExercises2();
-    fetchExercises3();
-
-
-    return () => {
-    
-    }
-  }, [])
-
-  const navigation = useNavigation();
+    launchImageLibrary(options, response => {
+      setSelectImage(response.assets[0].uri)
+      console.log(response);
+    });
+  };
 
   return (
-
     <SafeAreaView style={styles.container}>
-      <View>
-        <Text style={{ fontSize: 40, textAlign: "center", marginTop: 20, fontWeight: 'bold', color: 'black' }}>
-          {routine}
-        </Text>
-        <ScrollView style={{ height: '80%' }}>
-          <View style={{ paddingTop: '1%' }}>
-            <View style={styles.item}>
-              <Text style={styles.ListText}>{exercise1.ExerciseName}</Text>
-            </View>
-          </View>
-          <View style={{ paddingTop: '1%' }}>
-            <View style={styles.item}>
-              <Text style={styles.ListText}>{exercise2.ExerciseName}</Text>
-            </View>
-          </View>
-          <View style={{ paddingTop: '1%' }}>
-            <View style={styles.item}>
-              <Text style={styles.ListText}>{exercise3.ExerciseName}</Text>
-            </View>
-          </View>
-          {/* <FlatList 
-             style = {styles.list}
-             //Change to exercises to test database data 
-             data={test}
-             renderItem={renderItem} 
-             keyExtractor={(item, index) => index.toString()}
-             stickyHeaderIndices={[0]}   
-             ListHeaderComponent={() => (
-              <Text style={{ fontSize: 40, textAlign: "center",marginTop:20,fontWeight:'bold', color: 'black' }}>
-                {routine}
-              </Text>
-            )}         
-          />          */}
-        </ScrollView>
+      {program.data.Cover ? (
+        <Image
+          style={{ width: '75%', height: '25%' }}
+          source={{ uri: program.data.Cover }}
+        />
+      ) : (
+        <View style={styles.defaultcover}>
+          <Text>Cover</Text>
+        </View>
+      )}
+      <Image
+        source={{ uri: program.data.Cover }}
+      />
+
+      <View style={styles.titlepos}>
+        <Text style={styles.title}>Selected Program: {program.data.ProgramName}</Text>
       </View>
 
-      <View style={{ paddingTop: '1%' }}>
-        <LargeButton text="Start" onPress={() => navigation.navigate('WorkoutScreen',
-          {
-            exerciseNumber: 1, RoutineName: routine,
-            setNums: setNums1, repNums: repNums1, exercise1: exercise1.ExerciseName,
-            exercise2: exercise2.ExerciseName,
-            exercise3: exercise3.ExerciseName, exerciseD1: exercise1.Descript,
-            exerciseD2: exercise2.Descript, exerciseD3: exercise3.Descript,
-            exerciseL1: exercise1.Link, exerciseL2: exercise2.Link,
-            exerciseL3: exercise3.Link,
-            sessionKey: { sessionKey }, code: code, AD: AD, ID: ID
-          })} />
+      {/* <View style={styles.box}> 
+          <TextInput
+            style={styles.input}
+            value={code}
+            placeholder='Enter in STA Code'
+            onChangeText={setCode}
+          />
+        </View> */}
+      <View style={styles.button}>
+        <InverseLargeButton text="Begin Workout"
+          onPress={() => navigation.navigate('WorkoutScreen', { programID: program.data.ProgramID })} />
+        <Text style={[{ paddingBottom: 10 }]}></Text>
+        <LargeButton text="Back to Program Screen"
+          onPress={() => navigation.navigate('ProgramsScreen')} />
       </View>
-
-    </SafeAreaView >
-
+    </SafeAreaView>
   );
 }
 
@@ -214,25 +64,50 @@ export default ProgramPreviewScreen;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 25,
-    padding: 5,
-    flex: 1
+    flex: 1,
+    backgroundColor: '#AEB6C5'
   },
-  list: {
-    marginBottom: 50,
+  coverImg: {
+    backgroundColor: 'white',
+    width: '75%',
+    height: '25%',
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center'
   },
-  item: {
+  titlepos: {
     alignSelf: 'center',
-    backgroundColor: '#D9D9D9',
-    borderRadius: 14,
-    paddingVertical: "3%",
-    paddingHorizontal: "5%",
-    marginBottom: '3%',
-    width: "93%"
+    marginTop: 10
   },
-  ListText: {
-    color: 'black',
-    fontSize: 40,
+  title: {
+    color: '#1E3861',
+    fontWeight: 'bold',
+    fontSize: 15
+  },
+  input: {
+    height: 50,
+    marginTop: 30,
+    borderRadius: 15,
     textAlign: 'center',
+    backgroundColor: 'white',
+    borderRadius: 5
+  },
+  box: {
+    alignSelf: 'center',
+    width: '75%',
+  },
+  button: {
+    marginTop: '40%',
+    paddingBottom: 15
+  },
+  defaultcover: {
+    width: '75%',
+    height: '25%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    backgroundColor: 'white',
+    borderRadius: 15
   }
 });

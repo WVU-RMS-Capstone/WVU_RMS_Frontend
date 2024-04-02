@@ -4,7 +4,7 @@ import { LargeButton } from '../src/components/Buttons';
 import { FIREBASE_AUTH } from '../FirebaseConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
-function LoginScreen({ route, navigation}) {
+function LoginScreen({ route, navigation }) {
 
     const { devMode } = route.params;
     const [email, setEmail] = useState('');
@@ -16,7 +16,6 @@ function LoginScreen({ route, navigation}) {
     let action = 'login';
 
     async function sendRequest(UID) {
-        // firstName=${firstName}&lastName=${lastName}&
         let url = `${api}?action=${action}&UID=${UID}&email=${email}`;
         console.log(url);
         try {
@@ -33,7 +32,6 @@ function LoginScreen({ route, navigation}) {
         setLoading(true);
         try {
             const response = await signInWithEmailAndPassword(auth, email, password);
-            // Add the following line when backend code is working
             user_data = await sendRequest(response.user.uid);
             console.log(response);
             if (user_data == "Athlete") {
@@ -49,7 +47,7 @@ function LoginScreen({ route, navigation}) {
             setLoading(false);
         }
     }
-    
+
     const devSignIn = async () => {
         if (devMode == 'trainer') {
             console.log("Loading dev mode as Trainer");
@@ -59,9 +57,9 @@ function LoginScreen({ route, navigation}) {
             console.log("Loading dev mode as Athlete");
             await signInWithEmailAndPassword(auth, 'john.athlete@example.com', 'password');
             navigation.navigate('AthleteHomeScreen');
-        } 
+        }
     }
-    
+
     useEffect(() => {
         devSignIn();
     });
@@ -86,7 +84,6 @@ function LoginScreen({ route, navigation}) {
 
                     <TextInput
                         style={[styles.input, { backgroundColor: 'white' }]}
-                        // value={password}
                         placeholder='Enter Password'
                         onChangeText={(text) => setPassword(text)}
                         secureTextEntry={true}
@@ -109,8 +106,6 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
     container: {
-        //   marginTop: 50,
-        //   padding: 3,
         flex: 1,
         backgroundColor: '#AEB6C5'
     },
@@ -148,36 +143,3 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
     }
 });
-
-
-// let api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php?";
-// let action = 'login';
-
-// async function sendRequest() {
-//     let url = `${api}action=${action}&name=${name}&password=${password}`;
-//     console.log(url);
-//     fetch(url)
-//         .then((response) => {
-//             let res = response.json();
-//             return res;
-//         })
-//         .then((json) => {
-//             setData(json);
-//         })
-//         .catch(error => {
-//             console.log("2" + error);
-//         })
-// }
-
-// const sendAndCont = () => {
-//     sendRequest();
-
-//     console.log(data);
-//     if (data.length > 45) {
-//         console.log(data);
-//         navigation.navigate('HomeScreen', { data });
-//     }
-//     else {
-//         navigation.navigate('LoginScreen');
-//     }
-// }

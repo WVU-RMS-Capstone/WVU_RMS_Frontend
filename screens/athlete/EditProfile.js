@@ -1,26 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import { View, Pressable, StyleSheet, Text, SafeAreaView, TextInput, ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native';
-import { LargeButton, LargeYellowButton } from '../src/components/Buttons';
-import { FIREBASE_AUTH } from '../FirebaseConfig';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { SafeAreaView, StyleSheet, View, Text, Image, TextInput, TouchableOpacity } from "react-native";
+import { LargeYellowButton } from '../../src/components/Buttons';
+import { FIREBASE_AUTH } from '../../FirebaseConfig';
+import { updateEmail, updatePassword, EmailAuthProvider } from 'firebase/auth';
 
-function SignUp({ navigation }) {
-
+function EditProfile({ navigation, route }) {
+    const [picture, getPicture] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmedPassword] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [role, setRole] = useState('');
     const [loading, setLoading] = useState(false);
-    const [data, setData] = useState([]);
-    const auth = FIREBASE_AUTH;
-    // https://restapi-playerscompanion.azurewebsites.net/users/auth.php?action=createaccount&firstName=testing&lastName=testing&UID=2&email=testing@
-    let api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php";
-    let action = 'createaccount';
+    const [data, setData] = useState('');
+    const [UID, getUID] = useState('lkuCHWqU8kUlGbJB3eu1dxYg2Xl2');
+
+    let userAPI = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php";
+    let userAction = 'getuserinfo';
+
+    useEffect(() => {
+        const getUserInfo = async () => {
+            let url = `${userAPI}?action=${userAction}&UID=${UID}`;
+            console.log(url);
+            try {
+                const response = await fetch(url);
+                const text = await response.text(); // Get the raw response text
+                const json = JSON.parse(text); // Parse the text as JSON
+                console.log(json);
+                setData(json);
+                return json;
+            } catch (error) {
+                console.error("Error fetching data: ", error);
+            }
+        };
+
+        getUserInfo();
+    }, []);
+
+    let updateAPI = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php";
+    let updateAction = 'updateUser';
 
     async function sendRequest(UID) {
-        let url = `${api}?action=${action}&firstName=${firstName}&lastName=${lastName}&UID=${UID}&email=${email}&role=${role}`;
+        if (firstName = '') {
+            firstName = data[0].data[0];
+        }
+        if (lastName = '') {
+            lastName = data[0].data[1];
+        }
+        if (email = '') {
+            email = data[0].data[2];
+        }
+        let url = `${updateAPI}?action=${updateAction}&firstName=${firstName}&lastName=${lastName}&UID=${UID}&email=${email}`;
         console.log("Request URL: ", url);
         try {
             const response = await fetch(url);
@@ -38,9 +68,9 @@ function SignUp({ navigation }) {
             if (password == confirmPassword) {
                 setLoading(true);
                 try {
-                    const auth_response = await createUserWithEmailAndPassword(auth, email, password);
+                    const auth_response = await updateEmail(email);
                     // Add the following line once finished with backend code
-                    const user_data = await sendRequest(auth_response.user.uid);
+                    const user_data = await sendRequest(UID);
                     if (role == "Athlete") {
                         navigation.navigate('AthleteHomeScreen');
                     } else if (role == "Trainer") {
@@ -72,17 +102,45 @@ function SignUp({ navigation }) {
         }
     }
 
+    const ImagePicker = () => {
+        let options = {
+            storageOptions: {
+                path: 'image',
+            },
+        };
+
+        launchImageLibrary(options, response => {
+            setSelectImage(response.assets[0].uri)
+            console.log(response);
+        });
+    };
+
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.container}>
-                <Text style={styles.titlefont}>| Rehabilitation Monitoring Systems</Text>
-
+            {picture ? (
+                <Image
+                    style={{ width: '75%', height: '25%' }}
+                    source={{ uri: picture }}
+                />
+            ) : (
+                <TouchableOpacity style={styles.defaultcover} onPress={() => {
+                    ImagePicker();
+                }}>
+                    <Text>Insert Cover</Text>
+                </TouchableOpacity>
+            )}
+            <Image
+                source={{ uri: picture }}
+            />
+            {data && (
+                <Text style={styles.title}>{data[0].data[0]} {data[0].data[1]}</Text>
+            )}
+            <View style={styles.container2}>
                 <View style={styles.row}>
                     <Text style={styles.label}>First name</Text>
 
                     <Text style={styles.label}>Last Name</Text>
                 </View>
-
                 <View style={styles.row}>
                     <TextInput
                         style={[styles.input, { backgroundColor: 'white' }]}
@@ -107,7 +165,7 @@ function SignUp({ navigation }) {
                     onChangeText={setEmail}
                 />
 
-                <Text style={styles.label}>Password</Text>
+                <Text style={styles.label}>Update Password</Text>
                 <TextInput
                     style={[styles.input2, { backgroundColor: 'white' }]}
                     value={password}
@@ -124,57 +182,46 @@ function SignUp({ navigation }) {
                     onChangeText={setConfirmedPassword}
                     secureTextEntry={true}
                 />
-
-                <Text style={styles.position}>Which Are You?</Text>
-
-                <View style={styles.pressableContainer}>
-                    <Pressable
-                        style={[styles.button, role === "Athlete" && styles.selected]}
-                        onPress={() => setRole("Athlete")}
-                    >
-                        <Text style={[styles.text, role === "Athlete" && styles.selectedText]}>Athlete</Text>
-                    </Pressable>
-                    <Pressable
-                        style={[styles.button, role === "Trainer" && styles.selected]}
-                        onPress={() => setRole("Trainer")}
-                    >
-                        <Text style={[styles.text, role === "Trainer" && styles.selectedText]}>Trainer</Text>
-                    </Pressable>
-
-                </View>
-
-                <Text style={styles.font}></Text>
-
-                {loading ? (
-                    <ActivityIndicator size="large" color="#000ff" />
-                ) : (
-                    <>
-                        <LargeYellowButton text="Sign Up" onPress={signUp} />
-                    </>
-                )
-                }
-
             </View>
+
+            {loading ? (
+                <ActivityIndicator size="large" color="#000ff" />
+            ) : (
+                <>
+                    <LargeYellowButton text="Update" onPress={() => navigation.navigate('AthleteHomeScreens')} />
+                </>
+            )
+            }
+
         </SafeAreaView>
     );
-
 }
 
-export default SignUp;
+export default EditProfile;
 
 const styles = StyleSheet.create({
     container: {
-        // marginTop: 0,
-        padding: 16,
         flex: 1,
-        backgroundColor: '#AEB6C5'
+        backgroundColor: '#AEB6C5',
     },
-    position: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginTop: 8,
+    container2: {
+        // marginTop: '15%',
+        padding: 16
+    },
+    title: {
+        justifyContent: 'center',
         textAlign: 'center',
-        color: '#1E3861',
+        fontSize: 20,
+        marginTop: '5%'
+    },
+    defaultcover: {
+        width: 200,
+        height: 200,
+        borderRadius: 200 / 2,
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        backgroundColor: 'white',
     },
     label: {
         fontSize: 16,
@@ -200,51 +247,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         padding: 10,
-        marginTop: 4,
+        height: 50,
         width: '50%',
-    },
-    titlefont: {
-        fontSize: 32,
-        textAlign: 'center',
-        fontWeight: 'bold',
-        // marginTop: 50,
-        marginBottom: 30,
-        color: '#1E3861',
-    },
-    font: {
-        fontSize: 24,
-        textAlign: 'left',
-        marginLeft: 10,
-        marginBottom: 10,
-        color: '#1E3861'
-    },
-    inputContainer: {
-        marginTop: 20,
-        marginHorizontal: 20,
-    },
-    pressableContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 8,
-    },
-    button: {
-        padding: 12,
-        borderRadius: 4,
-        width: '45%',
-        marginHorizontal: 8,
-        backgroundColor: '#f0f0f0',
-    },
-    selected: {
-        backgroundColor: '#1E3861',
-    },
-    text: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#1E3861',
-        textAlign: 'center',
-    },
-    selectedText: {
-        color: '#fff',
+        marginTop: 4
     },
 });
