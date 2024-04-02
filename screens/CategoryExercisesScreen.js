@@ -14,7 +14,7 @@ function CategoryExercisesScreen({ navigation, route }) {
   const searchFilter = (text) => {
     if (text) {
       const updatedData = rawExercises.filter((item) => {
-        const item_data = `${item.data.Name.toUpperCase()}`;
+        const item_data = `${item.key.toUpperCase()}`;
         const text_data = text.toUpperCase();
         return item_data.indexOf(text_data) > -1;
       });
