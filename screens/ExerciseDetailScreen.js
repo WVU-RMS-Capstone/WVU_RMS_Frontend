@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback} from 'react';
-import { View, StyleSheet, Text, TextInput, ScrollView, SafeAreaView, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, FlatList, ScrollView, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 import { LargeButton } from '../src/components/Buttons';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import { ActivityIndicator } from 'react-native';
@@ -7,7 +7,7 @@ import { ActivityIndicator } from 'react-native';
 
 function ExerciseDetailScreen({ navigation, route }) {
 
-    const { exerciseID } = route.params;
+    const { exerciseID, programData } = route.params;
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({});
 
@@ -45,28 +45,52 @@ function ExerciseDetailScreen({ navigation, route }) {
 
     return (
         <SafeAreaView style={styles.container}>
-            {
-                (!loading) ?
-                <View style={styles.container}>
-                    <YoutubePlayer
-                        height={300}
-                        videoId={"gZWmldqgWaE"}
-                        onChangeState={onStateChange}
+            <YoutubePlayer
+                height={300}
+                videoId={"gZWmldqgWaE"}
+                onChangeState={onStateChange}
+            />
+            <ScrollView>
+                {!loading ? (
+                    <View style={styles.container}>
+                        <Text style={styles.rowInput}>Name: {data.Name}</Text>
+                        <Text style={styles.rowInput}>Description: {data.Description}</Text>
+                        <Text style={styles.rowInput}>Body Part: {data.BodyPart}</Text>
+                        <Text style={styles.rowInput}>Reps: {data.Reps}</Text>
+                        <Text style={styles.rowInput}>Sets: {data.Sets}</Text>
+                    </View>
+                ) : (
+                    <ActivityIndicator />
+                )}
+            </ScrollView>
+            {programData !== undefined && (
+                <View style={styles.footer}>
+                    <FlatList
+                        data={[{ key: 'previous', title: 'Previous Exercise' }, { key: 'next', title: 'Next Exercise' }]}
+                        horizontal
+                        renderItem={({ item }) => (
+                            <TouchableOpacity
+                                style={[styles.button, item.key === 'previous' && programData.current === 1 && styles.disabledButton]}
+                                disabled={item.key === 'previous' && programData.current === 1}
+                                onPress={() => {
+                                    if (item.key === 'previous') {
+                                        // TODO: Handle previous exercise button press
+                                    } else {
+                                        // TODO: Handle next exercise button press
+                                    }
+                                }}
+                            >
+                                <Text style={styles.buttonText}>{item.title}</Text>
+                            </TouchableOpacity>
+                        )}
                     />
-                    <Text style={styles.rowInput}>Name: {data.Name}</Text>
-                    <Text style={styles.rowInput}>Description: {data.Description}</Text>
-                    <Text style={styles.rowInput}>Body Part: {data.BodyPart}</Text>
-                    <Text style={styles.rowInput}>Reps: {data.Reps}</Text>
-                    <Text style={styles.rowInput}>Sets: {data.Sets}</Text>
                 </View>
-                :
-                <ActivityIndicator />
-            }
+            )}
         </SafeAreaView>
     );
 }
 
-    const styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#AEB6C5',
@@ -136,6 +160,10 @@ function ExerciseDetailScreen({ navigation, route }) {
         color: 'white',
         borderWidth: 1,
     },
+    disabledButton: {
+        color: 'gray',
+        borderWidth: 1,
+    },
     coverImg: {
         width: '50%',
         height: 50,
@@ -145,48 +173,14 @@ function ExerciseDetailScreen({ navigation, route }) {
         width: '100%',
         height: 200,
     },
-    // box: {
-    //   borderRadius: 5,
-    //   padding: 10,
-    //   width: '90%',
-    //   height: 75,
-    //   borderRadius: 15,
-    //   flexDirection: 'row',
-    //   alignItems: 'center',
-    //   textAlign: 'center',
-    //   alignSelf: 'center',
-    //   fontSize: 30,
-    //   fontWeight: '500',
-    //   backgroundColor: '#D9D9D9',
-    // },
-    // description: {
-    //   borderRadius: 5,
-    //   padding: 10,
-    //   width: '90%',
-    //   height: 75,
-    //   borderRadius: 15,
-    //   flexDirection: 'row',
-    //   alignSelf: 'center',
-    //   backgroundColor: '#D9D9D9',
-    // },
-    // font: {
-    //   fontSize: 32,
-    //   marginRight: 10,
-    // },
-    // textInput: {
-    //   fontSize: 24,
-    //   flex: 1,
-    // },
-    // smallBox: {
-    //   borderRadius: 5,
-    //   padding: 10,
-    //   width: '40%',
-    //   height: 103,
-    //   borderRadius: 15,
-    //   flexDirection: 'row',
-    //   alignItems: 'center',
-    //   backgroundColor: '#D9D9D9',
-    // },
-})
+    footer: {
+        backgroundColor: 'gray',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+    },
+});
 
 export default ExerciseDetailScreen;

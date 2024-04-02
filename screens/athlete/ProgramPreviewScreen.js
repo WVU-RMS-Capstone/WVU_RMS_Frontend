@@ -25,6 +25,8 @@ function ProgramPreviewScreen({ navigation, route }) {
         console.log(text);
         const json = JSON.parse(text);
         console.log(json);
+        
+        // TODO: Check and make sure at least 1 exercise is defined (Workout_1)
         setProgramData(json)
       } catch (error) {
         console.error("Error fetching data: ", error);
@@ -64,7 +66,10 @@ function ProgramPreviewScreen({ navigation, route }) {
         </View> */}
       <View style={styles.button}>
         <InverseLargeButton text="Begin Workout"
-          onPress={() => navigation.navigate('WorkoutScreen', { programID: program.data.ProgramID })} />
+          onPress={() => navigation.navigate('ExerciseDetailScreen', { 
+            exerciseID: programData['Workout_1'],
+            programData: programData 
+          })} />
         <Text style={[{ paddingBottom: 10 }]}></Text>
         <LargeButton text="Back to Program Screen"
           onPress={() => navigation.navigate('ProgramsScreen')} />
