@@ -10,6 +10,8 @@ function ExerciseDetailScreen({ navigation, route }) {
     const { exerciseID, programData } = route.params;
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({});
+    const [currentExercise, setCurrentExercise] = useState(exerciseID);
+    const [programUpdateFlag, setProgramUpdateFlag] = useState(false);
 
     let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
     let action = 'fetchexercise';
@@ -17,7 +19,7 @@ function ExerciseDetailScreen({ navigation, route }) {
     async function sendRequest() {
         setLoading(true);
         
-        let url = `${api}?action=${action}&exerciseID=${exerciseID}`;
+        let url = `${api}?action=${action}&exerciseID=${currentExercise}`;
         console.log("Request URL: ", url);
         try {
             const response = await fetch(url);
@@ -30,6 +32,28 @@ function ExerciseDetailScreen({ navigation, route }) {
         }
         
         setLoading(false);
+        setProgramUpdateFlag(false);
+    }
+    
+    function nextExercise() {
+        let next = programData.current + 1;
+        let nextLabeled = 'Workout_' + next;
+        console.log(programData);
+        // If this was the final exercise in the program...
+        if (next > 10 || programData.exercises[nextLabeled] == 0) {
+            // TODO: Navigate to the completed program screen
+            console.log("Completed program...");
+            return;
+        }
+        
+        // Progress to the next exercise by updating state and refreshing screen
+        programData.current = next;
+        setCurrentExercise(programData.exercises[nextLabeled]);
+        setProgramUpdateFlag(true);
+    }
+    
+    function previousExercise() {
+        
     }
     
     const onStateChange = useCallback((state) => {
@@ -41,7 +65,7 @@ function ExerciseDetailScreen({ navigation, route }) {
 
     useEffect(() => { 
         sendRequest() 
-    }, []);
+    }, [programUpdateFlag]);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -76,7 +100,7 @@ function ExerciseDetailScreen({ navigation, route }) {
                                     if (item.key === 'previous') {
                                         // TODO: Handle previous exercise button press
                                     } else {
-                                        // TODO: Handle next exercise button press
+                                        nextExercise();
                                     }
                                 }}
                             >
