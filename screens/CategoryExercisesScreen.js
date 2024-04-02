@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList, Text, Button, SafeAreaView, TextInput, Pressable, TouchableOpacity, ScrollView } from 'react-native';
-import { ActivityIndicator } from 'react-native-paper';
+import { View, StyleSheet, Text, SafeAreaView, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 
 function CategoryExercisesScreen({ navigation, route }) {
   const { rawExercises } = route.params;
