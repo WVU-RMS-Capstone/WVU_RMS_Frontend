@@ -4,22 +4,35 @@ import { LargeButton, InverseLargeButton } from '../../src/components/Buttons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 function ProgramPreviewScreen({ navigation, route }) {
+  let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
+  let action = 'getprogramexercises';
+  
   const { program } = route.params;
-  const [code, setCode] = useState('');
+  const [programData, setProgramData] = useState({
+    current: 0, // 0 means program hasn't been started
+    exercises: {}
+  });
+  
   console.log(program)
 
-  const ImagePicker = () => {
-    let options = {
-      storageOptions: {
-        path: 'image',
-      },
+  useEffect(() => {
+    const sendRequest = async () => {      
+      let url = `${api}?action=${action}&ProgramID=${program.data.ProgramID}`;
+      console.log(url);
+      try {
+        const response = await fetch(url);
+        const text = await response.text();
+        console.log(text);
+        const json = JSON.parse(text);
+        console.log(json);
+        setProgramData(json)
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
     };
 
-    launchImageLibrary(options, response => {
-      setSelectImage(response.assets[0].uri)
-      console.log(response);
-    });
-  };
+    sendRequest();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
