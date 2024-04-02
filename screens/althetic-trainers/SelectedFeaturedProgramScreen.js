@@ -43,7 +43,6 @@ function SelectedFeaturedProgramScreen({ navigation }) {
   useEffect(() => { getRoster() }, []);
   
   const assignUserRoutines = () => {
-    //EXAMPLE: https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=assignUserRoutines&user=1&routine=1&notes=Rest&check=1
     const api  = ' https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=assignUserRoutines&user=1&routine=1&notes=Rest&check=1';
 
     fetch(finalDescription, {
@@ -57,7 +56,6 @@ function SelectedFeaturedProgramScreen({ navigation }) {
   }
   
   const completedAssign = () => {
-    // assignUserRoutines()
     navigation.navigate('HomeScreen');
   } 
 

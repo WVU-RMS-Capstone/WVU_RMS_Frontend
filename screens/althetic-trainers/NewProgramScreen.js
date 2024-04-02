@@ -88,11 +88,6 @@ function NewProgramScreen({ navigation, route }) {
 
   const selectCoverImg = React.useCallback((type, options) => {
     try {
-      // const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      // if (status != 'granted') {
-      //   return;
-      // }
-
       const result = ImagePicker.launchImageLibrary(options, setResponse);
 
       if (!result.cancelled) {
@@ -202,9 +197,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: 20,
-    // fontWeight: "500",
-    textAlign: 'center',
-    // paddingVertical: "1%",
+    textAlign: 'center'
   },
   exercise: {
     borderRadius: 15,

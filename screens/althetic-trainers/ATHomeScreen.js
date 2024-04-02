@@ -8,9 +8,7 @@ function ATHomeScreen({ navigation }) {
  
     const api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php?action=logout&userid=28"
     fetch(api, {
-      // headers: {
-      //   'Authorization': 'Bearer ' + sessionKey
-      //  }
+      
     })
     
     .catch((error) => {
@@ -40,21 +38,13 @@ function ATHomeScreen({ navigation }) {
           adjustFontSizeToFit
           onPress={() => navigation.navigate('AssignProgramsScreen')} />
       </View>
-      {/* <View style={styles.button}>
-        <LargeButton text="Change Featured Program"
-          adjustFontSizeToFit
-          onPress={() => navigation.navigate('FeaturedProgramsScreen', {sessionKey: sessionKey})} />
-      </View> */}
+      
       <View style={styles.button}>
         <LargeButton text="Logs"
           adjustFontSizeToFit
           onPress={() => navigation.navigate('LogsScreen')} />
       </View>
-      {/* <View style={styles.button}>
-        <LargeButton text="Logout"
-          adjustFontSizeToFit
-          onPress={() => {logout(); navigation.navigate('LoginScreen')}}  />
-      </View> */}
+      
     </View>
   );
 }

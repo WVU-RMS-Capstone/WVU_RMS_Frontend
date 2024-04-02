@@ -4,8 +4,6 @@ import { LargeButton } from '../../src/components/Buttons';
 
 
 function AthleteProfileScreen({ navigation, route }) {
- // const { athleteName } = route.params;
-
   return (
     <View style={styles.background}>
       <View style={[styles.circleContainer, { marginTop: -210, marginLeft: -210 }]}>

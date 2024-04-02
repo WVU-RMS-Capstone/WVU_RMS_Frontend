@@ -25,7 +25,6 @@ function AddExercise({ navigation, route }) {
                 console.log(json);
                 setexercises(json);
                 setFilteredexercises(json);
-                // setSelectedItems(json);
                 return json;
             } catch (error) {
                 console.error("Error fetching data: ", error);

@@ -91,12 +91,10 @@ const largestyles = StyleSheet.create({
         borderRadius: 25,
         borderWidth: 1,
         borderColor: "#757575",
-        // paddingTop: 6,
         paddingBottom: 15,
         paddingVertical: 5,
         justifyContent: 'flex-end',
         width: "70%",
-        // height: 90,
         backgroundColor: '#1E3861',
         alignSelf: 'center',
 
@@ -114,7 +112,6 @@ const largestyles = StyleSheet.create({
         fontSize: 32,
         fontWeight: "500",
         textAlign: 'center',
-        // paddingVertical: "1%",
     }
 })
 
@@ -168,7 +165,6 @@ export function InverseLargeButton({ text, onPress }) {
 
 export function DateSelector({ text, onPress }) {
     return (
-        // <TouchableOpacity onPress={onPress}>
         <View style={date.button}>
             <TouchableOpacity onPress={onPress}>
                 <Text style={date.buttonText}>{text}</Text>

@@ -164,7 +164,6 @@ export default SignUp;
 
 const styles = StyleSheet.create({
     container: {
-        // marginTop: 0,
         padding: 16,
         flex: 1,
         backgroundColor: '#AEB6C5'
@@ -207,7 +206,6 @@ const styles = StyleSheet.create({
         fontSize: 32,
         textAlign: 'center',
         fontWeight: 'bold',
-        // marginTop: 50,
         marginBottom: 30,
         color: '#1E3861',
     },

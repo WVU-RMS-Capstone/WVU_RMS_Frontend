@@ -26,7 +26,6 @@ function ProgramsScreen({ route, navigation }) {
         console.log(json);
         setPrograms(json);
         setFilteredprograms(json);
-        // setSelectedItems(json);
         return json;
       } catch (error) {
         console.error("Error fetching data: ", error);
@@ -105,25 +104,6 @@ function ProgramsScreen({ route, navigation }) {
         </View>
       )}
 
-      {/* <View style={styles.buttonpos}>
-        <TouchableOpacity onPress={() => navigation.navigate('ProgramPreviewScreen')}>
-          <View style={styles.button}>
-            <Text style={[styles.buttonText, { color: '#FCCD0D' }]}>Continue With Assigned Program</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => {
-          const selectedPorgram = filteredprograms.find(program => program.data.ProgramID === selected);
-          if (selectedPorgram) {
-            navigation.navigate('ProgramPreviewScreen', { programID: selectedPorgram.ProgramID });
-          } else {
-            alert('Please select a program first.');
-          }
-        }}>
-          <View style={[styles.button, { backgroundColor: '#FCCD0D' }]}>
-            <Text style={[styles.buttonText, { color: '#1E3861' }]}>Continue With Chosen Program</Text>
-          </View>
-        </TouchableOpacity>
-      </View> */}
     </SafeAreaView>
   );
 

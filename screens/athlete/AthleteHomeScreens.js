@@ -3,8 +3,6 @@ import { View, StyleSheet, SafeAreaView, Text, TouchableOpacity, Image } from 'r
 import { LargeButton } from '../../src/components/Buttons';
 
 function AthleteHomeScreen({ navigation, route }) {
-  // const { UID } = route.params;
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.row}>

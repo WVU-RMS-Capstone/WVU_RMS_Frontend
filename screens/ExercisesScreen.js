@@ -210,7 +210,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   button: {
-    // paddingLeft: 150,
     marginTop: '50%',
     textAlign: 'center'
   },

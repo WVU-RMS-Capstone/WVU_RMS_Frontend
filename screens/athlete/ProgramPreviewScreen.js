@@ -41,14 +41,6 @@ function ProgramPreviewScreen({ navigation, route }) {
         <Text style={styles.title}>Selected Program: {program.data.ProgramName}</Text>
       </View>
 
-      {/* <View style={styles.box}> 
-          <TextInput
-            style={styles.input}
-            value={code}
-            placeholder='Enter in STA Code'
-            onChangeText={setCode}
-          />
-        </View> */}
       <View style={styles.button}>
         <InverseLargeButton text="Begin Workout"
           onPress={() => navigation.navigate('WorkoutScreen', { programID: program.data.ProgramID })} />

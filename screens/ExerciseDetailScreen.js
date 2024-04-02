@@ -69,8 +69,7 @@ function ExerciseDetailScreen({ navigation, route }) {
     const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#AEB6C5',
-        // paddingTop: 16,
+        backgroundColor: '#AEB6C5'
     },
     row: {
         flexDirection: 'row',
@@ -83,12 +82,10 @@ function ExerciseDetailScreen({ navigation, route }) {
         borderRadius: 15,
         marginHorizontal: 20,
         marginVertical: 5,
-        padding: 10,
-        // width: '50%',
+        padding: 10
     },
     rowInput: {
         borderColor: 'gray',
-        // borderWidth: 1,
         borderRadius: 15,
         padding: 20,
         marginTop: 4,
@@ -117,8 +114,7 @@ function ExerciseDetailScreen({ navigation, route }) {
         marginHorizontal: 20,
         marginVertical: 5,
         padding: 10,
-        textAlignVertical: 'top',
-        // width: '50%',
+        textAlignVertical: 'top'
     },
     number: {
         borderColor: 'gray',

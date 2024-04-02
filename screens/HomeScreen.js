@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Button, Text, StyleSheet, SafeAreaView, Image } from 'react-native';
-//import { View, StyleSheet, Text, SafeAreaView, TextInput, ActivityIndicator } from 'react-native';
 import { MediumButton, SmallButton, LargeButton, LargeYellowButton, InverseLargeButton } from '../src/components/Buttons';
 import { SmallTile, MediumTile, LargeTile } from '../src/components/Tiles';
 function HomeScreen({ navigation, route }) {
