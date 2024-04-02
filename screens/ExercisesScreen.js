@@ -105,7 +105,7 @@ function ExercisesScreen({ navigation, route }) {
               </TouchableOpacity>
             }
             ListFooterComponent={ // Add "Show All" button as last item
-              <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('AllExercisesScreen', { category: e })}>
+              <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('CategoryExercisesScreen', { rawExercises: exercises[e] })}>
                 <View style={styles.row}>
                   <Text>Show All</Text>
                 </View>
