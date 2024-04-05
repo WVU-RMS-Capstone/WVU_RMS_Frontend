@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, Image, TextInput, TouchableOpacity } from "react-native";
 import { LargeYellowButton } from '../../src/components/Buttons';
 import { FIREBASE_AUTH } from '../../FirebaseConfig';
-import { updateEmail, updatePassword, EmailAuthProvider } from 'firebase/auth';
+import { updateEmail, updatePassword } from 'firebase/auth';
+import * as ImagePicker from 'expo-image-picker';
+import { firebase } from '@react-native-firebase/auth';
 
 function EditProfile({ navigation, route }) {
-    const [picture, getPicture] = useState('');
+    const { UID } = route.params;
+    const [picture, setPicture] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -13,7 +16,7 @@ function EditProfile({ navigation, route }) {
     const [confirmPassword, setConfirmedPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState('');
-    const [UID, getUID] = useState('lkuCHWqU8kUlGbJB3eu1dxYg2Xl2');
+    const [updatePicture, setUpdatePicture] = useState(false);
 
     let userAPI = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php";
     let userAction = 'getuserinfo';
@@ -28,6 +31,7 @@ function EditProfile({ navigation, route }) {
                 const json = JSON.parse(text); // Parse the text as JSON
                 console.log(json);
                 setData(json);
+                setPicture(json[0].data[4]);
                 return json;
             } catch (error) {
                 console.error("Error fetching data: ", error);
@@ -38,25 +42,15 @@ function EditProfile({ navigation, route }) {
     }, []);
 
     let updateAPI = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php";
-    let updateAction = 'updateUser';
+    let updateAction = 'updateuser';
 
-    async function sendRequest(UID) {
-        if (firstName = '') {
-            firstName = data[0].data[0];
-        }
-        if (lastName = '') {
-            lastName = data[0].data[1];
-        }
-        if (email = '') {
-            email = data[0].data[2];
-        }
-        let url = `${updateAPI}?action=${updateAction}&firstName=${firstName}&lastName=${lastName}&UID=${UID}&email=${email}`;
+    async function sendRequest(updatedData) {
+        let url = `${updateAPI}?action=${updateAction}&${Object.entries(updatedData).map(([key, value]) => `${key}=${value}`).join('&')}`
         console.log("Request URL: ", url);
         try {
             const response = await fetch(url);
             const text = await response.text(); // Get the raw response text
             const json = JSON.parse(text); // Parse the text as JSON
-            setData(json);
             return json;
         } catch (error) {
             console.error("Error fetching data: ", error);
@@ -64,82 +58,117 @@ function EditProfile({ navigation, route }) {
     }
 
     const signUp = async () => {
-        if (firstName != "" && lastName != "" && role != "") {
-            if (password == confirmPassword) {
-                setLoading(true);
+        if (firstName != "" || lastName != "" || password != "" || email != "" || picture != "") {
+            if (email != "" && email == data[0].data[2]) {
+                console.log("Email is the same as old email.");
+                alert("Email was the same as old email. Try Again");
+                return;
+            }
+            if (password != "" && password == confirmPassword && firstName == "" && lastName == "" && email == "" && picture == "") {
                 try {
-                    const auth_response = await updateEmail(email);
-                    // Add the following line once finished with backend code
-                    const user_data = await sendRequest(UID);
-                    if (role == "Athlete") {
-                        navigation.navigate('AthleteHomeScreen');
-                    } else if (role == "Trainer") {
-                        navigation.navigate('ATHomeScreen');
-                    } else {
-                        console.log("No Role Selected");
-                    }
-                    console.log(user_data);
-                    navigation.navigate('ATHomeScreen');
+                    // await firebase.auth().currentUser.updatePassword(password);
+                    // console.log(user);
+                    // user.updatePassword(password)
+                    await updatePassword(user.uid, password);
+                    navigation.navigate('AthleteHomeScreen', { UID: UID });
                 } catch (error) {
-                    console.log("This is an error: " + error);
-                    alert("Sign up failed: " + error);
+                    console.log(error);
+                    alert("Password Change Failed: " + error);
+                    return;
                 } finally {
                     setLoading(false);
                 }
-            } else {
+            } else if (password != confirmPassword) {
                 console.log("Passwords do not match.");
                 alert("Passwords do not match. Try Again.");
+                return;
+            } else {
+                try {
+                    await updatePassword(UID, password);
+                } catch (error) {
+                    console.log(error);
+                    alert("Password Change Failed: " + error);
+                    return;
+                }
             }
-        } else {
-            if (firstName == "") {
-                alert("Missing Input on First Name");
-            } else if (lastName == "") {
-                alert("Missing Input on Last Name");
-            } else if (role == "") {
-                alert("Role was not selected");
+
+            if (email != "") {
+                try {
+                    await updateEmail(UID, email);
+                } catch (error) {
+                    console.log(error);
+                    if (password != "") {
+                        alert("Password Updated. Email updated failed, try again.");
+                    } else {
+                        alert("Email updated failed: " + error);
+                    }
+                    return;
+                }
             }
-            console.log("Missing Input");
+
+            const userData = data[0].data;
+            const updatedData = {
+                firstName: firstName || userData[0],
+                lastName: lastName || userData[1],
+                email: email || userData[2],
+                athleteImage: picture || userData[4],
+                UID: UID,
+            };
+            const res = sendRequest(updatedData);
+            if (res == true) {
+                setLoading(false);
+                navigation.navigate('AthleteHomeScreen', { UID: UID });
+            }
+
         }
     }
 
-    const ImagePicker = () => {
-        let options = {
-            storageOptions: {
-                path: 'image',
-            },
-        };
+    const HandleImagePicker = async () => {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+            alert('Sorry, we need camera roll permissions to make this work!');
+            return;
+        }
 
-        launchImageLibrary(options, response => {
-            setSelectImage(response.assets[0].uri)
-            console.log(response);
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
         });
+
+        if (!result.canceled) {
+            console.log(result.assets[0].uri);
+            setPicture(result.assets[0].uri);
+            setUpdatePicture(false);
+        }
     };
 
     return (
         <SafeAreaView style={styles.container}>
-            {picture ? (
-                <Image
-                    style={{ width: '75%', height: '25%' }}
-                    source={{ uri: picture }}
-                />
-            ) : (
+            <View style={styles.imageContainer}>
                 <TouchableOpacity style={styles.defaultcover} onPress={() => {
-                    ImagePicker();
+                    setUpdatePicture(true);
+                    HandleImagePicker();
                 }}>
-                    <Text>Insert Cover</Text>
+                    {picture ? (
+                        <Image
+                            style={styles.img}
+                            source={{ uri: picture }}
+                        />
+                    ) : (
+                        <Text>Insert Cover</Text>
+                    )}
                 </TouchableOpacity>
-            )}
-            <Image
-                source={{ uri: picture }}
-            />
+            </View>
             {data && (
                 <Text style={styles.title}>{data[0].data[0]} {data[0].data[1]}</Text>
             )}
             <View style={styles.container2}>
                 <View style={styles.row}>
-                    <Text style={styles.label}>First name</Text>
+                    <Text style={styles.label}>Update First Name</Text>
 
-                    <Text style={styles.label}>Last Name</Text>
+                    <Text style={styles.label}>Update Last Name</Text>
                 </View>
                 <View style={styles.row}>
                     <TextInput
@@ -157,7 +186,7 @@ function EditProfile({ navigation, route }) {
                     />
                 </View>
 
-                <Text style={styles.label}>Email</Text>
+                <Text style={styles.label}>Update Email</Text>
                 <TextInput
                     style={[styles.input2, { backgroundColor: 'white' }]}
                     value={email}
@@ -188,7 +217,7 @@ function EditProfile({ navigation, route }) {
                 <ActivityIndicator size="large" color="#000ff" />
             ) : (
                 <>
-                    <LargeYellowButton text="Update" onPress={() => navigation.navigate('AthleteHomeScreens')} />
+                    <LargeYellowButton text="Update" onPress={signUp} />
                 </>
             )
             }
@@ -221,7 +250,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
-        backgroundColor: 'white',
+        backgroundColor: '#D4DAE4',
     },
     label: {
         fontSize: 16,
@@ -251,4 +280,19 @@ const styles = StyleSheet.create({
         width: '50%',
         marginTop: 4
     },
+    selectedImage: {
+        width: 200,
+        height: 200,
+        resizeMode: 'contain',
+        marginBottom: 10
+    },
+    img: {
+        width: '75%',
+        height: '25%',
+        width: 200,
+        height: 200,
+        borderRadius: 200 / 2,
+        alignSelf: 'center'
+
+    }
 });
