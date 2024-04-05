@@ -15,7 +15,7 @@ import AthleteProfileScreen from './screens/althetic-trainers/AthleteProfileScre
 import LogsScreen from './screens/althetic-trainers/LogsScreen';
 import AssignProgramsScreen from './screens/althetic-trainers/AssignProgramsScreen';
 import ExercisesScreen from './screens/ExercisesScreen';
-import NotesScreen from './screens/NotesScreen';
+import NotesScreen from './screens/althetic-trainers/NotesScreen';
 import FeaturedProgramsScreen from './screens/althetic-trainers/FeaturedProgramsScreen';
 import CompletedWorkoutScreen from './screens/athlete/CompletedWorkoutScreen';
 import SelectedProgramScreen from './screens/athlete/SelectedProgramScreen';

@@ -4,58 +4,40 @@ import { View, Text, TextInput, Button, SafeAreaView, StyleSheet, TouchableOpaci
 
 function NotesScreen({ navigation, route }) {
   const { UID } = route.params;
-  // let getNotesAPI = "https://restapi-playerscompanion.azurewebsites.net/users/athleteLogs.php";
-  // let getNotesAction = 'getnotes';
-  // const [notes, setNotes] = useState([]);
+  let getNotesAPI = "https://restapi-playerscompanion.azurewebsites.net/users/athleteLogs.php";
+  let getNotesAction = 'getnotes';
+  const [notes, setNotes] = useState([]);
 
-  // useEffect(() => {
-  //   const getNotes = async () => {
-  //     let url = `${getNotesAPI}?action=${getNotesAction}&AthleteUID=${UID}`;
-  //     console.log(url);
-  //     try {
-  //       const response = await fetch(url);
-  //       const text = await response.text(); // Get the raw response text
-  //       const json = JSON.parse(text); // Parse the text as JSON
-  //       console.log(json);
-  //       setNotes(json);
-  //       return json;
-  //     } catch (error) {
-  //       console.error("Error fetching data: ", error);
-  //     }
-  //   };
+  useEffect(() => {
+    const getNotes = async () => {
+      let url = `${getNotesAPI}?action=${getNotesAction}&Athlete=${UID}`;
+      console.log(url);
+      try {
+        const response = await fetch(url);
+        const text = await response.text(); // Get the raw response text
+        const json = JSON.parse(text); // Parse the text as JSON
+        console.log(json);
+        setNotes(json);
+        return json;
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
 
-  //   getNotes();
-  // }, []);
+    getNotes();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <Text style={styles.date}>Date: ______</Text>
-      <View style={styles.noteBox}>
-        <Text>Note</Text>
-      </View>
-      <Text style={styles.signedOff}>Signed Off By: </Text> */}
       <FlatList
-        // style={styles.box}
-        data={
-          [
-            { key: 'Devin A' },
-            { key: 'Dan B' },
-            { key: 'Dominic C' },
-            { key: 'Jackson D' },
-            { key: 'James E' },
-            { key: 'Joel F' },
-            { key: 'John G' },
-            { key: 'Jillian H' },
-            { key: 'Jimmy I' },
-            { key: 'Julie J' },
-          ]}
+        data={notes}
         renderItem={({ item }) =>
           <View>
-            <Text style={styles.date}>Date: ______</Text>
+            <Text style={styles.date}>Date: </Text>
             <View style={styles.noteBox}>
-              <Text>{item.key}</Text>
+              <Text>{item.data.Note}</Text>
             </View>
-            <Text style={styles.signedOff}>Note Made By: </Text>
+            <Text style={styles.signedOff}>Note Made By: {item.data.MadeBy}</Text>
           </View>
         }
       />
@@ -88,9 +70,11 @@ const styles = StyleSheet.create({
     marginLeft: 50,
     marginRight: 50,
     alignItems: 'center',
-    // textAlign: 'left',
     height: 100,
-    borderRadius: 15
+    borderRadius: 15,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 5
   },
   date: {
     color: '#1E3861',
