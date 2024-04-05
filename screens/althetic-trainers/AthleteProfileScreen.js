@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Image } from 'react-native';
 import { LargeButton } from '../../src/components/Buttons';
 
 
@@ -33,7 +33,12 @@ function AthleteProfileScreen({ navigation, route }) {
   return (
     <View style={styles.background}>
       <View style={[styles.circleContainer]}>
-        <View style={styles.circle}></View>
+        <View style={styles.circle}>
+          <Image
+            style={styles.img}
+            source={{ uri: athlete.data.AthleteImage }}
+          />
+        </View>
         <Text style={styles.athlete}>{athlete.data.FirstName} {athlete.data.LastName}</Text>
         <Text style={styles.program}>Assigned Program: {program[0] && program[0].data ? program[0].data.ProgramName : "Not Assigned"}</Text>
       </View>
@@ -61,12 +66,19 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   circle: {
-    width: 170,
-    height: 170,
-    borderRadius: 170 / 2,
+    width: 200,
+    height: 200,
+    borderRadius: 200 / 2,
     backgroundColor: "#2C3C63",
     // marginTop: 8,
     // marginLeft: 20
+  },
+  img: {
+    width: 200,
+    height: 200,
+    borderRadius: 200 / 2,
+    alignSelf: 'center'
+
   },
   buttonContainer: {
     width: "120%",
