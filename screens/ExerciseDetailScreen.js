@@ -53,7 +53,19 @@ function ExerciseDetailScreen({ navigation, route }) {
     }
     
     function previousExercise() {
+        let next = programData.current - 1;
+        let nextLabeled = 'Workout_' + next;
+        console.log(programData);
+        // If this is the first exercise in the program...
+        if (next <= 0) {
+            // TODO: Disable previous button
+            return;
+        }
         
+        // Progress to the next exercise by updating state and refreshing screen
+        programData.current = next;
+        setCurrentExercise(programData.exercises[nextLabeled]);
+        setProgramUpdateFlag(true);
     }
     
     const onStateChange = useCallback((state) => {
@@ -98,7 +110,7 @@ function ExerciseDetailScreen({ navigation, route }) {
                                 disabled={item.key === 'previous' && programData.current === 1}
                                 onPress={() => {
                                     if (item.key === 'previous') {
-                                        // TODO: Handle previous exercise button press
+                                        previousExercise();
                                     } else {
                                         nextExercise();
                                     }

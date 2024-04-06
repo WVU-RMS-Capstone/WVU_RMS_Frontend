@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Image, TextInput, TouchableOpacity, FlatList, SafeAreaView, ScrollView, SectionList, View, Text } from 'react-native';
+// TODO: Change to LargeYellowButton
 import { LargeButton, InverseLargeButton } from '../../src/components/Buttons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
