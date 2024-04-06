@@ -39,16 +39,17 @@ const mediumstyles = StyleSheet.create({
 
     }
 })
-export function SmallButton({ text, onPress }) {
+
+export function LargeAltButton({ text, onPress }) {
     return (
         <TouchableOpacity onPress={onPress}>
-            <View style={smallstyles.button}>
-                <Text style={smallstyles.buttonText}>{text}</Text>
+            <View style={altstyles.button}>
+                <Text style={altstyles.buttonText}>{text}</Text>
             </View>
         </TouchableOpacity>
     )
 }
-const smallstyles = StyleSheet.create({
+const altstyles = StyleSheet.create({
     button: {
         borderRadius: 14,
         borderWidth: 1,
@@ -85,18 +86,17 @@ export function LargeButton({ text, onPress }) {
     )
 }
 
+
 //Default button (Blue with yellow text)
 const largestyles = StyleSheet.create({
     button: {
-        borderRadius: 25,
+        borderRadius: 15, 
         borderWidth: 1,
         borderColor: "#757575",
-        // paddingTop: 6,
-        paddingBottom: 15,
-        paddingVertical: 5,
-        justifyContent: 'flex-end',
-        width: "70%",
-        // height: 90,
+        justifyContent: 'center',
+        textAlign: 'center',
+        width: "70%",   
+        height: 70,
         backgroundColor: '#1E3861',
         alignSelf: 'center',
 
@@ -111,14 +111,14 @@ const largestyles = StyleSheet.create({
     },
     buttonText: {
         color: '#FCCD0D',
-        fontSize: 32,
-        fontWeight: "500",
+        fontSize: 24,
+        fontWeight: 'bold',
         textAlign: 'center',
         // paddingVertical: "1%",
     }
 })
 
-export function LargeYellowButton({ text, onPress }) {
+export function LargeHomeButton({ text, onPress }) {
     return (
         <TouchableOpacity onPress={onPress}>
             <View style={largeYellowstyles.button}>
@@ -155,6 +155,8 @@ const largeYellowstyles = StyleSheet.create({
         textAlign: 'center',
     }
 })
+
+
 
 export function InverseLargeButton({ text, onPress }) {
     return (
