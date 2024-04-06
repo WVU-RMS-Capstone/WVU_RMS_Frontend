@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Image, TextInput, TouchableOpacity, FlatList, SafeAreaView, ScrollView, SectionList, View, Text } from 'react-native';
-// TODO: Change to LargeYellowButton
-import { LargeButton, InverseLargeButton } from '../../src/components/Buttons';
+import { LargeButton, LargeYellowButton } from '../../src/components/Buttons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 function ProgramPreviewScreen({ navigation, route }) {
@@ -69,7 +68,7 @@ function ProgramPreviewScreen({ navigation, route }) {
           />
         </View> */}
       <View style={styles.button}>
-        <InverseLargeButton text="Begin Workout"
+        <LargeYellowButton text="Begin Workout"
           onPress={() => navigation.navigate('ExerciseDetailScreen', { 
             exerciseID: programData.exercises['Workout_1'],
             programData: programData 

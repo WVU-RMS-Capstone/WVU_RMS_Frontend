@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, Image, TextInput, TouchableOpacity } from "react-native";
-import { LargeYellowButton } from '../../src/components/Buttons';
-import { FIREBASE_AUTH } from '../../FirebaseConfig';
+import { LargeYellowButton } from '../src/components/Buttons';
+import { FIREBASE_AUTH } from '../FirebaseConfig';
 import { updateEmail, updatePassword } from 'firebase/auth';
 import * as ImagePicker from 'expo-image-picker';
 import { firebase } from '@react-native-firebase/auth';

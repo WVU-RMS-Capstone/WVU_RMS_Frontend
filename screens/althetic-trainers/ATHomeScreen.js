@@ -26,9 +26,14 @@ function ATHomeScreen({ navigation, route }) {
           onPress={() => navigation.navigate('NewExerciseScreen')} />
       </View>
       <View style={styles.button}>
-        <LargeAltButton text="Update Program"
+        <LargeAltButton text="Update Program/Exercises"
           adjustFontSizeToFit
-          onPress={() => navigation.navigate('FeaturedProgramsScreen', { sessionKey: sessionKey })} />
+          onPress={() => navigation.navigate('UpdateProgramExercise')} />
+      </View>
+      <View style={styles.button}>
+        <LargeAltButton text="Update Profile"
+          adjustFontSizeToFit
+          onPress={() => navigation.navigate('EditProfile', { UID: UID })} />
       </View>
     </View>
   );

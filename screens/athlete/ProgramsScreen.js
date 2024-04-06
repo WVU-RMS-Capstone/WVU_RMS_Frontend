@@ -65,7 +65,7 @@ function ProgramsScreen({ route, navigation }) {
         <Text style={[{ alignSelf: 'center' }]}>Assigned Program:{"\n\t"}_________</Text>
       </View>
       <View style={styles.buttonpos}>
-        <TouchableOpacity onPress={() => navigation.navigate('ProgramPreviewScreen')}>
+        <TouchableOpacity onPress={() => navigation.navigate('ProgramPreviewScreen', { program: assignedProgram[0] })}>
           <View style={styles.button}>
             <Text style={[styles.buttonText, { color: '#FCCD0D' }]}>Continue With Assigned Program</Text>
           </View>
