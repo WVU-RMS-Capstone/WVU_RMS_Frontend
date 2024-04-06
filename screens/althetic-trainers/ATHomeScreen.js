@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { LargeButton } from '../../src/components/Buttons';
-
+import { LargeAltButton, LargeButton } from '../../src/components/Buttons';
 function ATHomeScreen({ navigation }) {
 
   const logout= () => {
@@ -36,15 +35,15 @@ function ATHomeScreen({ navigation }) {
           onPress={() => navigation.navigate('NewExerciseScreen')} />
       </View>
       <View style={styles.button}>
-        <LargeButton text="Assign Program"
+        <LargeButton text="Update Profile"
           adjustFontSizeToFit
           onPress={() => navigation.navigate('AssignProgramsScreen')} />
       </View>
-      {/* <View style={styles.button}>
-        <LargeButton text="Change Featured Program"
+       <View style={styles.button}>
+        <LargeButton text="Update Program"
           adjustFontSizeToFit
           onPress={() => navigation.navigate('FeaturedProgramsScreen', {sessionKey: sessionKey})} />
-      </View> */}
+      </View> 
       <View style={styles.button}>
         <LargeButton text="Logs"
           adjustFontSizeToFit
@@ -66,14 +65,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#AEB6C5',
     alignItems: 'center',
     justifyContent: 'center',
-  }
-  ,
+  },
   button:{
     width:"120%",
- 
     marginTop:'10%', 
     paddingVertical:'1%', 
     paddingHorizontal:'2%',
     alignSelf:'center'
+  },
+  buttonText: {
+    color: 'white',
   }
 });
