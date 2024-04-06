@@ -89,7 +89,7 @@ function ProgramsScreen({ route, navigation }) {
         <Text style={[{ alignSelf: 'center', textAlign: 'center' }]}>Assigned Program:{"\n"}{assignedProgram[0] && assignedProgram[0].data ? assignedProgram[0].data.ProgramName : "Not Assigned"}</Text>
       </View>
       <View style={styles.buttonpos}>
-        <TouchableOpacity onPress={() => navigation.navigate('ProgramPreviewScreen', { program: assignedProgram[0].data.ProgramID })}>
+        <TouchableOpacity onPress={() => navigation.navigate('ProgramPreviewScreen', { program: assignedProgram[0] })}>
           <View style={styles.button}>
             <Text style={[styles.buttonText, { color: '#FCCD0D' }]}>Continue With Assigned Program</Text>
           </View>
@@ -118,7 +118,7 @@ function ProgramsScreen({ route, navigation }) {
             const selectedPorgram = filteredprograms.find(program => program.data.ProgramID === selected);
             // console.log(selectedPorgram);
             if (selectedPorgram) {
-              navigation.navigate('ProgramPreviewScreen', { program: selectedPorgram.data.ProgramID });
+              navigation.navigate('ProgramPreviewScreen', { program: selectedPorgram });
             } else {
               alert('Please select a program first.');
             }
