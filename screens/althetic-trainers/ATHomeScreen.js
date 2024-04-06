@@ -1,59 +1,35 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image, Text } from 'react-native';
 import { LargeAltButton, LargeButton } from '../../src/components/Buttons';
-function ATHomeScreen({ navigation }) {
+function ATHomeScreen({ navigation, route }) {
+  const { UID } = route.params;
 
-  const logout= () => {
- 
-    const api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php?action=logout&userid=28"
-    fetch(api, {
-      // headers: {
-      //   'Authorization': 'Bearer ' + sessionKey
-      //  }
-    })
-    
-    .catch((error) => {
-      console.error(error);
-    })
-  }
-  
   return (
     <View style={styles.container}>
+      <View style={styles.row}>
+        <Image style={styles.img} source={require('../../assets/Logo.png')} />
+        <Text style={[styles.titlefont]}>| Rehabilitation Monitoring System</Text>
+      </View>
       <View style={styles.button}>
-        <LargeButton text="Create Program"
+        <LargeAltButton text="Create Program"
           adjustFontSizeToFit
           onPress={() => navigation.navigate('NewProgramScreen')} />
       </View>
       <View style={styles.button}>
-        <LargeButton text="View Roster"
+        <LargeAltButton text="View Roster"
           adjustFontSizeToFit
           onPress={() => navigation.navigate('RosterScreen')} />
       </View>
       <View style={styles.button}>
-        <LargeButton text="Create Excercise"
+        <LargeAltButton text="Create Excercise"
           adjustFontSizeToFit
           onPress={() => navigation.navigate('NewExerciseScreen')} />
       </View>
       <View style={styles.button}>
-        <LargeButton text="Update Profile"
+        <LargeAltButton text="Update Program"
           adjustFontSizeToFit
-          onPress={() => navigation.navigate('AssignProgramsScreen')} />
+          onPress={() => navigation.navigate('FeaturedProgramsScreen', { sessionKey: sessionKey })} />
       </View>
-       <View style={styles.button}>
-        <LargeButton text="Update Program"
-          adjustFontSizeToFit
-          onPress={() => navigation.navigate('FeaturedProgramsScreen', {sessionKey: sessionKey})} />
-      </View> 
-      <View style={styles.button}>
-        <LargeButton text="Logs"
-          adjustFontSizeToFit
-          onPress={() => navigation.navigate('LogsScreen')} />
-      </View>
-      {/* <View style={styles.button}>
-        <LargeButton text="Logout"
-          adjustFontSizeToFit
-          onPress={() => {logout(); navigation.navigate('LoginScreen')}}  />
-      </View> */}
     </View>
   );
 }
@@ -61,19 +37,37 @@ function ATHomeScreen({ navigation }) {
 export default ATHomeScreen;
 const styles = StyleSheet.create({
   container: {
-    flex: 1, 
+    flex: 1,
     backgroundColor: '#AEB6C5',
     alignItems: 'center',
-    justifyContent: 'center',
   },
-  button:{
-    width:"120%",
-    marginTop:'10%', 
-    paddingVertical:'1%', 
-    paddingHorizontal:'2%',
-    alignSelf:'center'
+  button: {
+    width: "120%",
+    marginTop: '10%',
+    paddingVertical: '1%',
+    paddingHorizontal: '2%',
+    alignSelf: 'center',
   },
   buttonText: {
     color: 'white',
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    marginTop: '25%'
+  },
+  titlefont: {
+    fontSize: 20,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    marginTop: 5,
+    marginBottom: '10%',
+    color: '#1E3861',
+  },
+  img: {
+    width: 30,
+    height: 30,
+    marginRight: 10,
+    marginTop: 10
   }
 });
