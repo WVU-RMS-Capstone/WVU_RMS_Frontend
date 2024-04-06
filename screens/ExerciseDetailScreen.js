@@ -36,6 +36,11 @@ function ExerciseDetailScreen({ navigation, route }) {
     }
     
     function nextExercise() {
+        if (!programData) {
+            console.log("programData is undefined");
+            return;
+        }
+        
         let next = programData.current + 1;
         let nextLabeled = 'Workout_' + next;
         console.log(programData);
@@ -53,6 +58,11 @@ function ExerciseDetailScreen({ navigation, route }) {
     }
     
     function previousExercise() {
+        if (!programData) {
+            console.log("programData is undefined");
+            return;
+        }
+        
         let next = programData.current - 1;
         let nextLabeled = 'Workout_' + next;
         console.log(programData);

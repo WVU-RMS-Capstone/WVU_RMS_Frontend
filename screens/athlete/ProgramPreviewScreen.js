@@ -51,9 +51,6 @@ function ProgramPreviewScreen({ navigation, route }) {
           <Text>Cover</Text>
         </View>
       )}
-      <Image
-        source={{ uri: program.data.Cover }}
-      />
 
       <View style={styles.titlepos}>
         <Text style={styles.title}>Selected Program: {program.data.ProgramName}</Text>
