@@ -4,7 +4,6 @@ import { LargeButton } from '../src/components/Buttons';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import { ActivityIndicator } from 'react-native';
 
-
 function ExerciseDetailScreen({ navigation, route }) {
 
     const { exerciseID, programData } = route.params;
@@ -12,6 +11,7 @@ function ExerciseDetailScreen({ navigation, route }) {
     const [data, setData] = useState({});
     const [currentExercise, setCurrentExercise] = useState(exerciseID);
     const [programUpdateFlag, setProgramUpdateFlag] = useState(false);
+    const [countdown, setCountdown] = useState(0); // New state variable for countdown timer
 
     let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
     let action = 'fetchexercise';
@@ -71,7 +71,9 @@ function ExerciseDetailScreen({ navigation, route }) {
     const onStateChange = useCallback((state) => {
         if (state === "ended") {
           console.log("Video has ended...");
-          // TODO: Put prompt here to load next exercise in program if needed
+          
+          // Start the countdown timer
+          setCountdown(5);
         }
       }, []);
 
@@ -79,12 +81,25 @@ function ExerciseDetailScreen({ navigation, route }) {
         sendRequest() 
     }, [programUpdateFlag]);
 
+    useEffect(() => {
+        // Countdown timer logic
+        if (countdown > 0) {
+            const timer = setInterval(() => {
+                setCountdown(prevCountdown => prevCountdown - 1);
+            }, 1000);
+            return () => clearInterval(timer);
+        } else if (countdown === 0) {
+            nextExercise();
+        }
+    }, [countdown]);
+
     return (
         <SafeAreaView style={styles.container}>
             <YoutubePlayer
                 height={300}
                 videoId={data.video}
                 onChangeState={onStateChange}
+                play={true}
             />
             <ScrollView>
                 {!loading ? (
@@ -120,6 +135,19 @@ function ExerciseDetailScreen({ navigation, route }) {
                             </TouchableOpacity>
                         )}
                     />
+                    {countdown > 0 && (
+                        <View style={styles.countdownContainer}>
+                            <Text style={styles.countdownText}>Loading next exercise in {countdown}... </Text>
+                            <TouchableOpacity
+                                style={styles.button}
+                                onPress={() => {
+                                    setCountdown(-1);
+                                }}
+                            >
+                                <Text style={styles.buttonText}>Cancel</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
                 </View>
             )}
         </SafeAreaView>
@@ -194,7 +222,14 @@ const styles = StyleSheet.create({
     },
     button: {
         color: 'white',
+        borderColor: 'white',
         borderWidth: 1,
+        padding: 10,
+        marginHorizontal: 10
+    },
+    buttonText: {
+        color: 'white',
+        textAlign: 'center'
     },
     disabledButton: {
         color: 'gray',
@@ -216,6 +251,18 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: 10,
         paddingHorizontal: 20,
+    },
+    countdownContainer: {
+        position: 'absolute',
+        bottom: 80,
+        alignSelf: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        borderRadius: 10,
+        padding: 10,
+    },
+    countdownText: {
+        color: 'white',
+        fontSize: 20,
     },
 });
 
