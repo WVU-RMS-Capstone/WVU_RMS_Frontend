@@ -15,7 +15,7 @@ import AthleteProfileScreen from './screens/althetic-trainers/AthleteProfileScre
 import LogsScreen from './screens/althetic-trainers/LogsScreen';
 import AssignProgramsScreen from './screens/althetic-trainers/AssignProgramsScreen';
 import ExercisesScreen from './screens/ExercisesScreen';
-import NotesScreen from './screens/NotesScreen';
+import NotesScreen from './screens/althetic-trainers/NotesScreen';
 import FeaturedProgramsScreen from './screens/althetic-trainers/FeaturedProgramsScreen';
 import CompletedWorkoutScreen from './screens/athlete/CompletedWorkoutScreen';
 import SelectedProgramScreen from './screens/athlete/SelectedProgramScreen';
@@ -27,6 +27,7 @@ import AddExercise from './screens/althetic-trainers/AddExercise';
 import EditProfile from './screens/athlete/EditProfile';
 import ExerciseDetailScreen from './screens/ExerciseDetailScreen';
 import CategoryExercisesScreen from './screens/CategoryExercisesScreen';
+import CreateNotesScreen from './screens/althetic-trainers/CreateNotesScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -65,6 +66,7 @@ export default function App() {
           <Stack.Screen name="SelectedProgramScreen" component={SelectedProgramScreen} />
           <Stack.Screen name="ReturnToHomeScreen" component={ReturnToHomeScreen} />
           <Stack.Screen name="ProgramsScreen" component={ProgramsScreen} />
+          <Stack.Screen name="CreateNotesScreen" component={CreateNotesScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </ExerciseContext.Provider>

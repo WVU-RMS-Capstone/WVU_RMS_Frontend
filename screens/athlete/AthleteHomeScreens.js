@@ -1,9 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, SafeAreaView, Text, TouchableOpacity, Image } from 'react-native';
 import { LargeButton } from '../../src/components/Buttons';
 
 function AthleteHomeScreen({ navigation, route }) {
-  // const { UID } = route.params;
+  const { UID } = route.params;
+  console.log(UID);
+  const [data, setData] = useState('');
+  const [picture, setPicture] = useState('');
+
+  let userAPI = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php";
+  let userAction = 'getuserinfo';
+
+  useEffect(() => {
+    const getUserInfo = async () => {
+      let url = `${userAPI}?action=${userAction}&UID=${UID}`;
+      console.log(url);
+      try {
+        const response = await fetch(url);
+        const text = await response.text(); // Get the raw response text
+        const json = JSON.parse(text); // Parse the text as JSON
+        console.log(json);
+        setData(json);
+        setPicture(json[0].data[4]);
+        return json;
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+
+    getUserInfo();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -14,12 +40,19 @@ function AthleteHomeScreen({ navigation, route }) {
 
       <View style={styles.item}>
         <View style={styles.defaultcover}>
-          <Text style={styles.text}>Athlete Image</Text>
+          {picture ? (
+            <Image
+              style={styles.profilePicture}
+              source={{ uri: picture }}
+            />
+          ) : (
+            <Text style={styles.text}>Athlete Image</Text>
+          )}
         </View>
       </View>
       <View style={{ marginTop: '50%' }}>
         <View style={styles.row}>
-          <TouchableOpacity onPress={() => navigation.navigate('ProgramsScreen')}>
+          <TouchableOpacity onPress={() => navigation.navigate('ProgramsScreen', { UID: UID })}>
             <View style={styles.button}>
               <Text style={styles.buttonText}>Premade Program</Text>
             </View>
@@ -31,7 +64,7 @@ function AthleteHomeScreen({ navigation, route }) {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
+        <TouchableOpacity onPress={() => navigation.navigate('EditProfile', { UID: UID })}>
           <View style={styles.button}>
             <Text style={styles.buttonText}>Edit Profile</Text>
           </View>
@@ -55,8 +88,10 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     borderRadius: 200 / 2,
-    backgroundColor: "#D4DAE4",
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    backgroundColor: '#D4DAE4',
   },
   text: {
     textAlign: 'center',
@@ -103,5 +138,13 @@ const styles = StyleSheet.create({
     height: 30,
     marginRight: 10,
     marginTop: 10
+  },
+  profilePicture: {
+    width: '75%',
+    height: '25%',
+    width: 200,
+    height: 200,
+    borderRadius: 200 / 2,
+    alignSelf: 'center'
   }
 });
