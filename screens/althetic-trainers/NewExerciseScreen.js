@@ -9,6 +9,7 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
 
 function NewExerciseScreen({ navigation, route }) {
+  const { UID } = route.params;
 
   const [video, setVideo] = useState('');
   const [cover, setCover] = useState('');
@@ -41,7 +42,7 @@ function NewExerciseScreen({ navigation, route }) {
     try {
       const res = await sendRequest();
       console.log(res)
-      navigation.navigate('ATHomeScreen');
+      navigation.navigate('ATHomeScreen', { UID: UID });
     } catch (error) {
       console.error("Error Recieved: ", error);
     }
