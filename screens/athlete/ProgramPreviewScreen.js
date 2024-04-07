@@ -10,7 +10,8 @@ function ProgramPreviewScreen({ navigation, route }) {
   const { program } = route.params;
   const [programData, setProgramData] = useState({
     current: 0, // 0 means program hasn't been started
-    exercises: {}
+    exercises: {},
+    data: program.data
   });
   
   console.log(program)
@@ -29,7 +30,8 @@ function ProgramPreviewScreen({ navigation, route }) {
         // TODO: Check and make sure at least 1 exercise is defined (Workout_1)
         setProgramData({
           current: 1,
-          exercises: json
+          exercises: json,
+          data: program.data
         });
       } catch (error) {
         console.error("Error fetching data: ", error);

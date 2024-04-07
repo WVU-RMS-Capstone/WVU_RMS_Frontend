@@ -15,6 +15,19 @@ function ExerciseDetailScreen({ navigation, route }) {
 
     let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
     let action = 'fetchexercise';
+    
+    const onStateChange = useCallback((state) => {
+        if (state === "ended") {
+          console.log("Video has ended...");
+          
+          // Start the countdown timer
+          setCountdown(5);
+        }
+      }, []);
+    
+    const isFinalExercise = () => {
+        
+    }
 
     async function sendRequest() {
         setLoading(true);
@@ -46,8 +59,8 @@ function ExerciseDetailScreen({ navigation, route }) {
         console.log(programData);
         // If this was the final exercise in the program...
         if (next > 10 || programData.exercises[nextLabeled] == 0) {
-            // TODO: Navigate to the completed program screen
             console.log("Completed program...");
+            navigation.replace('CompletedProgramScreen', { programData: programData });
             return;
         }
         
@@ -77,15 +90,6 @@ function ExerciseDetailScreen({ navigation, route }) {
         setCurrentExercise(programData.exercises[nextLabeled]);
         setProgramUpdateFlag(true);
     }
-    
-    const onStateChange = useCallback((state) => {
-        if (state === "ended") {
-          console.log("Video has ended...");
-          
-          // Start the countdown timer
-          setCountdown(5);
-        }
-      }, []);
 
     useEffect(() => { 
         sendRequest() 
