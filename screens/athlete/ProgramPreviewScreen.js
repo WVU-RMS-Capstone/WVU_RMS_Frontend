@@ -6,18 +6,18 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 function ProgramPreviewScreen({ navigation, route }) {
   let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
   let action = 'getprogramexercises';
-  
+
   const { program } = route.params;
   const [programData, setProgramData] = useState({
     current: 0, // 0 means program hasn't been started
     exercises: {},
     data: program.data
   });
-  
+
   console.log(program)
 
   useEffect(() => {
-    const sendRequest = async () => {      
+    const sendRequest = async () => {
       let url = `${api}?action=${action}&ProgramID=${program.data.ProgramID}`;
       console.log(url);
       try {
@@ -26,7 +26,7 @@ function ProgramPreviewScreen({ navigation, route }) {
         console.log(text);
         const json = JSON.parse(text);
         console.log(json);
-        
+
         // TODO: Check and make sure at least 1 exercise is defined (Workout_1)
         setProgramData({
           current: 1,
@@ -43,16 +43,16 @@ function ProgramPreviewScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {program.data.Cover ? (
-        <Image
-          style={{ width: '75%', height: '25%' }}
-          source={{ uri: program.data.Cover }}
-        />
-      ) : (
-        <View style={styles.defaultcover}>
-          <Text>Cover</Text>
-        </View>
-      )}
+      <View style={styles.defaultcover}>
+        {program.data.Cover ? (
+          <Image
+            style={styles.profilePicture}
+            source={{ uri: program.data.Cover }}
+          />
+        ) : (
+          <Text style={{ textAlign: 'center' }}>Program Picture</Text>
+        )}
+      </View>
 
       <View style={styles.titlepos}>
         <Text style={styles.title}>Selected Program: {program.data.ProgramName}</Text>
@@ -68,9 +68,9 @@ function ProgramPreviewScreen({ navigation, route }) {
         </View> */}
       <View style={styles.button}>
         <LargeYellowButton text="Begin Workout"
-          onPress={() => navigation.navigate('ExerciseDetailScreen', { 
+          onPress={() => navigation.navigate('ExerciseDetailScreen', {
             exerciseID: programData.exercises['Workout_1'],
-            programData: programData 
+            programData: programData
           })} />
         <Text style={[{ paddingBottom: 10 }]}></Text>
         <LargeButton text="Back to Program Screen"
@@ -127,7 +127,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#D4DAE4',
     borderRadius: 15
-  }
+  },
+  profilePicture: {
+    width: '75%',
+    height: '25%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    borderRadius: 15
+  },
 });

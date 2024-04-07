@@ -1,12 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, TextInput, ScrollView, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 import { LargeButton } from '../../src/components/Buttons';
-import { Dropdown } from '../../src/components/Dropdown';
-import { PickerIOS } from '@react-native-picker/picker';
-import * as ImagePicker from 'react-native-image-picker';
-import Video from 'react-native-video';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-
+import * as ImagePicker from 'expo-image-picker';
 
 function NewExerciseScreen({ navigation, route }) {
   const { UID } = route.params;
@@ -19,6 +14,8 @@ function NewExerciseScreen({ navigation, route }) {
   const [reps, setReps] = useState('');
   const [part, setParts] = useState('');
   const [data, setData] = useState([]);
+  const [picture, setPicture] = useState('');
+  const [updatePicture, setUpdatePicture] = useState(false);
   const [response, setResponse] = useState(null);
 
   let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
@@ -48,17 +45,25 @@ function NewExerciseScreen({ navigation, route }) {
     }
   }
 
-  const ImagePicker = () => {
-    let options = {
-      storageOptions: {
-        path: 'image',
-      },
-    };
+  const HandleImagePicker = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      alert('Sorry, we need camera roll permissions to make this work!');
+      return;
+    }
 
-    launchImageLibrary(options, response => {
-      setSelectImage(response.assets[0].uri)
-      console.log(response);
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
     });
+
+    if (!result.canceled) {
+      console.log(result.assets[0].uri);
+      setPicture(result.assets[0].uri);
+      setUpdatePicture(false);
+    }
   };
 
 
@@ -66,10 +71,18 @@ function NewExerciseScreen({ navigation, route }) {
 
     <SafeAreaView style={styles.container}>
       <View style={styles.coverButton}>
-        <TouchableOpacity style={styles.coverImg} onPress={() => {
-          ImagePicker();
+        <TouchableOpacity style={styles.defaultcover} onPress={() => {
+          setUpdatePicture(true);
+          HandleImagePicker();
         }}>
-          <Text>Insert Cover</Text>
+          {picture ? (
+            <Image
+              style={styles.img}
+              source={{ uri: picture }}
+            />
+          ) : (
+            <Text>Insert Cover</Text>
+          )}
         </TouchableOpacity>
       </View>
 
@@ -93,6 +106,8 @@ function NewExerciseScreen({ navigation, route }) {
         style={[styles.descrit, { backgroundColor: 'white' }]}
         value={description}
         placeholder='Description'
+        autoCapitalize='sentences'
+        multiline={true}
         onChangeText={setDescription}
       />
 
@@ -193,7 +208,7 @@ const styles = StyleSheet.create({
     color: 'white',
     borderWidth: 1,
   },
-  coverImg: {
+  defaultcover: {
     backgroundColor: 'white',
     width: '45%',
     height: 100,
@@ -201,6 +216,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  img: {
+    width: '100%',
+    height: 100,
+    borderRadius: 15,
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center'
+
+  }
 })
 
 export default NewExerciseScreen;

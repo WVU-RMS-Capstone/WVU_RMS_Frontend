@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, Text, SafeAreaView, ScrollView, TouchableOpacity, FlatList, Touchable } from 'react-native';
+import { View, TextInput, StyleSheet, Text, SafeAreaView, ScrollView, TouchableOpacity, FlatList, Touchable, Image } from 'react-native';
 import { MediumButton } from '../../src/components/Buttons';
 import { LargeButton } from '../../src/components/Buttons';
-import ImagePicker, { launchImageLibrary } from 'react-native-image-picker'
+import * as ImagePicker from 'expo-image-picker';
 
 function NewProgramScreen({ navigation, route }) {
-  const [cover, setCover] = useState('');
   const [program, setProgram] = useState('');
   const [data, setData] = useState([]);
-  const [selectImage, setSelectImage] = useState('');
-  const [exercises, setExercises] = useState([]);
+  const [picture, setPicture] = useState('');
+  const [updatePicture, setUpdatePicture] = useState(false);
   const { listOfExercises, setListOfExercises } = React.useContext(ExerciseContext);
 
   let programAPi = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
@@ -19,7 +18,7 @@ function NewProgramScreen({ navigation, route }) {
 
   async function sendProgram() {
     if (program != "") {
-      let url = `${programAPi}?action=${programAction}&Cover=${cover}&ProgramName=${program}`;
+      let url = `${programAPi}?action=${programAction}&Cover=${picture}&ProgramName=${program}`;
       console.log("Request URL: ", url);
       try {
         const response = await fetch(url);
@@ -73,43 +72,42 @@ function NewProgramScreen({ navigation, route }) {
     }
   }
 
-  const ImagePicker = () => {
-    let options = {
-      storageOptions: {
-        path: 'image',
-      },
-    };
-
-    launchImageLibrary(options, response => {
-      setSelectImage(response.assets[0].uri)
-      console.log(response);
-    });
-  };
-
-  const selectCoverImg = React.useCallback((type, options) => {
-    try {
-      // const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      // if (status != 'granted') {
-      //   return;
-      // }
-
-      const result = ImagePicker.launchImageLibrary(options, setResponse);
-
-      if (!result.cancelled) {
-        setCover(result.uri);
-      }
-    } catch (error) {
-      console.error("Error: ", error);
+  const HandleImagePicker = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      alert('Sorry, we need camera roll permissions to make this work!');
+      return;
     }
-  }, []);
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      console.log(result.assets[0].uri);
+      setPicture(result.assets[0].uri);
+      setUpdatePicture(false);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={[styles.row]}>
         <TouchableOpacity style={styles.coverImg} onPress={() => {
-          ImagePicker();
+          setUpdatePicture(true);
+          HandleImagePicker();
         }}>
-          <Text>Insert Cover</Text>
+          {picture ? (
+            <Image
+              style={styles.img}
+              source={{ uri: picture }}
+            />
+          ) : (
+            <Text>Insert Cover</Text>
+          )}
         </TouchableOpacity>
         <TextInput
           style={[styles.input, { backgroundColor: 'white' }]}
@@ -156,6 +154,13 @@ const styles = StyleSheet.create({
   coverImg: {
     backgroundColor: 'white',
     width: '40%',
+    height: 100,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  img: {
+    width: '100%',
     height: 100,
     borderRadius: 15,
     alignItems: 'center',
