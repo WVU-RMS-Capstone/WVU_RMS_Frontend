@@ -23,3 +23,7 @@ export const FIREBASE_APP = initializeApp(firebaseConfig);
 export const FIREBASE_AUTH = firebaseAuth.initializeAuth(FIREBASE_APP, {
     persistence: reactNativePersistence(ReactNativeAsyncStorage)
 });;
+export function getCurrentUID() {
+    const user = FIREBASE_AUTH.currentUser;
+    return user ? user.uid : null;
+}
