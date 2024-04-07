@@ -82,7 +82,7 @@ function EditProfile({ navigation, route }) {
                 console.log("Passwords do not match.");
                 alert("Passwords do not match. Try Again.");
                 return;
-            } else {
+            } else if (password != "" && password == confirmPassword && firstName != "" && lastName != "" && email != "" && picture != "") {
                 try {
                     await updatePassword(UID, password);
                 } catch (error) {
@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
         height: 50,
         borderColor: 'gray',
         borderWidth: 1,
-        borderRadius: 5,
+        borderRadius: 15,
         paddingHorizontal: 10,
         marginVertical: 5,
     },
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
     input: {
         borderColor: 'gray',
         borderWidth: 1,
-        borderRadius: 5,
+        borderRadius: 15,
         padding: 10,
         height: 50,
         width: '50%',
@@ -287,8 +287,6 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     img: {
-        width: '75%',
-        height: '25%',
         width: 200,
         height: 200,
         borderRadius: 200 / 2,
