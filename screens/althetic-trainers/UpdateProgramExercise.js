@@ -1,16 +1,18 @@
 import { useState, useEffect, useReducer, useRef } from "react";
-import { SafeAreaView, StyleSheet, Text, View, FlatList, TouchableOpacity, Button } from "react-native";
+import { SafeAreaView, StyleSheet, Text, View, FlatList, TouchableOpacity, Button, TextInput, ScrollView } from "react-native";
 import { SelectList } from 'react-native-dropdown-select-list';
-import { LargeButton } from "../../src/components/Buttons";
+import { LargeButton, LargeAltButton } from "../../src/components/Buttons";
 import ExercisesScreen from "../ExercisesScreen";
 
 
 function UpdateProgramExercise({ navigation, route }) {
+    const { UID } = route.params;
     const [selected, setSelected] = useState('');
     const [programs, setPrograms] = useState('');
     const [selectedItems, setSelectedItems] = useState([]);
     const [exercises, setExercises] = useState('');
     const [chosenItem, setChosenItem] = useState([]);
+    const [video, setVideo] = useState('');
 
     let getProgramsAPI = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
     let getProgramsAction = 'fetchpremadeprograms';
@@ -74,14 +76,15 @@ function UpdateProgramExercise({ navigation, route }) {
         try {
             if ("exerciseID" in selectedItems[0]) {
                 const res = await deleteExercises(selectedItems[0].exerciseID);
+                console.log(res)
+                if (res == true) {
+                    navigation.navigate('ATHomeScreen', { UID: UID });
+                } else {
+                    alert("Deleting exercise failed, try again.");
+                }
+
             } else if ("ProgramID" in selectedItems[0]) {
                 console.log("Working again");
-            }
-            console.log(res)
-            if (res == true) {
-                navigation.navigate('ATHomeScreen', { UID: UID });
-            } else {
-                alert("Deleting exercise failed, try again.");
             }
         } catch (error) {
             console.error("Error Recieved: ", error);
@@ -106,7 +109,7 @@ function UpdateProgramExercise({ navigation, route }) {
         } else {
             // setChosenItem([value])
         }
-        console.log(value);
+        // console.log(value);
     }
 
     const options = [
@@ -140,7 +143,7 @@ function UpdateProgramExercise({ navigation, route }) {
                             }
                         />
                         <View style={styles.button2}>
-                            <LargeButton text="Done"
+                            <LargeAltButton text="Done"
                                 onPress={() => sendAndContune()} />
                         </View>
                     </View>
@@ -160,7 +163,7 @@ function UpdateProgramExercise({ navigation, route }) {
                             }
                         />
                         <View style={styles.button2}>
-                            <LargeButton text="Done"
+                            <LargeAltButton text="Done"
                                 onPress={() => sendAndContune()} />
                         </View>
                     </View>
@@ -184,14 +187,21 @@ function UpdateProgramExercise({ navigation, route }) {
                         />
 
                         {chosenItem != "" && (
-                            <View>
-                                <Text>The Current Infomration on this Exercise</Text>
-                                <Text>Name: {chosenItem.data.Name}</Text>
-                                <Text>Video: {chosenItem.data.Name}</Text>
-                                <Text>Description: {chosenItem.data.Name}</Text>
-                                <Text>Sets: {chosenItem.data.Name}</Text>
-                                <Text>Reps: {chosenItem.data.Name}</Text>
-                                <Text>Body Part: {chosenItem.data.BodyPart}</Text>
+                            <View style={{ marginTop: '5%' }}>
+                                <Text style={{ textAlign: 'center', fontWeight: '500', fontSize: 25, marginBottom: '5%' }}>The Current Information for this Exercise</Text>
+                                <Text style={styles.item}>Name: {chosenItem.data.Name}</Text>
+                                <Text style={styles.item}>Video: {chosenItem.data.video}</Text>
+                                <ScrollView style={{ maxHeight: 100 }}>
+                                    <Text style={styles.item}>Description: {chosenItem.data.Description}</Text>
+                                </ScrollView>
+                                <Text style={styles.item}>Sets: {chosenItem.data.Sets}</Text>
+                                <Text style={styles.item}>Reps: {chosenItem.data.Reps}</Text>
+                                <Text style={styles.item}>Body Part: {chosenItem.data.BodyPart}</Text>
+                                <View style={styles.button2}>
+                                    <LargeAltButton text="Continue to Update"
+                                        onPress={() => navigation.navigate('UpdateExercise', { ExerciseID: chosenItem.data.exerciseID, UID: UID })}
+                                    />
+                                </View>
                             </View>
                         )
                         }
@@ -199,31 +209,32 @@ function UpdateProgramExercise({ navigation, route }) {
                 )
                 }
 
-                {selected == "Update Programs" && (
-                    <View style={{ marginTop: '5%', maxHeight: '80%' }}>
-                        <SelectList
-                            boxStyles={{ marginTop: 15, backgroundColor: 'white' }}
-                            placeholder='Select Program'
-                            setSelected={handleSelected}
-                            data={programs.map((item) => {
-                                return {
-                                    key: item.data.ProgramID,
-                                    value: item.data.ProgramName,
-                                }
-                            })}
-                            save="value"
-                        />
+                {
+                    selected == "Update Programs" && (
+                        <View style={{ marginTop: '5%', maxHeight: '80%' }}>
+                            <SelectList
+                                boxStyles={{ marginTop: 15, backgroundColor: 'white' }}
+                                placeholder='Select Program'
+                                setSelected={handleSelected}
+                                data={programs.map((item) => {
+                                    return {
+                                        key: item.data.ProgramID,
+                                        value: item.data.ProgramName,
+                                    }
+                                })}
+                                save="value"
+                            />
 
-                        {chosenItem && (
-                            <View>
-                                <Text>Hello</Text>
-                            </View>
-                        )
-                        }
-                    </View>
-                )
+                            {chosenItem && (
+                                <View>
+                                    <Text>Hello</Text>
+                                </View>
+                            )
+                            }
+                        </View>
+                    )
                 }
-            </View>
+            </View >
 
         </SafeAreaView >
     );
@@ -288,4 +299,29 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         fontSize: 10
     },
+    item: {
+        paddingLeft: 10,
+        fontSize: 20,
+        alignContent: 'center',
+        paddingBottom: 5
+    },
+    input: {
+        height: 50,
+        borderColor: 'gray',
+        borderWidth: 1,
+        borderRadius: 15,
+        justifyContent: 'center',
+        alignSelf: 'center',
+        marginVertical: 5,
+        padding: 10,
+        width: '90%',
+    },
+    exerciseBox: {
+        borderRadius: 5,
+        backgroundColor: 'white',
+        alignItems: 'center',
+        alignSelf: 'center',
+        marginTop: '5%',
+        width: '75%'
+    }
 });

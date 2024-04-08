@@ -29,6 +29,7 @@ import ExerciseDetailScreen from './screens/ExerciseDetailScreen';
 import CategoryExercisesScreen from './screens/CategoryExercisesScreen';
 import CreateNotesScreen from './screens/althetic-trainers/CreateNotesScreen';
 import UpdateProgramExercise from './screens/althetic-trainers/UpdateProgramExercise';
+import UpdateExercise from './screens/althetic-trainers/UpdateExercise';
 
 const Stack = createNativeStackNavigator();
 
@@ -69,6 +70,7 @@ export default function App() {
           <Stack.Screen name="ProgramsScreen" component={ProgramsScreen} />
           <Stack.Screen name="CreateNotesScreen" component={CreateNotesScreen} />
           <Stack.Screen name="UpdateProgramExercise" component={UpdateProgramExercise} />
+          <Stack.Screen name="UpdateExercise" component={UpdateExercise} />
         </Stack.Navigator>
       </NavigationContainer>
     </ExerciseContext.Provider>
