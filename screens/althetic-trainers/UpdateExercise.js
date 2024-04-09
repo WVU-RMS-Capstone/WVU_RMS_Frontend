@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, TextInput, ScrollView, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 import { LargeButton } from '../../src/components/Buttons';
 import * as ImagePicker from 'expo-image-picker';
+import { getCurrentUID } from '../../FirebaseConfig';
 
 function UpdateExercise({ navigation, route }) {
-    const { ExerciseID, UID } = route.params;
+    const { ExerciseID } = route.params;
     const [video, setVideo] = useState('');
     const [name, setName] = useState(null);
     const [description, setDescription] = useState('');
@@ -73,7 +74,7 @@ function UpdateExercise({ navigation, route }) {
             const res = await sendRequest(updatedData);
             console.log(res)
             if (res == true) {
-                navigation.navigate('ATHomeScreen', { UID: UID });
+                navigation.navigate('ATHomeScreen', { UID: getCurrentUID() });
             }
         } catch (error) {
             console.error("Error Recieved: ", error);

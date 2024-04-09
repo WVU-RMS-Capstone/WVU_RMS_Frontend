@@ -199,7 +199,7 @@ function UpdateProgramExercise({ navigation, route }) {
                                 <Text style={styles.item}>Body Part: {chosenItem.data.BodyPart}</Text>
                                 <View style={styles.button2}>
                                     <LargeAltButton text="Continue to Update"
-                                        onPress={() => navigation.navigate('UpdateExercise', { ExerciseID: chosenItem.data.exerciseID, UID: UID })}
+                                        onPress={() => navigation.navigate('UpdateExercise', { ExerciseID: chosenItem.data.exerciseID })}
                                     />
                                 </View>
                             </View>
