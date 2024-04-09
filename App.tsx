@@ -17,7 +17,7 @@ import AssignProgramsScreen from './screens/althetic-trainers/AssignProgramsScre
 import ExercisesScreen from './screens/ExercisesScreen';
 import NotesScreen from './screens/althetic-trainers/NotesScreen';
 import FeaturedProgramsScreen from './screens/althetic-trainers/FeaturedProgramsScreen';
-import CompletedWorkoutScreen from './screens/athlete/CompletedWorkoutScreen';
+import CompletedProgramScreen from './screens/athlete/CompletedProgramScreen';
 import SelectedProgramScreen from './screens/athlete/SelectedProgramScreen';
 import ProgramPreviewScreen from './screens/athlete/ProgramPreviewScreen';
 import ReturnToHomeScreen from './screens/athlete/ReturnToHomeScreen';
@@ -55,11 +55,7 @@ export default function App() {
           <Stack.Screen name="AssignProgramsScreen" component={AssignProgramsScreen} />
           <Stack.Screen name="NotesScreen" component={NotesScreen} />
           <Stack.Screen name="AthleteHomeScreen" component={AthleteHomeScreen} />
-          <Stack.Screen name="CompletedWorkoutScreen" component={CompletedWorkoutScreen} options={{
-            gestureEnabled: false,
-            headerShown: true,
-            headerLeft: () => <></>,
-          }} />
+          <Stack.Screen name="CompletedProgramScreen" component={CompletedProgramScreen} />
           <Stack.Screen name="ExercisesScreen" component={ExercisesScreen} />
           <Stack.Screen name="CategoryExercisesScreen" component={CategoryExercisesScreen} />
           <Stack.Screen name="ExerciseDetailScreen" component={ExerciseDetailScreen} />
