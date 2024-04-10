@@ -129,12 +129,14 @@ export function LargeHomeButton({ text, onPress }) {
 }
 const largeYellowstyles = StyleSheet.create({
     button: {
-        borderRadius: 25,
+        borderRadius: 15,
         borderWidth: 1,
         borderColor: "#757575",
         paddingBottom: 15,
         paddingVertical: 5,
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
+        textAlign: 'center',
+        height: 70, 
         width: "70%",
         backgroundColor: '#FCCD0D',
         alignSelf: 'center',
@@ -150,8 +152,8 @@ const largeYellowstyles = StyleSheet.create({
     },
     buttonText: {
         color: '#1E3861',
-        fontSize: 32,
-        fontWeight: "500",
+        fontSize: 24,
+        fontWeight: 'bold',
         textAlign: 'center',
     }
 })
