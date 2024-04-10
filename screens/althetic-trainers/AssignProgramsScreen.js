@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { View, TextInput, StyleSheet, Text, SafeAreaView, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import { MediumButton } from '../../src/components/Buttons';
 import { LargeButton } from '../../src/components/Buttons';
+import { getCurrentUID } from '../../FirebaseConfig';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 function AssignProgramsScreen({ navigation, route }) {
   const { UID } = route.params;
@@ -35,7 +37,7 @@ function AssignProgramsScreen({ navigation, route }) {
       const res = await sendProgram();
       console.log(res)
       // add section to erase data from list of exercises so it doesnt stay there when AT leaves page
-      navigation.navigate('ATHomeScreen');
+      navigation.navigate('ATHomeScreen', { UID: getCurrentUID() });
     } catch (error) {
       console.error("Error Recieved: ", error);
     }

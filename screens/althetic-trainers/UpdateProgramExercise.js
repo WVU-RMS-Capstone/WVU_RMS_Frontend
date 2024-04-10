@@ -20,6 +20,8 @@ function UpdateProgramExercise({ navigation, route }) {
     let getExercisesAction = 'fetchallexercises';
     let deleteExerciseAPI = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
     let deleteExerciseAction = 'deleteexercise';
+    let deleteProgramAPI = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
+    let deleteProgramAction = 'deleteprograms';
 
     useEffect(() => {
         const getListOfPrograms = async () => {
@@ -72,6 +74,19 @@ function UpdateProgramExercise({ navigation, route }) {
         }
     }
 
+    async function deletePrograms(id) {
+        let url = `${deleteProgramAPI}?action=${deleteProgramAction}&programID=${id}`;
+        console.log("Request URL: ", url);
+        try {
+            const response = await fetch(url);
+            const text = await response.text();
+            const json = JSON.parse(text);
+            return json;
+        } catch (error) {
+            console.error("Error Fetching Data: ", error);
+        }
+    }
+
     const sendAndContune = async () => {
         try {
             if ("exerciseID" in selectedItems[0]) {
@@ -84,7 +99,13 @@ function UpdateProgramExercise({ navigation, route }) {
                 }
 
             } else if ("ProgramID" in selectedItems[0]) {
-                console.log("Working again");
+                const res = await deletePrograms(selectedItems[0].ProgramID);
+                console.log(res)
+                if (res == true) {
+                    navigation.navigate('ATHomeScreen', { UID: UID });
+                } else {
+                    alert("Deleting program failed, try again.");
+                }
             }
         } catch (error) {
             console.error("Error Recieved: ", error);

@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, SafeAreaView, StyleSheet, TouchableOpacity, FlatList, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { getCurrentUID } from '../../FirebaseConfig';
 
 function CreateNotesScreen({ navigation, route }) {
     const { UID } = route.params;
@@ -31,7 +32,7 @@ function CreateNotesScreen({ navigation, route }) {
         try {
             const res = await sendRequest();
             console.log(res)
-            navigation.navigate('ATHomeScreen');
+            navigation.navigate('ATHomeScreen', { UID: getCurrentUID() });
         } catch (error) {
             console.error("Error Recieved: ", error);
         }

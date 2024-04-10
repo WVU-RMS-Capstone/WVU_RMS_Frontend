@@ -5,6 +5,7 @@ import { LargeButton } from '../../src/components/Buttons';
 import * as ImagePicker from 'expo-image-picker';
 
 function NewProgramScreen({ navigation, route }) {
+  const { UID } = route.params;
   const [program, setProgram] = useState('');
   const [data, setData] = useState([]);
   const [picture, setPicture] = useState('');
@@ -65,7 +66,7 @@ function NewProgramScreen({ navigation, route }) {
         console.log(res2)
         console.log(res)
         // add section to erase data from list of exercises so it doesnt stay there when AT leaves page
-        navigation.navigate('ATHomeScreen');
+        navigation.navigate('ATHomeScreen', { UID: UID });
       }
     } catch (error) {
       console.error("Error Recieved: ", error);

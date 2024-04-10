@@ -13,7 +13,7 @@ function ATHomeScreen({ navigation, route }) {
       <View style={styles.button}>
         <LargeAltButton text="Create Program"
           adjustFontSizeToFit
-          onPress={() => navigation.navigate('NewProgramScreen')} />
+          onPress={() => navigation.navigate('NewProgramScreen', { UID: UID })} />
       </View>
       <View style={styles.button}>
         <LargeAltButton text="View Roster"
