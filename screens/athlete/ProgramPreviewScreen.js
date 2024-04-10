@@ -55,17 +55,8 @@ function ProgramPreviewScreen({ navigation, route }) {
       </View>
 
       <View style={styles.titlepos}>
-        <Text style={styles.title}>Selected Program: {program.data.ProgramName}</Text>
+        <Text style={styles.title}>Selected Program:{"\n"}{program.data.ProgramName}</Text>
       </View>
-
-      {/* <View style={styles.box}> 
-          <TextInput
-            style={styles.input}
-            value={code}
-            placeholder='Enter in STA Code'
-            onChangeText={setCode}
-          />
-        </View> */}
       <View style={styles.button}>
         <LargeYellowButton text="Begin Workout"
           onPress={() => navigation.navigate('ExerciseDetailScreen', {
@@ -73,7 +64,7 @@ function ProgramPreviewScreen({ navigation, route }) {
             programData: programData
           })} />
         <Text style={[{ paddingBottom: 10 }]}></Text>
-        <LargeButton text="Back to Program Screen"
+        <LargeButton text="Return to Programs"
           onPress={() => navigation.navigate('ProgramsScreen')} />
       </View>
     </SafeAreaView>
@@ -103,7 +94,8 @@ const styles = StyleSheet.create({
   title: {
     color: '#1E3861',
     fontWeight: 'bold',
-    fontSize: 15
+    fontSize: 25,
+    textAlign: 'center'
   },
   input: {
     height: 50,
@@ -118,8 +110,9 @@ const styles = StyleSheet.create({
     width: '75%',
   },
   button: {
-    marginTop: '40%',
-    paddingBottom: 15
+    bottom: 50,
+    position: 'absolute',
+    width: '100%'
   },
   defaultcover: {
     width: '75%',

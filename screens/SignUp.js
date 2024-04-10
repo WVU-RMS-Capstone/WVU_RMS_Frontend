@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Pressable, StyleSheet, Text, SafeAreaView, TextInput, ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Pressable, StyleSheet, Text, SafeAreaView, TextInput, ActivityIndicator, KeyboardAvoidingView, Platform, Image } from 'react-native';
 import { LargeButton, LargeYellowButton } from '../src/components/Buttons';
 import { FIREBASE_AUTH } from '../FirebaseConfig';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
@@ -75,7 +75,10 @@ function SignUp({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.container}>
-                <Text style={styles.titlefont}>| Rehabilitation Monitoring Systems</Text>
+                <View style={[styles.row, { marginBottom: '10%' }]}>
+                    <Image style={styles.img} source={require('../assets/Logo.png')} />
+                    <Text style={[styles.titlefont]}> | Rehabilitation Monitoring System</Text>
+                </View>
 
                 <View style={styles.row}>
                     <Text style={styles.label}>First name</Text>
@@ -83,7 +86,7 @@ function SignUp({ navigation }) {
                     <Text style={styles.label}>Last Name</Text>
                 </View>
 
-                <View style={styles.row}>
+                <View style={[styles.row, { marginBottom: '5%' }]}>
                     <TextInput
                         style={[styles.input, { backgroundColor: 'white' }]}
                         value={firstName}
@@ -101,7 +104,7 @@ function SignUp({ navigation }) {
 
                 <Text style={styles.label}>Email</Text>
                 <TextInput
-                    style={[styles.input2, { backgroundColor: 'white' }]}
+                    style={[styles.input2, { backgroundColor: 'white', marginBottom: '5%' }]}
                     value={email}
                     placeholder='Enter Email'
                     onChangeText={setEmail}
@@ -109,7 +112,7 @@ function SignUp({ navigation }) {
 
                 <Text style={styles.label}>Password</Text>
                 <TextInput
-                    style={[styles.input2, { backgroundColor: 'white' }]}
+                    style={[styles.input2, { backgroundColor: 'white', marginBottom: '5%' }]}
                     value={password}
                     placeholder='Enter Password'
                     onChangeText={setPassword}
@@ -118,7 +121,7 @@ function SignUp({ navigation }) {
 
                 <Text style={styles.label}>Confirm Password</Text>
                 <TextInput
-                    style={[styles.input2, { backgroundColor: 'white' }]}
+                    style={[styles.input2, { backgroundColor: 'white', marginBottom: '5%' }]}
                     value={confirmPassword}
                     placeholder='Confirm Password'
                     onChangeText={setConfirmedPassword}
@@ -127,7 +130,7 @@ function SignUp({ navigation }) {
 
                 <Text style={styles.position}>Which Are You?</Text>
 
-                <View style={styles.pressableContainer}>
+                <View style={[styles.pressableContainer, { marginBottom: '5%' }]}>
                     <Pressable
                         style={[styles.button, role === "Athlete" && styles.selected]}
                         onPress={() => setRole("Athlete")}
@@ -204,11 +207,11 @@ const styles = StyleSheet.create({
         width: '50%',
     },
     titlefont: {
-        fontSize: 32,
+        fontSize: 20,
         textAlign: 'center',
         fontWeight: 'bold',
         // marginTop: 50,
-        marginBottom: 30,
+        // marginBottom: 50,
         color: '#1E3861',
     },
     font: {
@@ -247,4 +250,10 @@ const styles = StyleSheet.create({
     selectedText: {
         color: '#fff',
     },
+    img: {
+        width: 30,
+        height: 30,
+        // marginRight: 10,
+        // marginTop: 10
+    }
 });

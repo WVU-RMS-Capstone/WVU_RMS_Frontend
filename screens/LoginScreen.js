@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, SafeAreaView, TextInput, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, Text, SafeAreaView, TextInput, ActivityIndicator, Image } from 'react-native';
 import { LargeButton } from '../src/components/Buttons';
 import { FIREBASE_AUTH } from '../FirebaseConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -67,7 +67,10 @@ function LoginScreen({ route, navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <View>
-                <Text style={styles.titlefont}>| Rehabilitation Monitoring Systems</Text>
+                <View style={styles.row}>
+                    <Image style={styles.img} source={require('../assets/Logo.png')} />
+                    <Text style={[styles.titlefont]}> | Rehabilitation Monitoring System</Text>
+                </View>
 
                 <View style={styles.inputContainer}>
                     <Text style={styles.font}>Email</Text>
@@ -110,10 +113,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#AEB6C5'
     },
     row: {
-        flexDirection: "row",
-        paddingTop: 30,
-        justifyContent: 'flex-start',
-        alignItems: 'center'
+        flexDirection: 'row',
+        marginLeft: '5%',
+        marginBottom: '25%'
     },
     input: {
         height: 50,
@@ -124,11 +126,11 @@ const styles = StyleSheet.create({
         marginVertical: 5,
     },
     titlefont: {
-        fontSize: 32,
+        fontSize: 20,
         textAlign: 'center',
         fontWeight: 'bold',
-        marginTop: 50,
-        marginBottom: 50,
+        // marginTop: 50,
+        // marginBottom: 50,
         color: '#1E3861',
     },
     font: {
@@ -141,5 +143,11 @@ const styles = StyleSheet.create({
     inputContainer: {
         marginTop: 20,
         marginHorizontal: 20,
+    },
+    img: {
+        width: 30,
+        height: 30,
+        // marginRight: 10,
+        // marginTop: 10
     }
 });

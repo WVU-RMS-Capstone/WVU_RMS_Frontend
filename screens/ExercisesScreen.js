@@ -9,13 +9,13 @@ function ExercisesScreen({ navigation, route }) {
   const [rawExercises, setRawExercises] = useState([]);
   const [filteredExercises, setFilteredExercises] = useState([]);
   const [search, setSearch] = useState('');
-  
+
   const maxCategoryItems = 5;
 
   useEffect(() => {
     const sendRequest = async () => {
       setLoading(true);
-      
+
       let url = `${api}?action=${action}`;
       console.log(url);
       try {
@@ -29,7 +29,7 @@ function ExercisesScreen({ navigation, route }) {
       } catch (error) {
         console.error("Error fetching data: ", error);
       }
-      
+
       setLoading(false);
     };
 
@@ -65,29 +65,29 @@ function ExercisesScreen({ navigation, route }) {
         key: data['Name'],
         id: data['exerciseID']
       }
-      
-    // Get the body part for this exercise
-    const bodyPart = data['BodyPart'].toUpperCase();
 
-    // If this body part hasn't been seen before, initialize an empty array for it
-    if (!exercises[bodyPart]) {
-      exercises[bodyPart] = [];
-    }
+      // Get the body part for this exercise
+      const bodyPart = data['BodyPart'].toUpperCase();
 
-    // Add this exercise to the list of exercises for its body part
-    exercises[bodyPart].push(temp);
+      // If this body part hasn't been seen before, initialize an empty array for it
+      if (!exercises[bodyPart]) {
+        exercises[bodyPart] = [];
+      }
+
+      // Add this exercise to the list of exercises for its body part
+      exercises[bodyPart].push(temp);
     }
 
     return exercises;
   }
-  
+
   // This will return each of the dynamically generated FlatLists for each body part.
   const categorizedLists = () => {
     const lists = [];
-  
+
     // Categorize the raw exercise data
     const exercises = categorizedExercises();
-    
+
     // For each of the exercise categories, define a View containing a Text label and a Flatlist.
     // The FlatList is populated with each exercise.
     for (let e in exercises) {
@@ -115,14 +115,14 @@ function ExercisesScreen({ navigation, route }) {
         </View>
       );
     }
-    
+
     return lists;
   }
-  
+
   // This will return a View containing a list of exercises as a result of the filtered search results.
   const searchResultList = () => {
     const list = [];
-    
+
     for (e in filteredExercises) {
       list.push(
         <View key={e}>
@@ -134,7 +134,7 @@ function ExercisesScreen({ navigation, route }) {
         </View>
       );
     }
-    
+
     return list;
   }
 
@@ -142,33 +142,33 @@ function ExercisesScreen({ navigation, route }) {
     <SafeAreaView style={styles.container}>
       {
         (!loading) ?
-        <>
-          <View style={styles.searchBox}>
-            <TextInput
-              style={[styles.input, { backgroundColor: 'white' }]}
-              clearButtonMode='always'
-              placeholder='Search Exercise'
-              autoCapitalize='none'
-              value={search}
-              onChangeText={(text) => searchFilter(text)}
-            />
-          </View>
+          <>
+            <View style={styles.searchBox}>
+              <TextInput
+                style={[styles.input, { backgroundColor: 'white' }]}
+                clearButtonMode='always'
+                placeholder='Search Exercise'
+                autoCapitalize='none'
+                value={search}
+                onChangeText={(text) => searchFilter(text)}
+              />
+            </View>
 
-          <View style={{ maxHeight: '62%' }}>
-            <ScrollView style={{}}>
-              { 
-                // By default, show categorized exercises.
-                // If searching, show search results instead.
-                (!search.length) ? 
-                categorizedLists()
-                :
-                searchResultList()
-              }
-            </ScrollView>
-          </View>
-        </>
-        :
-        <ActivityIndicator />
+            <View style={{ maxHeight: '62%' }}>
+              <ScrollView style={{}}>
+                {
+                  // By default, show categorized exercises.
+                  // If searching, show search results instead.
+                  (!search.length) ?
+                    categorizedLists()
+                    :
+                    searchResultList()
+                }
+              </ScrollView>
+            </View>
+          </>
+          :
+          <ActivityIndicator />
       }
     </SafeAreaView >
   );
@@ -200,17 +200,17 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     marginRight: 25,
     marginTop: 10,
-    height: 25,
-    width: 100,
+    height: 35,
+    width: 150,
     alignItems: 'center',
-    borderRadius: 10,
-    paddingBottom: 10,
+    justifyContent: 'center',
+    borderRadius: 5,
     ...Platform.select({
       ios: {
         shadowColor: '#000000',
         shadowOffset: { width: 10, height: 10 },
-        shadowOpacity: 0.2,
-        shadowRadius: 5,
+        shadowOpacity: 0.1,
+        shadowRadius: 15,
       },
     })
   },

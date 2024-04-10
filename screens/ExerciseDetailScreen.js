@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback} from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { View, StyleSheet, Text, FlatList, ScrollView, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 import { LargeButton } from '../src/components/Buttons';
 import YoutubePlayer from 'react-native-youtube-iframe';
@@ -15,23 +15,23 @@ function ExerciseDetailScreen({ navigation, route }) {
 
     let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
     let action = 'fetchexercise';
-    
+
     const onStateChange = useCallback((state) => {
         if (state === "ended") {
-          console.log("Video has ended...");
-          
-          // Start the countdown timer
-          setCountdown(5);
+            console.log("Video has ended...");
+
+            // Start the countdown timer
+            setCountdown(5);
         }
-      }, []);
-    
+    }, []);
+
     const isFinalExercise = () => {
-        
+
     }
 
     async function sendRequest() {
         setLoading(true);
-        
+
         let url = `${api}?action=${action}&exerciseID=${currentExercise}`;
         console.log("Request URL: ", url);
         try {
@@ -43,17 +43,17 @@ function ExerciseDetailScreen({ navigation, route }) {
         } catch (error) {
             console.error("Error Fetching Data: ", error);
         }
-        
+
         setLoading(false);
         setProgramUpdateFlag(false);
     }
-    
+
     function nextExercise() {
         if (!programData) {
             console.log("programData is undefined");
             return;
         }
-        
+
         let next = programData.current + 1;
         let nextLabeled = 'Workout_' + next;
         console.log(programData);
@@ -63,19 +63,19 @@ function ExerciseDetailScreen({ navigation, route }) {
             navigation.replace('CompletedProgramScreen', { programData: programData });
             return;
         }
-        
+
         // Progress to the next exercise by updating state and refreshing screen
         programData.current = next;
         setCurrentExercise(programData.exercises[nextLabeled]);
         setProgramUpdateFlag(true);
     }
-    
+
     function previousExercise() {
         if (!programData) {
             console.log("programData is undefined");
             return;
         }
-        
+
         let next = programData.current - 1;
         let nextLabeled = 'Workout_' + next;
         console.log(programData);
@@ -84,15 +84,15 @@ function ExerciseDetailScreen({ navigation, route }) {
             // TODO: Disable previous button
             return;
         }
-        
+
         // Progress to the next exercise by updating state and refreshing screen
         programData.current = next;
         setCurrentExercise(programData.exercises[nextLabeled]);
         setProgramUpdateFlag(true);
     }
 
-    useEffect(() => { 
-        sendRequest() 
+    useEffect(() => {
+        sendRequest()
     }, [programUpdateFlag]);
 
     useEffect(() => {
@@ -110,24 +110,26 @@ function ExerciseDetailScreen({ navigation, route }) {
     return (
         <SafeAreaView style={styles.container}>
             <YoutubePlayer
-                height={300}
+                height={250}
                 videoId={data.video}
                 onChangeState={onStateChange}
                 play={true}
             />
-            <ScrollView>
-                {!loading ? (
-                    <View style={styles.container}>
-                        <Text style={styles.rowInput}>Name: {data.Name}</Text>
+            {!loading ? (
+                <View>
+                    <Text style={styles.title}>Name: {data.Name}</Text>
+                    <ScrollView style={{ maxHeight: 275 }}>
                         <Text style={styles.rowInput}>Description: {data.Description}</Text>
-                        <Text style={styles.rowInput}>Body Part: {data.BodyPart}</Text>
+                    </ScrollView>
+                    <Text style={[styles.rowInput, { textAlign: 'center' }]}>Body Part: {data.BodyPart}</Text>
+                    <View style={styles.row}>
                         <Text style={styles.rowInput}>Reps: {data.Reps}</Text>
                         <Text style={styles.rowInput}>Sets: {data.Sets}</Text>
                     </View>
-                ) : (
-                    <ActivityIndicator />
-                )}
-            </ScrollView>
+                </View>
+            ) : (
+                <ActivityIndicator />
+            )}
             {programData !== undefined && (
                 <View style={styles.footer}>
                     <FlatList
@@ -189,14 +191,17 @@ const styles = StyleSheet.create({
         // width: '50%',
     },
     rowInput: {
-        borderColor: 'gray',
-        // borderWidth: 1,
-        borderRadius: 15,
-        padding: 20,
-        marginTop: 4,
-        width: '40%',
-        height: 90,
+        paddingLeft: 20,
+        paddingRight: 20,
+        fontSize: 15,
+        textAlign: 'left',
+        paddingBottom: 10
+    },
+    title: {
+        fontSize: 20,
         textAlign: 'center',
+        paddingBottom: 5,
+        fontWeight: 'bold'
     },
     coverButton: {
         borderColor: 'gray',
@@ -259,12 +264,14 @@ const styles = StyleSheet.create({
         height: 200,
     },
     footer: {
-        backgroundColor: 'gray',
+        backgroundColor: '#1E3861',
         flexDirection: 'column',
-        justifyContent: 'center',
         alignItems: 'center',
         paddingVertical: 10,
         paddingHorizontal: 20,
+        bottom: 25,
+        position: 'absolute',
+        width: '100%'
     },
     countdownContainer: {
         position: 'absolute',
