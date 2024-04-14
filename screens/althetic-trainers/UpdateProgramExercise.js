@@ -317,7 +317,6 @@ const styles = StyleSheet.create({
     },
     dropdown: {
         paddingHorizontal: 25,
-        marginTop: '5%',
     },
     font: {
         fontSize: 15,

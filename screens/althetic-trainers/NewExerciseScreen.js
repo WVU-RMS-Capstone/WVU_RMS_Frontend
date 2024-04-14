@@ -61,12 +61,28 @@ function NewExerciseScreen({ navigation, route }) {
   }
 
   const sendAndContune = async () => {
-    try {
-      const res = await sendRequest();
-      console.log(res)
-      navigation.navigate('ATHomeScreen', { UID: UID });
-    } catch (error) {
-      console.error("Error Recieved: ", error);
+    if (video != "" && name != "" && sets != "" && reps != "" && part != "") {
+
+      try {
+        const res = await sendRequest();
+        console.log(res)
+        navigation.navigate('ATHomeScreen', { UID: UID });
+
+      } catch (error) {
+        console.error("Error Recieved: ", error);
+      }
+    } else {
+      if (video == "") {
+        alert("Missing Input on Video");
+      } else if (name == "") {
+        alert("Missing Input on Name");
+      } else if (sets == "") {
+        alert("Missing Input on Sets");
+      } else if (reps == "") {
+        alert("Missing Input on Reps");
+      } else if (part == "") {
+        alert("Missing Input on Body Part");
+      }
     }
   }
 
