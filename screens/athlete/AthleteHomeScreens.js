@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, SafeAreaView, Text, TouchableOpacity, Image } from 'react-native';
 import { LargeButton } from '../../src/components/Buttons';
+import { signOut } from 'firebase/auth';
+import { FIREBASE_AUTH } from '../../FirebaseConfig';
 
 function AthleteHomeScreen({ navigation, route }) {
   const { UID } = route.params;
@@ -31,14 +33,25 @@ function AthleteHomeScreen({ navigation, route }) {
     getUserInfo();
   }, []);
 
+  const signOut = async () => {
+    // setLoading(true);
+    try {
+      const response = await signOut(FIREBASE_AUTH);
+      console.log(response);
+      navigation.navigate('HomeScreen');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.row}>
+      {/* <View style={styles.row}>
         <Image style={styles.img} source={require('../../assets/Logo.png')} />
         <Text style={[styles.titlefont]}>| Rehabilitation Monitoring System</Text>
-      </View>
+      </View> */}
 
-      <View style={styles.item}>
+      <View style={[styles.item, { marginTop: '30%' }]}>
         <View style={styles.defaultcover}>
           {picture ? (
             <Image
@@ -64,11 +77,18 @@ function AthleteHomeScreen({ navigation, route }) {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity onPress={() => navigation.navigate('EditProfile', { UID: UID })}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>Edit Profile</Text>
-          </View>
-        </TouchableOpacity>
+        <View style={styles.row}>
+          <TouchableOpacity onPress={() => navigation.navigate('EditProfile', { UID: UID })}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>Edit Profile</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => signOut()}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>Sign Out</Text >
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
 
     </SafeAreaView>

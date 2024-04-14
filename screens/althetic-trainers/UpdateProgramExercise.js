@@ -12,7 +12,8 @@ function UpdateProgramExercise({ navigation, route }) {
     const [selectedItems, setSelectedItems] = useState([]);
     const [exercises, setExercises] = useState('');
     const [chosenItem, setChosenItem] = useState([]);
-    const [video, setVideo] = useState('');
+    const [programExercises, setprogramExercises] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     let getProgramsAPI = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
     let getProgramsAction = 'fetchpremadeprograms';
@@ -22,6 +23,8 @@ function UpdateProgramExercise({ navigation, route }) {
     let deleteExerciseAction = 'deleteexercise';
     let deleteProgramAPI = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
     let deleteProgramAction = 'deleteprograms';
+    let getProgramExercisesAPI = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
+    let getProgramExercisesAction = 'getprogramexercisenames';
 
     useEffect(() => {
         const getListOfPrograms = async () => {
@@ -33,6 +36,7 @@ function UpdateProgramExercise({ navigation, route }) {
                 const json = JSON.parse(text); // Parse the text as JSON
                 console.log(json);
                 setPrograms(json);
+                setIsLoading(false);
                 return json;
             } catch (error) {
                 console.error("Error fetching data: ", error);
@@ -52,6 +56,7 @@ function UpdateProgramExercise({ navigation, route }) {
                 const json = JSON.parse(text); // Parse the text as JSON
                 console.log(json);
                 setExercises(json);
+                setIsLoading(false);
                 return json;
             } catch (error) {
                 console.error("Error fetching data: ", error);
@@ -81,6 +86,21 @@ function UpdateProgramExercise({ navigation, route }) {
             const response = await fetch(url);
             const text = await response.text();
             const json = JSON.parse(text);
+            return json;
+        } catch (error) {
+            console.error("Error Fetching Data: ", error);
+        }
+    }
+
+    async function getProgramExercises(id) {
+        let url = `${getProgramExercisesAPI}?action=${getProgramExercisesAction}&ProgramID=${id}`;
+        console.log("Request URL: ", url);
+        try {
+            const response = await fetch(url);
+            const text = await response.text();
+            const json = JSON.parse(text);
+            setprogramExercises(json);
+            console.log(json);
             return json;
         } catch (error) {
             console.error("Error Fetching Data: ", error);
@@ -123,12 +143,23 @@ function UpdateProgramExercise({ navigation, route }) {
 
     const handleSelected = (value) => {
         const foundExercise = exercises.find((exercise) => exercise.data.exerciseID === value);
-        // console.log(foundExercise);
+        console.log(foundExercise);
         if (foundExercise) {
             setChosenItem(foundExercise);
             console.log(chosenItem);
         } else {
-            // setChosenItem([value])
+            console.log("Exercise Not Found");
+        }
+        // console.log(value);
+    }
+    const handleSelectedProgram = (value) => {
+        const foundProgram = programs.find((program) => program.data.ProgramID == value);
+        if (foundProgram) {
+            setChosenItem(foundProgram);
+            getProgramExercises(value);
+            console.log(chosenItem);
+        } else {
+            console.log("Program Not Found");
         }
         // console.log(value);
     }
@@ -139,124 +170,139 @@ function UpdateProgramExercise({ navigation, route }) {
         { key: 3, value: 'Update Exercises' },
         { key: 4, value: 'Delete Exercises' },
     ]
+
+    console.log();
+
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.dropdown}>
-                <Text style={[styles.font, { fontSize: 25 }]}>Choose one of the following</Text>
-                <SelectList
-                    boxStyles={{ marginTop: 15, backgroundColor: 'white' }}
-                    placeholder='Select Item'
-                    setSelected={(val) => setSelected(val)}
-                    data={options}
-                    save="value"
-                />
+            {!isLoading && (
+                <View style={styles.dropdown}>
+                    <Text style={[styles.font, { fontSize: 25 }]}>Choose one of the following</Text>
+                    <SelectList
+                        boxStyles={{ marginTop: 15, backgroundColor: 'white' }}
+                        placeholder='Select Item'
+                        setSelected={(val) => setSelected(val)}
+                        data={options}
+                        save="value"
+                    />
 
-                {selected == "Delete Programs" && (
-                    <View style={{ marginTop: '5%' }}>
-                        <FlatList
-                            style={styles.box}
-                            data={programs}
-                            keyExtractor={(item) => item.data.ProgramID.toString()}
-                            renderItem={({ item }) =>
-                                <TouchableOpacity style={[styles.ath, selectedItems.includes(item.data) ? styles.selected : null]} onPress={() => handleSelectedItem(item.data)}>
-                                    <Text style={styles.first}>{item.data.ProgramName}</Text>
-                                </TouchableOpacity>
-                            }
-                        />
-                        <View style={styles.button2}>
-                            <LargeAltButton text="Done"
-                                onPress={() => sendAndContune()} />
-                        </View>
-                    </View>
-                )
-                }
-
-                {selected == "Delete Exercises" && (
-                    <View style={{ marginTop: '5%', maxHeight: '80%' }}>
-                        <FlatList
-                            style={styles.box}
-                            data={exercises}
-                            keyExtractor={(item) => item.data.exerciseID.toString()}
-                            renderItem={({ item }) =>
-                                <TouchableOpacity style={[styles.ath, selectedItems.includes(item.data) ? styles.selected : null]} onPress={() => handleSelectedItem(item.data)}>
-                                    <Text style={styles.first}>{item.data.Name}</Text>
-                                </TouchableOpacity>
-                            }
-                        />
-                        <View style={styles.button2}>
-                            <LargeAltButton text="Done"
-                                onPress={() => sendAndContune()} />
-                        </View>
-                    </View>
-                )
-                }
-
-                {selected == "Update Exercises" && (
-                    <View style={{ marginTop: '5%', maxHeight: '80%' }}>
-                        <SelectList
-                            boxStyles={{ marginTop: 15, backgroundColor: 'white' }}
-                            placeholder='Select Exercise'
-                            setSelected={(exercise) => handleSelected(exercise)}
-                            data={exercises.map((item) => {
-                                return {
-                                    key: item.data.exerciseID,
-                                    value: item.data.Name,
-                                    data: item.data,
+                    {selected == "Delete Programs" && (
+                        <View style={{ marginTop: '5%' }}>
+                            <FlatList
+                                style={styles.box}
+                                data={programs}
+                                keyExtractor={(item) => item.data.ProgramID.toString()}
+                                renderItem={({ item }) =>
+                                    <TouchableOpacity style={[styles.ath, selectedItems.includes(item.data) ? styles.selected : null]} onPress={() => handleSelectedItem(item.data)}>
+                                        <Text style={styles.first}>{item.data.ProgramName}</Text>
+                                    </TouchableOpacity>
                                 }
-                            })}
-                            save="key"
-                        />
-
-                        {chosenItem != "" && (
-                            <View style={{ marginTop: '5%' }}>
-                                <Text style={{ textAlign: 'center', fontWeight: '500', fontSize: 25, marginBottom: '5%' }}>The Current Information for this Exercise</Text>
-                                <Text style={styles.item}>Name: {chosenItem.data.Name}</Text>
-                                <Text style={styles.item}>Video: {chosenItem.data.video}</Text>
-                                <ScrollView style={{ maxHeight: 100 }}>
-                                    <Text style={styles.item}>Description: {chosenItem.data.Description}</Text>
-                                </ScrollView>
-                                <Text style={styles.item}>Sets: {chosenItem.data.Sets}</Text>
-                                <Text style={styles.item}>Reps: {chosenItem.data.Reps}</Text>
-                                <Text style={styles.item}>Body Part: {chosenItem.data.BodyPart}</Text>
-                                <View style={styles.button2}>
-                                    <LargeAltButton text="Continue to Update"
-                                        onPress={() => navigation.navigate('UpdateExercise', { ExerciseID: chosenItem.data.exerciseID })}
-                                    />
-                                </View>
+                            />
+                            <View style={styles.button2}>
+                                <LargeAltButton text="Done"
+                                    onPress={() => sendAndContune()} />
                             </View>
-                        )
-                        }
-                    </View>
-                )
-                }
+                        </View>
+                    )
+                    }
 
-                {
-                    selected == "Update Programs" && (
+                    {selected == "Delete Exercises" && (
+                        <View style={{ marginTop: '5%', maxHeight: '80%' }}>
+                            <FlatList
+                                style={styles.box}
+                                data={exercises}
+                                keyExtractor={(item) => item.data.exerciseID.toString()}
+                                renderItem={({ item }) =>
+                                    <TouchableOpacity style={[styles.ath, selectedItems.includes(item.data) ? styles.selected : null]} onPress={() => handleSelectedItem(item.data)}>
+                                        <Text style={styles.first}>{item.data.Name}</Text>
+                                    </TouchableOpacity>
+                                }
+                            />
+                            <View style={styles.button2}>
+                                <LargeAltButton text="Done"
+                                    onPress={() => sendAndContune()} />
+                            </View>
+                        </View>
+                    )
+                    }
+
+                    {selected == "Update Exercises" && (
                         <View style={{ marginTop: '5%', maxHeight: '80%' }}>
                             <SelectList
                                 boxStyles={{ marginTop: 15, backgroundColor: 'white' }}
-                                placeholder='Select Program'
-                                setSelected={handleSelected}
-                                data={programs.map((item) => {
+                                placeholder='Select Exercise'
+                                setSelected={(exercise) => handleSelected(exercise)}
+                                data={exercises.map((item) => {
                                     return {
-                                        key: item.data.ProgramID,
-                                        value: item.data.ProgramName,
+                                        key: item.data.exerciseID,
+                                        value: item.data.Name,
+                                        data: item.data,
                                     }
                                 })}
-                                save="value"
+                                save="key"
                             />
 
-                            {chosenItem && (
-                                <View>
-                                    <Text>Hello</Text>
+                            {chosenItem != "" && (
+                                <View style={{ marginTop: '5%' }}>
+                                    <Text style={{ textAlign: 'center', fontWeight: '500', fontSize: 25, marginBottom: '5%' }}>The Current Information for this Exercise</Text>
+                                    <Text style={styles.item}>Name: {chosenItem.data.Name}</Text>
+                                    <Text style={styles.item}>Video: {chosenItem.data.video}</Text>
+                                    <ScrollView style={{ maxHeight: 100 }}>
+                                        <Text style={styles.item}>Description: {chosenItem.data.Description}</Text>
+                                    </ScrollView>
+                                    <Text style={styles.item}>Sets: {chosenItem.data.Sets}</Text>
+                                    <Text style={styles.item}>Reps: {chosenItem.data.Reps}</Text>
+                                    <Text style={styles.item}>Body Part: {chosenItem.data.BodyPart}</Text>
+                                    <View style={styles.button2}>
+                                        <LargeAltButton text="Continue to Update"
+                                            onPress={() => navigation.navigate('UpdateExercise', { ExerciseID: chosenItem.data.exerciseID })}
+                                        />
+                                    </View>
                                 </View>
                             )
                             }
                         </View>
                     )
-                }
-            </View >
+                    }
 
+                    {selected == "Update Programs" && (
+                        <View style={{ marginTop: '5%', maxHeight: '80%' }}>
+                            <SelectList
+                                boxStyles={{ marginTop: 15, backgroundColor: 'white' }}
+                                placeholder='Select Program'
+                                setSelected={(program) => handleSelectedProgram(program)}
+                                data={programs.map((item) => {
+                                    return {
+                                        key: item.data.ProgramID,
+                                        value: item.data.ProgramName,
+                                        data: item.data,
+                                    }
+                                })}
+                                save="key"
+                            />
+
+                            {chosenItem != "" && (
+                                <View style={{ marginTop: '5%' }}>
+                                    <Text style={{ textAlign: 'center', fontWeight: '500', fontSize: 25, marginBottom: '5%' }}>The Current Information for this Exercise</Text>
+                                    <Text style={styles.item}>Name: {chosenItem.data.ProgramName}</Text>
+                                    {Object.entries(programExercises).map(([key, value]) => (
+                                        <Text key={key} style={[styles.item, { fontSize: 18 }]}>
+                                            {value ? `Workout ${key.split('_')[1]}: ${value}` : `Workout: Empty`}
+                                        </Text>
+                                    ))}
+                                    <View style={styles.button2}>
+                                        <LargeAltButton text="Continue to Update"
+                                            onPress={() => navigation.navigate('UpdateProgram', { ProgramID: chosenItem.data.ProgramID })}
+                                        />
+                                    </View>
+                                </View>
+                            )
+                            }
+                        </View>
+                    )
+                    }
+                </View >
+            )}
         </SafeAreaView >
     );
 }

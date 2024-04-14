@@ -5,12 +5,12 @@ import { LargeButton } from '../../src/components/Buttons';
 import * as ImagePicker from 'expo-image-picker';
 
 function NewProgramScreen({ navigation, route }) {
-  const { UID } = route.params;
+  const { UID, exercises } = route.params;
+  console.log(exercises);
   const [program, setProgram] = useState('');
   const [data, setData] = useState([]);
   const [picture, setPicture] = useState('');
   const [updatePicture, setUpdatePicture] = useState(false);
-  const { listOfExercises, setListOfExercises } = React.useContext(ExerciseContext);
 
   let programAPi = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
   let programAction = 'createprogram';
@@ -38,7 +38,7 @@ function NewProgramScreen({ navigation, route }) {
 
   async function sendExercises() {
     const workoutObj = {};
-    const exerciseIDs = listOfExercises.map(item => item.exerciseID);
+    const exerciseIDs = exercises.map(item => item.ID);
     for (let i = 0; i < exerciseIDs.length; i++) {
       let index = i + 1;
       workoutObj[`Workout${index}`] = exerciseIDs[i];
@@ -120,7 +120,7 @@ function NewProgramScreen({ navigation, route }) {
 
       <FlatList
         style={styles.box}
-        data={listOfExercises}
+        data={exercises}
         renderItem={({ item }) =>
           <View style={styles.exercise}>
             <Text style={styles.exerciseText}>{item.Name}</Text>

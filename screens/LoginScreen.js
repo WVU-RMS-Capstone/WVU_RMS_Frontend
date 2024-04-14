@@ -67,12 +67,12 @@ function LoginScreen({ route, navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <View>
-                <View style={styles.row}>
+                {/* <View style={styles.row}>
                     <Image style={styles.img} source={require('../assets/Logo.png')} />
                     <Text style={[styles.titlefont]}> | Rehabilitation Monitoring System</Text>
-                </View>
+                </View> */}
 
-                <View style={styles.inputContainer}>
+                <View style={[styles.inputContainer, { marginTop: '30%' }]}>
                     <Text style={styles.font}>Email</Text>
                     <TextInput
                         style={[styles.input, { backgroundColor: 'white' }]}
