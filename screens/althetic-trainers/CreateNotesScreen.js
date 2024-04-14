@@ -74,6 +74,8 @@ function CreateNotesScreen({ navigation, route }) {
                 autoCapitalize='sentences'
                 multiline={true}
                 value={note}
+                returnKeyType='done'
+                blurOnSubmit={true}
                 onChangeText={(text) => setNotes(text)}
             />
             <TextInput

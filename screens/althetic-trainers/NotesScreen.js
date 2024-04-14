@@ -29,18 +29,26 @@ function NotesScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList
-        data={notes}
-        renderItem={({ item }) =>
-          <View>
-            <Text style={styles.date}>Date: </Text>
-            <View style={styles.noteBox}>
-              <Text>{item.data.Note}</Text>
-            </View>
-            <Text style={styles.signedOff}>Note Made By: {item.data.MadeBy}</Text>
-          </View>
-        }
-      />
+      {notes != "No notes have been added yet." && (
+        <View style={{ maxHeight: '75%' }}>
+          <FlatList
+            data={notes}
+            renderItem={({ item }) =>
+              <View>
+                <Text style={styles.date}>Date: {item.data.Date}</Text>
+                <View style={styles.noteBox}>
+                  <Text>{item.data.Note}</Text>
+                </View>
+                <Text style={styles.signedOff}>Note Made By: {item.data.MadeBy}</Text>
+              </View>
+            }
+          />
+        </View>
+      )}
+      {notes == "No notes have been added yet." && (
+        <Text style={styles.noNotes}>No notes have been made yet.</Text>
+      )}
+
       <View style={styles.row}>
         <TouchableOpacity onPress={() => navigation.navigate('ATHomeScreen')}>
           <View style={styles.button}>
@@ -53,7 +61,6 @@ function NotesScreen({ navigation, route }) {
           </View>
         </TouchableOpacity>
       </View>
-
     </SafeAreaView>
   );
 }
@@ -114,31 +121,13 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginLeft: '10%',
-    marginRight: '10%',
-    marginTop: '10%'
+    bottom: 0,
+    position: 'absolute',
+    alignSelf: 'center',
+    marginBottom: '10%'
+  },
+  noNotes: {
+    textAlign: 'center',
+    fontSize: 25,
   }
 })
-
-// function NotesScreen() {
-//   const [value, onChangeText] = React.useState('');
-//   return (
-//     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-
-//       <TextInput
-//         editable
-//         autoFocus
-//         multiline
-//         numberOfLines={4}
-//         placeholder='Enter Notes'
-//         onChangeText={text => onChangeText(text)}
-//         value={value}
-//         style={{padding: 10}}
-//       />
-//    <Button title="Submit"
-//         onPress={null} />
-//     </View>
-//   );
-// }
-
-// export default NotesScreen;

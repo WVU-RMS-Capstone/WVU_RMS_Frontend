@@ -60,7 +60,6 @@ function RosterScreen({ navigation, route }) {
           onChangeText={(text) => searchFilter(text)}
         />
       </View>
-
       <FlatList
         style={styles.box}
         data={filteredRoster}
@@ -79,10 +78,6 @@ function RosterScreen({ navigation, route }) {
           </TouchableOpacity>
         }
       />
-
-      <View style={styles.button}>
-        <Text>Place buttons here</Text>
-      </View>
 
     </SafeAreaView>
   );
@@ -155,7 +150,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   box: {
-    marginBottom: 130
+    maxHeight: '75%'
   },
   button: {
     paddingLeft: 150,
