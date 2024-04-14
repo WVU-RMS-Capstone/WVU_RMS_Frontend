@@ -1,5 +1,5 @@
 import { useState, useEffect, useReducer, useRef } from "react";
-import { SafeAreaView, StyleSheet, Text, View, FlatList, TouchableOpacity, Button, TextInput, ScrollView } from "react-native";
+import { SafeAreaView, StyleSheet, Text, View, FlatList, TouchableOpacity, Button, TextInput, ScrollView, Linking } from "react-native";
 import { SelectList } from 'react-native-dropdown-select-list';
 import { LargeButton, LargeAltButton } from "../../src/components/Buttons";
 import ExercisesScreen from "../ExercisesScreen";
@@ -171,7 +171,15 @@ function UpdateProgramExercise({ navigation, route }) {
         { key: 4, value: 'Delete Exercises' },
     ]
 
-    console.log();
+    const openVideo = async (url) => {
+        const canOpen = await Linking.canOpenURL(url);
+
+        if (canOpen) {
+            Linking.openURL(url);
+        } else {
+            alert('Could not open the video.');
+        }
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -246,7 +254,9 @@ function UpdateProgramExercise({ navigation, route }) {
                                 <View style={{ marginTop: '5%' }}>
                                     <Text style={{ textAlign: 'center', fontWeight: '500', fontSize: 25, marginBottom: '5%' }}>The Current Information for this Exercise</Text>
                                     <Text style={styles.item}>Name: {chosenItem.data.Name}</Text>
-                                    <Text style={styles.item}>Video: {chosenItem.data.video}</Text>
+                                    <Text style={styles.item}>Video:{' '}
+                                        <Text style={styles.videoLink} onPress={() => openVideo(chosenItem.data.video)}>{chosenItem.data.video}</Text>
+                                    </Text>
                                     <ScrollView style={{ maxHeight: 100 }}>
                                         <Text style={styles.item}>Description: {chosenItem.data.Description}</Text>
                                     </ScrollView>
@@ -317,6 +327,11 @@ const styles = StyleSheet.create({
     },
     dropdown: {
         paddingHorizontal: 25,
+    },
+    videoLink: {
+        fontSize: 18,
+        color: '#008CBA',
+        textDecorationLine: 'underline'
     },
     font: {
         fontSize: 15,
