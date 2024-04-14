@@ -183,8 +183,8 @@ function NewExerciseScreen({ navigation, route }) {
             setShowCreateInput(false);
           }
         }}
-        boxStyles={{ marginTop: 15, backgroundColor: 'white', marginLeft: 20, marginRight: 20 }}
-        dropdownStyles={{ marginLeft: 20, marginRight: 20 }}
+        boxStyles={{ marginTop: 5, backgroundColor: 'white', marginHorizontal: '5%' }}
+        dropdownStyles={{ marginHorizontal: '5%' }}
         placeholder='Select Body Part'
         save="value"
       />
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 15,
-    marginHorizontal: 20,
+    marginHorizontal: '5%',
     marginVertical: 5,
     padding: 10,
     textAlignVertical: 'top',
@@ -275,14 +275,14 @@ const styles = StyleSheet.create({
   defaultcover: {
     backgroundColor: 'white',
     width: '45%',
-    height: 100,
+    height: 150,
     borderRadius: 15,
     alignItems: 'center',
     justifyContent: 'center'
   },
   img: {
-    width: '100%',
-    height: 100,
+    width: '45%',
+    height: 150,
     borderRadius: 15,
     alignSelf: 'center',
     alignItems: 'center',

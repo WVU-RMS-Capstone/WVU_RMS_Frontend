@@ -51,7 +51,7 @@ function AthleteHomeScreen({ navigation, route }) {
         <Text style={[styles.titlefont]}>| Rehabilitation Monitoring System</Text>
       </View> */}
 
-      <View style={[styles.item, { marginTop: '30%' }]}>
+      <View style={[styles.item, { marginTop: '20%' }]}>
         <View style={styles.defaultcover}>
           {picture ? (
             <Image
@@ -63,7 +63,7 @@ function AthleteHomeScreen({ navigation, route }) {
           )}
         </View>
       </View>
-      <View style={{ marginTop: '50%' }}>
+      <View style={{ marginTop: '30%' }}>
         <View style={styles.row}>
           <TouchableOpacity onPress={() => navigation.navigate('ProgramsScreen', { UID: UID })}>
             <View style={styles.button}>
@@ -105,9 +105,9 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   defaultcover: {
-    width: 200,
-    height: 200,
-    borderRadius: 200 / 2,
+    width: 300,
+    height: 300,
+    borderRadius: 300 / 2,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
@@ -118,14 +118,15 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
+    marginBottom: '5%'
   },
   button: {
     borderRadius: 15,
     borderWidth: 1,
     borderColor: "#757575",
     justifyContent: 'center',
-    width: 150,
+    width: 250,
     height: 90,
     backgroundColor: '#1E3861',
     alignSelf: 'center',

@@ -151,7 +151,7 @@ function UpdateExercise({ navigation, route }) {
 
             <View style={[styles.row, { paddingLeft: 10 }]}>
                 <Text style={styles.titleRow}>Update Sets</Text>
-                <Text style={[styles.titleRow, { paddingStart: 20 }]}>Update Reps</Text>
+                <Text style={[styles.titleRow, { marginLeft: '35%' }]}>Update Reps</Text>
             </View>
 
             <View style={styles.row}>
@@ -162,7 +162,7 @@ function UpdateExercise({ navigation, route }) {
                     onChangeText={setSets}
                 />
                 <TextInput
-                    style={[styles.number, { backgroundColor: 'white' }]}
+                    style={[styles.number, { backgroundColor: 'white', }]}
                     value={reps}
                     placeholder={tempReps}
                     onChangeText={setReps}
@@ -196,7 +196,8 @@ const styles = StyleSheet.create({
     },
     row: {
         flexDirection: 'row',
-        justifyContent: 'space-evenly'
+        marginLeft: '2%'
+        // justifyContent: 'space-evenly'
     },
     input: {
         height: 50,
@@ -231,7 +232,7 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 1,
         borderRadius: 15,
-        marginHorizontal: 20,
+        marginHorizontal: '5%',
         marginVertical: 5,
         padding: 10,
         textAlignVertical: 'top',
@@ -242,7 +243,7 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         padding: 10,
         marginTop: 4,
-        width: '40%',
+        width: '43%',
         height: 60,
         textAlign: 'justify',
         marginHorizontal: 20,
@@ -255,14 +256,14 @@ const styles = StyleSheet.create({
     defaultcover: {
         backgroundColor: 'white',
         width: '45%',
-        height: 100,
+        height: 150,
         borderRadius: 15,
         alignItems: 'center',
         justifyContent: 'center'
     },
     img: {
-        width: '100%',
-        height: 100,
+        width: '45%',
+        height: 150,
         borderRadius: 15,
         alignSelf: 'center',
         alignItems: 'center',
@@ -270,11 +271,11 @@ const styles = StyleSheet.create({
 
     },
     title: {
-        paddingLeft: 25,
+        paddingLeft: '5%',
         fontWeight: '500'
     },
     titleRow: {
-        marginRight: 75,
+        marginHorizontal: '2%',
         fontWeight: '500'
     }
 })

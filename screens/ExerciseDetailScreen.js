@@ -110,7 +110,7 @@ function ExerciseDetailScreen({ navigation, route }) {
     return (
         <SafeAreaView style={styles.container}>
             <YoutubePlayer
-                height={250}
+                height={450}
                 videoId={data.video}
                 onChangeState={onStateChange}
                 play={true}
@@ -193,12 +193,12 @@ const styles = StyleSheet.create({
     rowInput: {
         paddingLeft: 20,
         paddingRight: 20,
-        fontSize: 15,
+        fontSize: 25,
         textAlign: 'left',
         paddingBottom: 10
     },
     title: {
-        fontSize: 20,
+        fontSize: 25,
         textAlign: 'center',
         paddingBottom: 5,
         fontWeight: 'bold'

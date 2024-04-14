@@ -23,7 +23,7 @@ function ATHomeScreen({ navigation, route }) {
         <Image style={styles.img} source={require('../../assets/Logo.png')} />
         <Text style={[styles.titlefont]}>| Rehabilitation Monitoring System</Text>
       </View> */}
-      <View style={[styles.button, { marginTop: '35%' }]}>
+      <View style={[styles.button, { marginTop: '20%' }]}>
         <LargeAltButton text="Create Program"
           adjustFontSizeToFit
           onPress={() => navigation.navigate('NewProgramScreen', { UID: UID })} />

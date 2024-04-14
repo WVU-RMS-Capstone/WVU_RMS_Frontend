@@ -117,16 +117,17 @@ function NewProgramScreen({ navigation, route }) {
           onChangeText={setProgram}
         />
       </View>
-
-      <FlatList
-        style={styles.box}
-        data={exercises}
-        renderItem={({ item }) =>
-          <View style={styles.exercise}>
-            <Text style={styles.exerciseText}>{item.Name}</Text>
-          </View>
-        }
-      />
+      <View>
+        <FlatList
+          style={styles.box}
+          data={exercises}
+          renderItem={({ item }) =>
+            <View style={styles.exercise}>
+              <Text style={styles.exerciseText}>{item.Name}</Text>
+            </View>
+          }
+        />
+      </View>
 
       <View style={styles.row}>
         <TouchableOpacity onPress={() => sendAndContune()}>
@@ -155,24 +156,24 @@ const styles = StyleSheet.create({
   coverImg: {
     backgroundColor: 'white',
     width: '40%',
-    height: 100,
+    height: 150,
     borderRadius: 15,
     alignItems: 'center',
     justifyContent: 'center'
   },
   img: {
-    width: '100%',
-    height: 100,
+    width: '40%',
+    height: 150,
     borderRadius: 15,
     alignItems: 'center',
     justifyContent: 'center'
   },
   row: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
   },
   input: {
-    height: 40,
+    height: 50,
     marginTop: 30,
     borderRadius: 15,
     width: '40%',
@@ -180,18 +181,18 @@ const styles = StyleSheet.create({
   },
   box: {
     backgroundColor: 'white',
-    margin: 30,
-    marginBottom: 50,
-    borderRadius: 15
+    borderRadius: 15,
+    maxHeight: '80%',
+    marginLeft: '5%',
+    marginRight: '5%',
+    marginTop: '10%'
   },
   button: {
     borderRadius: 15,
     borderWidth: 1,
     borderColor: "#757575",
-    paddingBottom: 15,
-    paddingVertical: 5,
-    justifyContent: 'flex-end',
-    width: 150,
+    justifyContent: 'center',
+    width: 200,
     height: 60,
     backgroundColor: '#1E3861',
     alignSelf: 'center',
