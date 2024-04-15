@@ -11,9 +11,10 @@ function ExerciseDetailScreen({ navigation, route }) {
     const [data, setData] = useState({});
     const [currentExercise, setCurrentExercise] = useState(exerciseID);
     const [programUpdateFlag, setProgramUpdateFlag] = useState(false);
-    const [countdown, setCountdown] = useState(0); // New state variable for countdown timer
+    const [countdown, setCountdown] = useState(-1);
 
-    let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
+    let programs_api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
+    let progress_api = "https://restapi-playerscompanion.azurewebsites.net/users/athleteLogs.php";
     let action = 'fetchexercise';
 
     const onStateChange = useCallback((state) => {
@@ -26,13 +27,16 @@ function ExerciseDetailScreen({ navigation, route }) {
     }, []);
 
     const isFinalExercise = () => {
-
+        let next = programData.current + 1;
+        let nextLabeled = 'Workout_' + next;
+        
+        return next > 10 || programData.exercises[nextLabeled] == 0;
     }
 
-    async function sendRequest() {
+    async function fetchExerciseData() {
         setLoading(true);
 
-        let url = `${api}?action=${action}&exerciseID=${currentExercise}`;
+        let url = `${programs_api}?action=${action}&exerciseID=${currentExercise}`;
         console.log("Request URL: ", url);
         try {
             const response = await fetch(url);
@@ -47,25 +51,45 @@ function ExerciseDetailScreen({ navigation, route }) {
         setLoading(false);
         setProgramUpdateFlag(false);
     }
+    
+    async function updateProgramProgress() {
+        let url = `${progress_api}?action=updateprogress&ProgramID=${programData.data.ProgramID}&CurrentExercise=${programData.current}`;
+        console.log("Request URL: ", url);
+        try {
+            const response = await fetch(url);
+            const text = await response.text();
+            console.log(text);
+            const json = JSON.parse(text);
+        } catch (error) {
+            console.error("Error Updating Program Progress: ", error);
+        }
+    }
 
     function nextExercise() {
         if (!programData) {
             console.log("programData is undefined");
             return;
         }
+        
+        console.log("Going to next exercise...");
 
         let next = programData.current + 1;
         let nextLabeled = 'Workout_' + next;
         console.log(programData);
+        
+        // Update progress in backend
+        updateProgramProgress();
+        
         // If this was the final exercise in the program...
         if (next > 10 || programData.exercises[nextLabeled] == 0) {
             console.log("Completed program...");
             navigation.replace('CompletedProgramScreen', { programData: programData });
             return;
         }
-
+        
         // Progress to the next exercise by updating state and refreshing screen
         programData.current = next;
+        
         setCurrentExercise(programData.exercises[nextLabeled]);
         setProgramUpdateFlag(true);
     }
@@ -92,7 +116,7 @@ function ExerciseDetailScreen({ navigation, route }) {
     }
 
     useEffect(() => {
-        sendRequest()
+        fetchExerciseData()
     }, [programUpdateFlag]);
 
     useEffect(() => {
@@ -133,7 +157,7 @@ function ExerciseDetailScreen({ navigation, route }) {
             {programData !== undefined && (
                 <View style={styles.footer}>
                     <FlatList
-                        data={[{ key: 'previous', title: 'Previous Exercise' }, { key: 'next', title: 'Next Exercise' }]}
+                        data={[{ key: 'previous', title: 'Previous Exercise' }, { key: 'next', title: isFinalExercise() ? 'Finish Program' : 'Next Exercise' }]}
                         horizontal
                         renderItem={({ item }) => (
                             <TouchableOpacity
