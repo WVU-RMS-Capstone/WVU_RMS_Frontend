@@ -46,7 +46,7 @@ function AthleteProfileScreen({ navigation, route }) {
         <LargeButton text="Assign Program" onPress={() => navigation.navigate('AssignProgramsScreen', { UID: athlete.data.UID })} />
       </View>
       <View style={[styles.buttonContainer, { marginTop: '5%' }]}>
-        <LargeButton text="View Stats" adjustFontSizeToFit onPress={() => navigation.navigate('AthleteStatsScreen')} />
+        <LargeButton text="View Stats" adjustFontSizeToFit onPress={() => navigation.navigate('AthleteStatsScreen', { athlete: athlete })} />
       </View>
       <View style={[styles.buttonContainer, { marginTop: '5%' }]}>
         <LargeButton text="View Notes" adjustFontSizeToFit onPress={() => navigation.navigate('NotesScreen', { UID: athlete.data.UID })} />

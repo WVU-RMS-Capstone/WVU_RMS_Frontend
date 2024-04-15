@@ -27,7 +27,10 @@ function ExerciseDetailScreen({ navigation, route }) {
     }, []);
 
     const isFinalExercise = () => {
-
+        let next = programData.current + 1;
+        let nextLabeled = 'Workout_' + next;
+        
+        return next > 10 || programData.exercises[nextLabeled] == 0;
     }
 
     async function fetchExerciseData() {
@@ -73,6 +76,10 @@ function ExerciseDetailScreen({ navigation, route }) {
         let next = programData.current + 1;
         let nextLabeled = 'Workout_' + next;
         console.log(programData);
+        
+        // Update progress in backend
+        updateProgramProgress();
+        
         // If this was the final exercise in the program...
         if (next > 10 || programData.exercises[nextLabeled] == 0) {
             console.log("Completed program...");
@@ -80,11 +87,9 @@ function ExerciseDetailScreen({ navigation, route }) {
             return;
         }
         
-        // Update progress in backend
-        updateProgramProgress();
-
         // Progress to the next exercise by updating state and refreshing screen
         programData.current = next;
+        
         setCurrentExercise(programData.exercises[nextLabeled]);
         setProgramUpdateFlag(true);
     }
@@ -152,7 +157,7 @@ function ExerciseDetailScreen({ navigation, route }) {
             {programData !== undefined && (
                 <View style={styles.footer}>
                     <FlatList
-                        data={[{ key: 'previous', title: 'Previous Exercise' }, { key: 'next', title: 'Next Exercise' }]}
+                        data={[{ key: 'previous', title: 'Previous Exercise' }, { key: 'next', title: isFinalExercise() ? 'Finish Program' : 'Next Exercise' }]}
                         horizontal
                         renderItem={({ item }) => (
                             <TouchableOpacity
