@@ -11,9 +11,10 @@ function ExerciseDetailScreen({ navigation, route }) {
     const [data, setData] = useState({});
     const [currentExercise, setCurrentExercise] = useState(exerciseID);
     const [programUpdateFlag, setProgramUpdateFlag] = useState(false);
-    const [countdown, setCountdown] = useState(-1); // New state variable for countdown timer
+    const [countdown, setCountdown] = useState(-1);
 
-    let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
+    let programs_api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
+    let progress_api = "https://restapi-playerscompanion.azurewebsites.net/users/athleteLogs.php";
     let action = 'fetchexercise';
 
     const onStateChange = useCallback((state) => {
@@ -32,7 +33,7 @@ function ExerciseDetailScreen({ navigation, route }) {
     async function fetchExerciseData() {
         setLoading(true);
 
-        let url = `${api}?action=${action}&exerciseID=${currentExercise}`;
+        let url = `${programs_api}?action=${action}&exerciseID=${currentExercise}`;
         console.log("Request URL: ", url);
         try {
             const response = await fetch(url);
@@ -46,6 +47,19 @@ function ExerciseDetailScreen({ navigation, route }) {
 
         setLoading(false);
         setProgramUpdateFlag(false);
+    }
+    
+    async function updateProgramProgress() {
+        let url = `${progress_api}?action=updateprogress&ProgramID=${programData.data.ProgramID}&CurrentExercise=${programData.current}`;
+        console.log("Request URL: ", url);
+        try {
+            const response = await fetch(url);
+            const text = await response.text();
+            console.log(text);
+            const json = JSON.parse(text);
+        } catch (error) {
+            console.error("Error Updating Program Progress: ", error);
+        }
     }
 
     function nextExercise() {
@@ -65,6 +79,9 @@ function ExerciseDetailScreen({ navigation, route }) {
             navigation.replace('CompletedProgramScreen', { programData: programData });
             return;
         }
+        
+        // Update progress in backend
+        updateProgramProgress();
 
         // Progress to the next exercise by updating state and refreshing screen
         programData.current = next;
