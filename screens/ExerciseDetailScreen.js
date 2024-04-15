@@ -11,7 +11,7 @@ function ExerciseDetailScreen({ navigation, route }) {
     const [data, setData] = useState({});
     const [currentExercise, setCurrentExercise] = useState(exerciseID);
     const [programUpdateFlag, setProgramUpdateFlag] = useState(false);
-    const [countdown, setCountdown] = useState(0); // New state variable for countdown timer
+    const [countdown, setCountdown] = useState(-1); // New state variable for countdown timer
 
     let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
     let action = 'fetchexercise';
@@ -29,7 +29,7 @@ function ExerciseDetailScreen({ navigation, route }) {
 
     }
 
-    async function sendRequest() {
+    async function fetchExerciseData() {
         setLoading(true);
 
         let url = `${api}?action=${action}&exerciseID=${currentExercise}`;
@@ -53,6 +53,8 @@ function ExerciseDetailScreen({ navigation, route }) {
             console.log("programData is undefined");
             return;
         }
+        
+        console.log("Going to next exercise...");
 
         let next = programData.current + 1;
         let nextLabeled = 'Workout_' + next;
@@ -92,7 +94,7 @@ function ExerciseDetailScreen({ navigation, route }) {
     }
 
     useEffect(() => {
-        sendRequest()
+        fetchExerciseData()
     }, [programUpdateFlag]);
 
     useEffect(() => {
