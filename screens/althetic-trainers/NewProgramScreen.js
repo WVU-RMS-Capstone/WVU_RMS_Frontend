@@ -24,6 +24,7 @@ function NewProgramScreen({ navigation, route }) {
       try {
         const response = await fetch(url);
         const text = await response.text();
+        console.log(text);
         const json = JSON.parse(text);
         setData(json);
         return json;
@@ -36,18 +37,19 @@ function NewProgramScreen({ navigation, route }) {
     }
   }
 
-  async function sendExercises() {
+  async function sendExercises(programID) {
     const workoutObj = {};
     const exerciseIDs = exercises.map(item => item.ID);
     for (let i = 0; i < exerciseIDs.length; i++) {
       let index = i + 1;
       workoutObj[`Workout${index}`] = exerciseIDs[i];
     }
-    let url = `${exerciseAPI}?action=${exerciseAction}&${Object.entries(workoutObj).map(([key, value]) => `${key}=${value}`).join("&")}`;
+    let url = `${exerciseAPI}?action=${exerciseAction}&ProgramID=${programID}&${Object.entries(workoutObj).map(([key, value]) => `${key}=${value}`).join("&")}&WorkoutCount=${exercises.length}`;
     console.log("Request URL: ", url);
     try {
       const response = await fetch(url);
       const text = await response.text();
+      console.log(text);
       const json = JSON.parse(text);
       setData(json);
       return json;
@@ -61,8 +63,8 @@ function NewProgramScreen({ navigation, route }) {
   const sendAndContune = async () => {
     try {
       const res = await sendProgram();
-      if (res == true) {
-        const res2 = await sendExercises();
+      if (typeof res == "number") {
+        const res2 = await sendExercises(res);
         console.log(res2)
         console.log(res)
         // add section to erase data from list of exercises so it doesnt stay there when AT leaves page
