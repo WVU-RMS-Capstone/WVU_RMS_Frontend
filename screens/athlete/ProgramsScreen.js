@@ -30,7 +30,11 @@ function ProgramsScreen({ route, navigation }) {
         const json = JSON.parse(text); // Parse the text as JSON
         console.log(json);
         setAssignedProgram(json);
-        setPicture(json[0].data.Cover);
+        
+        if (assignedProgram != "") {
+          setPicture(json[0].data.Cover);
+        }
+        
         return json;
       } catch (error) {
         console.error("Error fetching data: ", error);
