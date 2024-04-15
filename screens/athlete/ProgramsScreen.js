@@ -30,11 +30,11 @@ function ProgramsScreen({ route, navigation }) {
         const json = JSON.parse(text); // Parse the text as JSON
         console.log(json);
         setAssignedProgram(json);
-        
+
         if (assignedProgram != "") {
           setPicture(json[0].data.Cover);
         }
-        
+
         return json;
       } catch (error) {
         console.error("Error fetching data: ", error);
@@ -69,7 +69,7 @@ function ProgramsScreen({ route, navigation }) {
     setSelected(value);
     setProgramSelected(true);
   }
-  console.log(picture);
+  console.log(assignedProgram);
   return (
     <SafeAreaView style={styles.container}>
 
@@ -87,7 +87,7 @@ function ProgramsScreen({ route, navigation }) {
         <Text style={[{ alignSelf: 'center', textAlign: 'center' }]}>Assigned Program:{"\n"}{assignedProgram[0] && assignedProgram[0].data ? assignedProgram[0].data.ProgramName : "Not Assigned"}</Text>
       </View>
       <View style={styles.buttonpos}>
-        <TouchableOpacity onPress={() => navigation.navigate('ProgramPreviewScreen', { program: assignedProgram[0] })}>
+        <TouchableOpacity onPress={() => navigation.navigate('ProgramPreviewScreen', { program: assignedProgram[0] })} disabled={assignedProgram === "Not Assigned Program"}>
           <View style={styles.button}>
             <Text style={[styles.buttonText, { color: '#FCCD0D' }]}>Continue With Assigned Program</Text>
           </View>
