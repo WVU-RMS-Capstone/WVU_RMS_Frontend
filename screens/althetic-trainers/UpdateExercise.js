@@ -66,8 +66,8 @@ function UpdateExercise({ navigation, route }) {
             Name: name || data.Name,
             Reps: reps || data.Reps,
             Sets: sets || data.Sets,
-            cover: picture || data.cover,
-            video: video || data.video,
+            Cover: picture || data.cover,
+            Video: video || data.video,
             exerciseID: ExerciseID
         };
         try {

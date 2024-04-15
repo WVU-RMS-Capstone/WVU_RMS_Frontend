@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, Image, TextInput, TouchableOpacity } from "react-native";
 import { LargeYellowButton } from '../src/components/Buttons';
-import { FIREBASE_AUTH } from '../FirebaseConfig';
+import { FIREBASE_AUTH, getCurrentUID } from '../FirebaseConfig';
+import { getAuth } from 'firebase/auth';
 import { updateEmail, updatePassword } from 'firebase/auth';
 import * as ImagePicker from 'expo-image-picker';
 import { firebase } from '@react-native-firebase/auth';
@@ -64,13 +65,14 @@ function EditProfile({ navigation, route }) {
                 alert("Email was the same as old email. Try Again");
                 return;
             }
-            if (password != "" && password == confirmPassword && firstName == "" && lastName == "" && email == "" && picture == "") {
+            if (password != "" && password == confirmPassword && firstName == "" && lastName == "" && email == "" && picture == "null") {
                 try {
-                    // await firebase.auth().currentUser.updatePassword(password);
-                    // console.log(user);
-                    // user.updatePassword(password)
-                    await updatePassword(user.uid, password);
-                    navigation.navigate('AthleteHomeScreen', { UID: UID });
+                    await updatePassword(getAuth().currentUser, password);
+                    if (data[0].data[3] == "Trainer") {
+                        navigation.navigate('ATHomeScreen', { UID: UID });
+                    } else {
+                        navigation.navigate('AthleteHomeScreen', { UID: UID });
+                    }
                 } catch (error) {
                     console.log(error);
                     alert("Password Change Failed: " + error);
@@ -84,7 +86,7 @@ function EditProfile({ navigation, route }) {
                 return;
             } else if (password != "" && password == confirmPassword && firstName != "" && lastName != "" && email != "" && picture != "") {
                 try {
-                    await updatePassword(UID, password);
+                    await updatePassword(getAuth().currentUser, password);
                 } catch (error) {
                     console.log(error);
                     alert("Password Change Failed: " + error);
@@ -94,7 +96,7 @@ function EditProfile({ navigation, route }) {
 
             if (email != "") {
                 try {
-                    await updateEmail(UID, email);
+                    await updateEmail(getAuth().currentUser, password);
                 } catch (error) {
                     console.log(error);
                     if (password != "") {
@@ -117,7 +119,11 @@ function EditProfile({ navigation, route }) {
             const res = sendRequest(updatedData);
             if (res == true) {
                 setLoading(false);
-                navigation.navigate('AthleteHomeScreen', { UID: UID });
+                if (data[0].data[3] == "Trainer") {
+                    navigation.navigate('ATHomeScreen', { UID: UID });
+                } else {
+                    navigation.navigate('AthleteHomeScreen', { UID: UID });
+                }
             }
 
         }

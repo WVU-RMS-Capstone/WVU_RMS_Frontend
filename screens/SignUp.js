@@ -75,12 +75,12 @@ function SignUp({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.container}>
-                <View style={[styles.row, { marginBottom: '10%' }]}>
+                {/* <View style={[styles.row, { marginBottom: '10%' }]}>
                     <Image style={styles.img} source={require('../assets/Logo.png')} />
                     <Text style={[styles.titlefont]}> | Rehabilitation Monitoring System</Text>
-                </View>
+                </View> */}
 
-                <View style={styles.row}>
+                <View style={[styles.row, { marginTop: '5%' }]}>
                     <Text style={styles.label}>First name</Text>
 
                     <Text style={styles.label}>Last Name</Text>

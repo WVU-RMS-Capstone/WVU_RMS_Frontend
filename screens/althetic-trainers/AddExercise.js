@@ -3,9 +3,9 @@ import { Searchbar } from 'react-native-paper';
 import { View, FlatList, StyleSheet, Text, Button, SafeAreaView, TextInput, Pressable, TouchableOpacity } from 'react-native';
 import { LargeButton } from '../../src/components/Buttons';
 import { ExerciseContext } from './NewProgramScreen';
+import { getCurrentUID } from '../../FirebaseConfig';
 
 function AddExercise({ navigation, route }) {
-    const { listOfExercises, setListOfExercises } = React.useContext(ExerciseContext);
 
     let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
     let action = 'fetchallexercises';
@@ -52,16 +52,20 @@ function AddExercise({ navigation, route }) {
     }
 
     const handleSelectedItem = (item) => {
-        if (selectedItems.includes(item)) {
-            let items = selectedItems.filter((ID) => ID !== item);
-            setSelectedItems(items);
-            setListOfExercises(items)
-        } else {
-            setSelectedItems([...selectedItems, item]);
-            setListOfExercises([...selectedItems, item]);
+        if (selectedItems.some(selectedItem => selectedItem.ID === item.data.exerciseID)) {
+            // let items = selectedItems.filter((ID) => ID !== item.data.exerciseID && ID !== item.data.Name);
+            setSelectedItems(items => items.filter(selectedItem => selectedItem.ID !== item.data.exerciseID && selectedItem.ID !== item.data.Name));
+            // setListOfExercises(items)
+        } else if (selectedItems.length < 10) {
+            setSelectedItems(selectItem => [...selectItem, { ID: item.data.exerciseID, Name: item.data.Name }]);
+            // setListOfExercises([...selectedItems, item]);
+        }
+        if (selectedItems.length == 10) {
+            alert("Exercises List Full");
         }
     };
 
+    console.log(selectedItems);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -79,9 +83,9 @@ function AddExercise({ navigation, route }) {
             <FlatList
                 style={styles.box}
                 data={filteredexercises}
-                keyExtractor={(item) => item.data.exerciseID.toString()}
+                // keyExtractor={(item) => item.data.exerciseID.toString()}
                 renderItem={({ item }) => (
-                    <TouchableOpacity style={[styles.ath, selectedItems.includes(item.data) ? styles.selected : null]} onPress={() => handleSelectedItem(item.data)}>
+                    <TouchableOpacity style={[styles.ath, selectedItems.some(selectedItem => selectedItem.ID === item.data.exerciseID) ? styles.selected : null]} onPress={() => handleSelectedItem(item)}>
                         <Text style={styles.first}>{item.data.Name}</Text>
                     </TouchableOpacity>
                 )}
@@ -89,7 +93,7 @@ function AddExercise({ navigation, route }) {
 
             <View style={styles.button2}>
                 <LargeButton text="Done"
-                    onPress={() => navigation.navigate('NewProgramScreen', { selectedItems })} />
+                    onPress={() => navigation.navigate('NewProgramScreen', { UID: getCurrentUID(), exercises: selectedItems })} />
             </View>
 
         </SafeAreaView>

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, TextInput, ScrollView, SafeAreaView, Image, TouchableOpacity } from 'react-native';
+import { SelectList } from 'react-native-dropdown-select-list';
 import { LargeButton } from '../../src/components/Buttons';
 import * as ImagePicker from 'expo-image-picker';
 
@@ -16,10 +17,34 @@ function NewExerciseScreen({ navigation, route }) {
   const [data, setData] = useState([]);
   const [picture, setPicture] = useState('');
   const [updatePicture, setUpdatePicture] = useState(false);
-  const [response, setResponse] = useState(null);
+  const [bodyPart, setBodyPart] = useState([]);
+  const [showCreateInput, setShowCreateInput] = useState(false);
 
   let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
   let action = 'createexercise';
+  let getExerciseAPI = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
+  let getExerciseAction = 'fetchallexercises';
+
+  useEffect(() => {
+    const sendRequest = async () => {
+      let url = `${getExerciseAPI}?action=${getExerciseAction}`;
+      console.log(url);
+      try {
+        const response = await fetch(url);
+        const text = await response.text(); // Get the raw response text
+        const json = JSON.parse(text); // Parse the text as JSON
+        // console.log(json);
+        const bodyPartsData = json.map((exercise, index) => ({ key: index, value: exercise.data.BodyPart }));
+        setBodyPart(bodyPartsData);
+        console.log(bodyPartsData);
+        return json;
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+
+    sendRequest();
+  }, []);
 
   async function sendRequest() {
     let url = `${api}?action=${action}&Video=${video}&Cover=${cover}&Name=${name}&Description=${description}&Sets=${sets}&Reps=${reps}&BodyPart=${part}`;
@@ -36,12 +61,28 @@ function NewExerciseScreen({ navigation, route }) {
   }
 
   const sendAndContune = async () => {
-    try {
-      const res = await sendRequest();
-      console.log(res)
-      navigation.navigate('ATHomeScreen', { UID: UID });
-    } catch (error) {
-      console.error("Error Recieved: ", error);
+    if (video != "" && name != "" && sets != "" && reps != "" && part != "") {
+
+      try {
+        const res = await sendRequest();
+        console.log(res)
+        navigation.navigate('ATHomeScreen', { UID: UID });
+
+      } catch (error) {
+        console.error("Error Recieved: ", error);
+      }
+    } else {
+      if (video == "") {
+        alert("Missing Input on Video");
+      } else if (name == "") {
+        alert("Missing Input on Name");
+      } else if (sets == "") {
+        alert("Missing Input on Sets");
+      } else if (reps == "") {
+        alert("Missing Input on Reps");
+      } else if (part == "") {
+        alert("Missing Input on Body Part");
+      }
     }
   }
 
@@ -109,6 +150,8 @@ function NewExerciseScreen({ navigation, route }) {
         autoCapitalize='sentences'
         multiline={true}
         onChangeText={setDescription}
+        returnKeyType='done'
+        blurOnSubmit={true}
       />
 
       <View style={styles.row}>
@@ -126,19 +169,40 @@ function NewExerciseScreen({ navigation, route }) {
         />
       </View>
 
-      <TextInput
-        style={[styles.input, { backgroundColor: 'white' }]}
-        value={part}
-        placeholder='Body Part'
-        onChangeText={setParts}
+      <SelectList
+        data={bodyPart.concat('Create new body part')}
+        setSelected={(val) => setParts(val)}
+        onSelect={() => {
+          console.log(part);
+          if (part === 'Create new body part') {
+            setShowCreateInput(true);
+            setParts("")
+            console.log("hello");
+          } else {
+            // setParts(selectedItem);
+            setShowCreateInput(false);
+          }
+        }}
+        boxStyles={{ marginTop: 15, backgroundColor: 'white', marginLeft: 20, marginRight: 20 }}
+        dropdownStyles={{ marginLeft: 20, marginRight: 20 }}
+        placeholder='Select Body Part'
+        save="value"
       />
 
-      <Text style={styles.whitespace}></Text>
-
-      < LargeButton
-        text="Done" onPress={() => sendAndContune()}
-      />
-
+      {showCreateInput && (
+        <TextInput
+          style={[styles.input, { backgroundColor: 'white', marginTop: '5%' }]}
+          value={part}
+          placeholder='Enter new body part'
+          onChangeText={setParts}
+        />
+      )}
+      <View style={{ marginTop: '10%' }}>
+        <LargeButton
+          text="Done"
+          onPress={() => sendAndContune()}
+        />
+      </View>
 
     </SafeAreaView >
 
