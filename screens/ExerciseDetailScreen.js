@@ -33,7 +33,7 @@ function ExerciseDetailScreen({ navigation, route }) {
         return next > 10 || programData.exercises[nextLabeled] == 0;
     }
 
-    async function fetchExerciseData() {
+    const fetchExerciseData = async () => {
         setLoading(true);
 
         let url = `${programs_api}?action=${action}&exerciseID=${currentExercise}`;
@@ -52,7 +52,7 @@ function ExerciseDetailScreen({ navigation, route }) {
         setProgramUpdateFlag(false);
     }
     
-    async function updateProgramProgress() {
+    const updateProgramProgress = async () => {
         let url = `${progress_api}?action=updateprogress&ProgramID=${programData.data.ProgramID}&CurrentExercise=${programData.current}`;
         console.log("Request URL: ", url);
         try {
@@ -65,7 +65,7 @@ function ExerciseDetailScreen({ navigation, route }) {
         }
     }
 
-    function nextExercise() {
+    const nextExercise = () => {
         if (!programData) {
             console.log("programData is undefined");
             return;
@@ -94,7 +94,7 @@ function ExerciseDetailScreen({ navigation, route }) {
         setProgramUpdateFlag(true);
     }
 
-    function previousExercise() {
+    const previousExercise = () => {
         if (!programData) {
             console.log("programData is undefined");
             return;
@@ -113,6 +113,18 @@ function ExerciseDetailScreen({ navigation, route }) {
         programData.current = next;
         setCurrentExercise(programData.exercises[nextLabeled]);
         setProgramUpdateFlag(true);
+    }
+    
+    const parseVideoID = (url) => {
+        let videoID = '';
+        if (url.includes('youtu.be')) {
+            // Extract video ID from short URL
+            videoID = url.split('youtu.be/')[1].split('?')[0];
+        } else if (url.includes('youtube.com')) {
+            // Extract video ID from long URL
+            videoID = url.split('v=')[1].split('&')[0];
+        }
+        return videoID;
     }
 
     useEffect(() => {
@@ -135,7 +147,7 @@ function ExerciseDetailScreen({ navigation, route }) {
         <SafeAreaView style={styles.container}>
             <YoutubePlayer
                 height={250}
-                videoId={data.video}
+                videoId={data.video != undefined ? parseVideoID(data.video) : null}
                 onChangeState={onStateChange}
                 play={true}
             />
