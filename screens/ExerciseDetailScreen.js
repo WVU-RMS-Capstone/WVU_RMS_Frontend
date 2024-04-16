@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, StyleSheet, Text, FlatList, ScrollView, SafeAreaView, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, FlatList, ScrollView, SafeAreaView, Dimensions, TouchableOpacity } from 'react-native';
 import { LargeButton } from '../src/components/Buttons';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import { ActivityIndicator } from 'react-native';
@@ -134,7 +134,7 @@ function ExerciseDetailScreen({ navigation, route }) {
     return (
         <SafeAreaView style={styles.container}>
             <YoutubePlayer
-                height={450}
+                height={Dimensions.get('window').height / 2.25}
                 videoId={data.video}
                 onChangeState={onStateChange}
                 play={true}
@@ -282,10 +282,6 @@ const styles = StyleSheet.create({
         width: '50%',
         height: 50,
         borderRadius: 15,
-    },
-    video: {
-        width: '100%',
-        height: 200,
     },
     footer: {
         backgroundColor: '#1E3861',
