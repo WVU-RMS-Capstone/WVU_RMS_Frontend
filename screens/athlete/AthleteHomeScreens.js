@@ -161,11 +161,9 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   profilePicture: {
-    width: '75%',
-    height: '25%',
-    width: 200,
-    height: 200,
-    borderRadius: 200 / 2,
+    width: 300,
+    height: 300,
+    borderRadius: 300 / 2,
     alignSelf: 'center'
   }
 });

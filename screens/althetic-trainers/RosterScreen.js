@@ -66,12 +66,6 @@ function RosterScreen({ navigation, route }) {
         renderItem={({ item }) =>
           <TouchableOpacity style={styles.ath} onPress={() => navigation.navigate('AthleteProfileScreen', { athlete: item })}>
             <View style={styles.row}>
-              <View style={styles.circle}>
-                <Image
-                  style={styles.img}
-                  source={{ uri: item.data.AthleteImage }}
-                />
-              </View>
               <Text style={styles.first}>{item.data.FirstName}{' '}
                 <Text style={styles.last}>{item.data.LastName}</Text>
               </Text>
@@ -113,12 +107,10 @@ const styles = StyleSheet.create({
   },
   ath: {
     backgroundColor: 'white',
-    marginLeft: 25,
-    marginRight: 25,
+    marginHorizontal: '10%',
     marginTop: 10,
     height: 50,
     borderRadius: 10,
-    paddingBottom: 10,
     ...Platform.select({
       ios: {
         shadowColor: '#000000',
@@ -129,8 +121,7 @@ const styles = StyleSheet.create({
     })
   },
   first: {
-    marginTop: 15,
-    marginLeft: '35%'
+    paddingTop: '3%'
   },
   last: {
 
@@ -152,6 +143,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
+    justifyContent: 'center',
   },
   box: {
     maxHeight: '75%'
