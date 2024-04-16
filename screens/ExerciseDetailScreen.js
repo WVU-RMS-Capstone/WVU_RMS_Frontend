@@ -140,49 +140,8 @@ function ExerciseDetailScreen({ navigation, route }) {
     video: {
         width: '100%',
         height: 200,
-    },
-    // box: {
-    //   borderRadius: 5,
-    //   padding: 10,
-    //   width: '90%',
-    //   height: 75,
-    //   borderRadius: 15,
-    //   flexDirection: 'row',
-    //   alignItems: 'center',
-    //   textAlign: 'center',
-    //   alignSelf: 'center',
-    //   fontSize: 30,
-    //   fontWeight: '500',
-    //   backgroundColor: '#D9D9D9',
-    // },
-    // description: {
-    //   borderRadius: 5,
-    //   padding: 10,
-    //   width: '90%',
-    //   height: 75,
-    //   borderRadius: 15,
-    //   flexDirection: 'row',
-    //   alignSelf: 'center',
-    //   backgroundColor: '#D9D9D9',
-    // },
-    // font: {
-    //   fontSize: 32,
-    //   marginRight: 10,
-    // },
-    // textInput: {
-    //   fontSize: 24,
-    //   flex: 1,
-    // },
-    // smallBox: {
-    //   borderRadius: 5,
-    //   padding: 10,
-    //   width: '40%',
-    //   height: 103,
-    //   borderRadius: 15,
-    //   flexDirection: 'row',
-    //   alignItems: 'center',
-    //   backgroundColor: '#D9D9D9',
-    // },
+    }
+    
 })
 
 export default ExerciseDetailScreen;

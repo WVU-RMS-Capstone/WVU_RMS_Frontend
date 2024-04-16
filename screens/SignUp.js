@@ -15,7 +15,7 @@ function SignUp({ navigation }) {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
     const auth = FIREBASE_AUTH;
-    // https://restapi-playerscompanion.azurewebsites.net/users/auth.php?action=createaccount&firstName=testing&lastName=testing&UID=2&email=testing@
+
     let api = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php";
     let action = 'createaccount';
 
@@ -39,7 +39,6 @@ function SignUp({ navigation }) {
                 setLoading(true);
                 try {
                     const auth_response = await createUserWithEmailAndPassword(auth, email, password);
-                    // Add the following line once finished with backend code
                     const user_data = await sendRequest(auth_response.user.uid);
                     if (role == "Athlete") {
                         navigation.navigate('AthleteHomeScreen');

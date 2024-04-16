@@ -69,7 +69,6 @@ function EditProfile({ navigation, route }) {
                 setLoading(true);
                 try {
                     const auth_response = await updateEmail(email);
-                    // Add the following line once finished with backend code
                     const user_data = await sendRequest(UID);
                     if (role == "Athlete") {
                         navigation.navigate('AthleteHomeScreen');
