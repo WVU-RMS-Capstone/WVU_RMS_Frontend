@@ -84,7 +84,7 @@ function ProgramsScreen({ route, navigation }) {
             <Text style={{ textAlign: 'center' }}>Program Picture</Text>
           )}
         </View>
-        <Text style={[{ alignSelf: 'center', textAlign: 'center' }]}>Assigned Program:{"\n"}{assignedProgram[0] && assignedProgram[0].data ? assignedProgram[0].data.ProgramName : "Not Assigned"}</Text>
+        <Text style={[{ alignSelf: 'center', textAlign: 'center', fontSize: 30 }]}>Assigned Program:{"\n"}{assignedProgram[0] && assignedProgram[0].data ? assignedProgram[0].data.ProgramName : "Not Assigned"}</Text>
       </View>
       <View style={styles.buttonpos}>
         <TouchableOpacity onPress={() => navigation.navigate('ProgramPreviewScreen', { program: assignedProgram[0] })} disabled={assignedProgram === "Not Assigned Program"}>
@@ -111,7 +111,7 @@ function ProgramsScreen({ route, navigation }) {
       </View>
 
       {programSelected && (
-        <View style={[{ marginTop: '75%' }]}>
+        <View style={[{ marginTop: '60%' }]}>
           <TouchableOpacity onPress={() => {
             const selectedPorgram = filteredprograms.find(program => program.data.ProgramID === selected);
             if (selectedPorgram) {
@@ -176,14 +176,14 @@ const styles = StyleSheet.create({
   coverImg: {
     backgroundColor: 'white',
     width: '40%',
-    height: 100,
+    height: 150,
     borderRadius: 15,
     alignItems: 'center',
     justifyContent: 'center'
   },
   defaultcover: {
     width: '40%',
-    height: 100,
+    height: 150,
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
   },
   profilePicture: {
     width: '40%',
-    height: 100,
+    height: 150,
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',

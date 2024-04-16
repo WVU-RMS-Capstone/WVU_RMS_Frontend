@@ -48,7 +48,7 @@ function LogoTitle() {
         source={require('./assets/Logo.png')}
       />
       <Text style={{
-        fontSize: 15,
+        fontSize: 30,
         textAlign: 'center',
         fontWeight: 'bold',
         color: '#1E3861',

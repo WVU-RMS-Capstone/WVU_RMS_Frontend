@@ -72,14 +72,15 @@ function RosterScreen({ navigation, route }) {
                   source={{ uri: item.data.AthleteImage }}
                 />
               </View>
-              <Text style={styles.first}>{item.data.FirstName}</Text>
-              <Text style={styles.last}>{item.data.LastName}</Text>
+              <Text style={styles.first}>{item.data.FirstName}{' '}
+                <Text style={styles.last}>{item.data.LastName}</Text>
+              </Text>
             </View>
           </TouchableOpacity>
         }
       />
 
-    </SafeAreaView>
+    </SafeAreaView >
   );
 }
 
@@ -125,11 +126,10 @@ const styles = StyleSheet.create({
   },
   first: {
     marginTop: 15,
-    marginLeft: 75
+    marginLeft: '35%'
   },
   last: {
-    marginTop: 15,
-    marginLeft: 5
+
   },
   circle: {
     width: 35,

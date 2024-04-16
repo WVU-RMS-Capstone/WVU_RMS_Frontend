@@ -98,11 +98,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#757575",
     justifyContent: 'center',
-    width: 150,
+    width: 200,
     height: 75,
     backgroundColor: '#1E3861',
     alignSelf: 'center',
     marginBottom: 10,
+    marginLeft: '10%',
 
     ...Platform.select({
       ios: {
