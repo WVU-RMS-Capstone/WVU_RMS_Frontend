@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Button, Text, StyleSheet, FlatList, SafeAreaView } from 'react-native';
+import { View, Button, Text, StyleSheet, FlatList, SafeAreaView, ScrollView } from 'react-native';
 import { LargeButton } from '../../src/components/Buttons';
 
 function LogsScreen({ navigation, route }) {
@@ -7,61 +7,110 @@ function LogsScreen({ navigation, route }) {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [position, setPosition] = useState('');
-  const [logs, setLogs] = useState('');
-  //const sessionKey = route.params.sessionKey;
-  
-  const fetchLogs = () => {
+  const [logs, setLogs] = useState([]);
+  const [completed, setCompleted] = useState(0);
+  const [total, setTotal] = useState(-1);
+  const [loading, setLoading] = useState(false);
+  const [reloadFlag, setReloadFlag] = useState(false);
+  const [roster, setRoster] = useState([]);
 
 
-    const api = 'https://restapi-playerscompanion.azurewebsites.net/users/users.php?action=pullLogs&sdate=';
-    const appendedAPI = api.concat(startDate + '&edate=' + endDate + '&name=' + name + '&position=' + position);
-    
-    const testAPI = api.concat('2023-04-01&edate=2023-04-20&name=Joe&position=WR');
+  let api = "https://restapi-playerscompanion.azurewebsites.net/users/athleteLogs.php";
+  let action = "getprogress";
+  let getRosterAPI = "https://restapi-playerscompanion.azurewebsites.net/users/athleteLogs.php";
+  let getRosterAction = 'getroster';
 
-
-   // fetch(testAPI, {
-    //  headers: {
-       // 'Authorization': 'Bearer ' + sessionKey
-    //  }
-   /// })
-      //.then((response) => response.blob())
-      //.then((blob) => {
-
-     // })
-     // .catch((error) => {
-      //  console.error(error);
-      //  navigation.navigate('ATHomeScreen')
-      //})
-  }
   useEffect(() => {
-    fetchLogs();
-    return () => {
+    const sendRequest = async () => {
+      let url = `${getRosterAPI}?action=${getRosterAction}`;
+      console.log(url);
+      try {
+        const response = await fetch(url);
+        const text = await response.text(); // Get the raw response text
+        const json = JSON.parse(text); // Parse the text as JSON
+        console.log(json);
+        setRoster(json);
+        return json;
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
 
-    }
+    sendRequest();
   }, []);
 
+  useEffect(() => {
+    const fetchProgramInfo = async (athlete) => {
+      setLoading(true);
+      console.log("roster: ", roster)
+      let url = `${api}?action=${action}&AthleteID=${athlete.data.UID}`;
+      console.log(url);
+      try {
+        const response = await fetch(url);
+        const text = await response.text();
+        console.log(text);
+        const json = JSON.parse(text);
+        console.log(athlete.data.UID, " ", json);
+
+        if (json.TotalExercises != undefined && json.CompletedExercises != undefined) {
+          setCompleted(json.CompletedExercises);
+          setTotal(json.TotalExercises);
+          setLogs((prevLogs) => [...prevLogs, { athlete, progress: json }]);
+        } else {
+          setLogs((prevLogs) => [...prevLogs, { athlete, progress: null }]);
+        }
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+
+      setLoading(false);
+    };
+
+    if (roster.length > 0) {
+      const unassignedAthletes = roster.filter((athlete) => !athlete.data.ProgramID);
+      unassignedAthletes.forEach(fetchProgramInfo);
+    }
+  }, [roster]);
 
   return (
     <SafeAreaView style={styles.container}>
-    <View style={{ width: '100%', marginTop: 5}}>
-    <Text style={[styles.titlefont]}> Daily Logs</Text>
-    <View style={styles.textContainer}>
-      <Text style={styles.text}>Players Attended</Text>
-    </View>
-    <FlatList
-  data={logs}
-  renderItem={({ item }) => (
-    <View style={styles.row}>
-      <View style={styles.playerContainer}>
-        <Text style={styles.text}>Missing Player</Text>
-      </View>
-    </View>
-  )}
-  keyExtractor={(item, index) => index.toString()}
-/>
-    </View>
-    </SafeAreaView>
-    
+      <View style={{ width: '100%', marginTop: 5 }}>
+        <Text style={[styles.titlefont]}> Daily Logs</Text>
+        <View style={styles.textContainer}>
+          <Text style={[styles.text, { fontWeight: 'bold' }]}>Players Started Program</Text>
+        </View>
+        <View style={{ maxHeight: '30%', overflow: 'scroll' }}>
+          <FlatList
+            data={logs.filter(({ progress }) => progress)}
+            renderItem={({ item }) => (
+              <View style={styles.playerContainer}>
+                <Text style={styles.text}>{item.athlete.data.FirstName} {item.athlete.data.LastName}</Text>
+              </View>
+            )}
+            keyExtractor={(item) => item.athlete.data.UID}
+            scrollEnabled={true}
+          />
+        </View>
+        <View style={styles.textContainer}>
+          <Text style={[styles.text, { fontWeight: 'bold' }]}>Player Not Started or Unassign Programs</Text>
+        </View>
+        <View style={{ maxHeight: '30%', overflow: 'scroll' }}>
+          <FlatList
+            data={logs.filter(({ progress }) => !progress)}
+            renderItem={({ item }) => (
+              <View style={styles.playerContainer}>
+                <Text style={styles.text}>
+                  {item.athlete.data.FirstName} {item.athlete.data.LastName}
+                </Text>
+              </View>
+            )}
+            keyExtractor={(item) => item.athlete.data.UID}
+            scrollEnabled={true}
+          />
+        </View>
+      </View >
+    </SafeAreaView >
+
   );
 }
 
@@ -93,24 +142,24 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   textContainer: {
-    borderRadius: 15, 
-        borderWidth: 1,
-        borderColor: "#757575",
-        justifyContent: 'center',
-        textAlign: 'center',
-        width: "90%",   
-        height: 80,
-        backgroundColor: 'white',
-        alignSelf: 'center',
-        marginTop: 40,
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: "#757575",
+    justifyContent: 'center',
+    textAlign: 'center',
+    width: "90%",
+    height: 80,
+    backgroundColor: 'white',
+    alignSelf: 'center',
+    marginTop: 40,
   },
   playerContainer: {
     backgroundColor: 'white',
     borderWidth: 1,
     borderColor: 'black',
     padding: 5,
-    marginVertical: 5,
-    marginHorizontal: 10,
+    marginVertical: 10,
+    marginHorizontal: '5%',
     borderRadius: 15,
   },
   ath: {
@@ -159,7 +208,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 24,
     textAlign: 'center',
-    fontWeight: 'bold',
     marginTop: 5,
     marginBottom: 10,
     color: '#1E3861',

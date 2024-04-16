@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Searchbar } from 'react-native-paper';
 import { View, FlatList, StyleSheet, Text, Button, SafeAreaView, TextInput, Pressable, TouchableOpacity, Image } from 'react-native';
-import { LargeButton } from '../../src/components/Buttons';
+import { LargeAltButton, LargeButton } from '../../src/components/Buttons';
 
 function RosterScreen({ navigation, route }) {
 
@@ -79,6 +79,10 @@ function RosterScreen({ navigation, route }) {
           </TouchableOpacity>
         }
       />
+
+      <LargeAltButton text="Athlete Logs"
+        adjustFontSizeToFit
+        onPress={() => navigation.navigate('LogsScreen')} />
 
     </SafeAreaView >
   );

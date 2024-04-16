@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, FlatList, ScrollView, SafeAreaView, Dimensions,
 import { LargeButton } from '../src/components/Buttons';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import { ActivityIndicator } from 'react-native';
+import { getCurrentUID } from '../FirebaseConfig';
 
 function ExerciseDetailScreen({ navigation, route }) {
 
@@ -29,7 +30,7 @@ function ExerciseDetailScreen({ navigation, route }) {
     const isFinalExercise = () => {
         let next = programData.current + 1;
         let nextLabeled = 'Workout_' + next;
-        
+
         return next > 10 || programData.exercises[nextLabeled] == 0;
     }
 
@@ -51,9 +52,9 @@ function ExerciseDetailScreen({ navigation, route }) {
         setLoading(false);
         setProgramUpdateFlag(false);
     }
-    
+
     const updateProgramProgress = async () => {
-        let url = `${progress_api}?action=updateprogress&ProgramID=${programData.data.ProgramID}&CurrentExercise=${programData.current}`;
+        let url = `${progress_api}?action=updateprogress&AthleteUID=${getCurrentUID()}&CurrentExercise=${programData.current}`;
         console.log("Request URL: ", url);
         try {
             const response = await fetch(url);
@@ -70,26 +71,26 @@ function ExerciseDetailScreen({ navigation, route }) {
             console.log("programData is undefined");
             return;
         }
-        
+
         console.log("Going to next exercise...");
 
         let next = programData.current + 1;
         let nextLabeled = 'Workout_' + next;
         console.log(programData);
-        
+
         // Update progress in backend
         updateProgramProgress();
-        
+
         // If this was the final exercise in the program...
         if (next > 10 || programData.exercises[nextLabeled] == 0) {
             console.log("Completed program...");
             navigation.replace('CompletedProgramScreen', { programData: programData });
             return;
         }
-        
+
         // Progress to the next exercise by updating state and refreshing screen
         programData.current = next;
-        
+
         setCurrentExercise(programData.exercises[nextLabeled]);
         setProgramUpdateFlag(true);
     }
@@ -114,7 +115,7 @@ function ExerciseDetailScreen({ navigation, route }) {
         setCurrentExercise(programData.exercises[nextLabeled]);
         setProgramUpdateFlag(true);
     }
-    
+
     const parseVideoID = (url) => {
         let videoID = '';
         if (url.includes('youtu.be')) {
