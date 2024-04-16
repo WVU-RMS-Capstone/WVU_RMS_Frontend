@@ -9,10 +9,13 @@ function AthleteProfileScreen({ navigation, route }) {
   console.log(athlete);
   let getAthleteProgramAPI = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
   let getAthleteProgramAction = 'getathleteprogram';
+  let getProfilePicAPI = "https://restapi-playerscompanion.azurewebsites.net/users/auth.php";
+  let getProfilePicAction = 'getuserimage';
   const [program, setProgram] = useState([]);
+  const [profilePic, setProfilePic] = useState(null);
 
   useEffect(() => {
-    const sendRequest = async () => {
+    const programRequest = async () => {
       let url = `${getAthleteProgramAPI}?action=${getAthleteProgramAction}&AthleteUID=${athlete.data.UID}`;
       console.log(url);
       try {
@@ -26,8 +29,25 @@ function AthleteProfileScreen({ navigation, route }) {
         console.error("Error fetching data: ", error);
       }
     };
+    
+    const imageRequest = async () => {
+      let url = `${getProfilePicAPI}?action=${getProfilePicAction}&UID=${athlete.data.UID}`;
+      console.log(url);
+      try {
+        const response = await fetch(url);
+        const text = await response.text(); // Get the raw response text
+        console.log(text);
+        const json = JSON.parse(text); // Parse the text as JSON
+        console.log(json);
+        setProfilePic(json);
+        return json;
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
 
-    sendRequest();
+    programRequest();
+    imageRequest();
   }, []);
 
   return (
@@ -36,7 +56,7 @@ function AthleteProfileScreen({ navigation, route }) {
         <View style={styles.circle}>
           <Image
             style={styles.img}
-            source={{ uri: athlete.data.AthleteImage }}
+            source={{ uri: profilePic }}
           />
         </View>
         <Text style={styles.athlete}>{athlete.data.FirstName} {athlete.data.LastName}</Text>
