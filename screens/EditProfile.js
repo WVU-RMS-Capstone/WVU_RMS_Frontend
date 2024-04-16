@@ -32,7 +32,7 @@ function EditProfile({ navigation, route }) {
                 const json = JSON.parse(text); // Parse the text as JSON
                 console.log(json);
                 setData(json);
-                setPicture(json[0].data[4]);
+                setPicture(json[0].data.AthleteImage);
                 return json;
             } catch (error) {
                 console.error("Error fetching data: ", error);
@@ -46,16 +46,19 @@ function EditProfile({ navigation, route }) {
     let updateAction = 'updateuser';
 
     async function sendRequest(updatedData) {
-        let url = `${updateAPI}?action=${updateAction}&${Object.entries(updatedData).map(([key, value]) => `${key}=${value}`).join('&')}`
+        let url = `${updateAPI}?action=${updateAction}`
         console.log("Request URL: ", url);
-        try {
-            const response = await fetch(url);
-            const text = await response.text(); // Get the raw response text
-            const json = JSON.parse(text); // Parse the text as JSON
-            return json;
-        } catch (error) {
-            console.error("Error fetching data: ", error);
-        }
+        
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedData),
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch((error) => console.error('Error:', error));
     }
 
     const signUp = async () => {
@@ -113,7 +116,7 @@ function EditProfile({ navigation, route }) {
                 firstName: firstName || userData[0],
                 lastName: lastName || userData[1],
                 email: email || userData[2],
-                athleteImage: picture || userData[4],
+                image: picture || userData[4],
                 UID: UID,
             };
             const res = sendRequest(updatedData);
@@ -137,17 +140,16 @@ function EditProfile({ navigation, route }) {
         }
 
         const result = await ImagePicker.launchImageLibraryAsync({
+            base64: true,
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
+            quality: 0.3,
         });
 
         if (!result.canceled) {
-            console.log(result.assets[0].uri);
-            setPicture(result.assets[0].uri);
-            setUpdatePicture(false);
+            setPicture(`data:image/jpeg;base64,${result.assets[0].base64}`);
         }
+        
+        setUpdatePicture(false);
     };
 
     return (

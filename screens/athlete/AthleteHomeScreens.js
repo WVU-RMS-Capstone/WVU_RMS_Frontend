@@ -23,7 +23,7 @@ function AthleteHomeScreen({ navigation, route }) {
         const json = JSON.parse(text); // Parse the text as JSON
         console.log(json);
         setData(json);
-        setPicture(json[0].data[4]);
+        setPicture(json[0].data.AthleteImage);
         return json;
       } catch (error) {
         console.error("Error fetching data: ", error);
