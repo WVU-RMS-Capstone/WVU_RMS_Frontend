@@ -48,7 +48,7 @@ function EditProfile({ navigation, route }) {
     async function sendRequest(updatedData) {
         let url = `${updateAPI}?action=${updateAction}`
         console.log("Request URL: ", url);
-        
+
         fetch(url, {
             method: 'POST',
             headers: {
@@ -56,9 +56,9 @@ function EditProfile({ navigation, route }) {
             },
             body: JSON.stringify(updatedData),
         })
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch((error) => console.error('Error:', error));
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch((error) => console.error('Error:', error));
     }
 
     const signUp = async () => {
@@ -113,10 +113,10 @@ function EditProfile({ navigation, route }) {
 
             const userData = data[0].data;
             const updatedData = {
-                firstName: firstName || userData[0],
-                lastName: lastName || userData[1],
-                email: email || userData[2],
-                image: picture || userData[4],
+                firstName: firstName || userData.firstName,
+                lastName: lastName || userData.lastName,
+                email: email || userData.Email,
+                image: picture || userData.AthleteImage,
                 UID: UID,
             };
             const res = sendRequest(updatedData);
@@ -148,7 +148,7 @@ function EditProfile({ navigation, route }) {
         if (!result.canceled) {
             setPicture(`data:image/jpeg;base64,${result.assets[0].base64}`);
         }
-        
+
         setUpdatePicture(false);
     };
 
