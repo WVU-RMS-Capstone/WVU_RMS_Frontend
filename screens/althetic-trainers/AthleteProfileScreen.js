@@ -36,9 +36,7 @@ function AthleteProfileScreen({ navigation, route }) {
       try {
         const response = await fetch(url);
         const text = await response.text(); // Get the raw response text
-        console.log(text);
         const json = JSON.parse(text); // Parse the text as JSON
-        console.log(json);
         setProfilePic(json);
         return json;
       } catch (error) {
