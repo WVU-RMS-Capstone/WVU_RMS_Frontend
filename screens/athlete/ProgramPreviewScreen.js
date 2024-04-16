@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Image, TextInput, TouchableOpacity, FlatList, SafeAreaView, ScrollView, SectionList, View, Text } from 'react-native';
 import { LargeButton, LargeYellowButton } from '../../src/components/Buttons';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { getCurrentUID } from '../../FirebaseConfig';
 
 function ProgramPreviewScreen({ navigation, route }) {
   let api = "https://restapi-playerscompanion.azurewebsites.net/users/programs.php";
@@ -65,7 +66,7 @@ function ProgramPreviewScreen({ navigation, route }) {
           })} />
         <Text style={[{ paddingBottom: 10 }]}></Text>
         <LargeButton text="Return to Programs"
-          onPress={() => navigation.navigate('ProgramsScreen')} />
+          onPress={() => navigation.navigate('ProgramsScreen', { UID: getCurrentUID() })} />
       </View>
     </SafeAreaView>
   );
