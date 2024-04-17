@@ -29,7 +29,7 @@ function AthleteProfileScreen({ navigation, route }) {
         console.error("Error fetching data: ", error);
       }
     };
-    
+
     const imageRequest = async () => {
       let url = `${getProfilePicAPI}?action=${getProfilePicAction}&UID=${athlete.data.UID}`;
       console.log(url);

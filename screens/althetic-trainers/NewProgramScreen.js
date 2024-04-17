@@ -131,7 +131,7 @@ function NewProgramScreen({ navigation, route }) {
         />
       </View>
 
-      <View style={styles.row}>
+      <View style={[styles.row, { bottom: 0, position: 'relative', alignSelf: 'center', marginBottom: '5%' }]}>
         <TouchableOpacity onPress={() => sendAndContune()}>
           <View style={styles.button}>
             <Text style={styles.buttonText}>Done</Text>
