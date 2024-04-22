@@ -111,7 +111,7 @@ function ProgramsScreen({ route, navigation }) {
       </View>
 
       {programSelected && (
-        <View style={[{ marginTop: '60%' }]}>
+        <View style={[{ marginTop: '50%' }]}>
           <TouchableOpacity onPress={() => {
             const selectedPorgram = filteredprograms.find(program => program.data.ProgramID === selected);
             if (selectedPorgram) {
