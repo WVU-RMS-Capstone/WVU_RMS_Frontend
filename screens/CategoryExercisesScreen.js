@@ -5,11 +5,11 @@ function CategoryExercisesScreen({ navigation, route }) {
   const { rawExercises } = route.params;
   const [filteredExercises, setFilteredExercises] = useState([]);
   const [search, setSearch] = useState('');
-  
+
   useEffect(() => {
     setFilteredExercises(rawExercises);
   }, []);
-  
+
   const searchFilter = (text) => {
     if (text) {
       const updatedData = rawExercises.filter((item) => {
@@ -24,11 +24,11 @@ function CategoryExercisesScreen({ navigation, route }) {
       setSearch('')
     }
   }
-  
+
   // This will return a View containing a list of exercises as a result of the filtered search results.
   const exerciseList = () => {
     const list = [];
-    
+
     for (e in filteredExercises) {
       list.push(
         <View key={e}>
@@ -40,28 +40,28 @@ function CategoryExercisesScreen({ navigation, route }) {
         </View>
       );
     }
-    
+
     return list;
   }
 
   return (
     <SafeAreaView style={styles.container}>
-        <View style={styles.searchBox}>
+      <View style={styles.searchBox}>
         <TextInput
-            style={[styles.input, { backgroundColor: 'white' }]}
-            clearButtonMode='always'
-            placeholder='Search Exercise'
-            autoCapitalize='none'
-            value={search}
-            onChangeText={(text) => searchFilter(text)}
+          style={[styles.input, { backgroundColor: 'white' }]}
+          clearButtonMode='always'
+          placeholder='Search Exercise'
+          autoCapitalize='none'
+          value={search}
+          onChangeText={(text) => searchFilter(text)}
         />
-        </View>
+      </View>
 
-        <View style={{ maxHeight: '62%' }}>
+      <View style={{ maxHeight: '62%' }}>
         <ScrollView style={{}}>
-            { exerciseList() }
+          {exerciseList()}
         </ScrollView>
-        </View>
+      </View>
     </SafeAreaView >
   );
 }
@@ -92,17 +92,17 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     marginRight: 25,
     marginTop: 10,
-    height: 25,
-    width: 100,
+    height: 35,
+    width: 150,
     alignItems: 'center',
-    borderRadius: 10,
-    paddingBottom: 10,
+    justifyContent: 'center',
+    borderRadius: 5,
     ...Platform.select({
       ios: {
         shadowColor: '#000000',
         shadowOffset: { width: 10, height: 10 },
-        shadowOpacity: 0.2,
-        shadowRadius: 5,
+        shadowOpacity: 0.1,
+        shadowRadius: 15,
       },
     })
   },

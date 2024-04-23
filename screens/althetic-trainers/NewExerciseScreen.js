@@ -170,7 +170,9 @@ function NewExerciseScreen({ navigation, route }) {
       </View>
 
       <SelectList
-        data={bodyPart.concat({ key: 'create', value: 'Create new body part' })}
+        data={[...bodyPart, { key: 'create', value: 'Create new body part' }].filter((item, index, self) =>
+          index === self.findIndex(item2 => item2.value === item.value)
+        )}
         setSelected={(val) => setParts(val)}
         onSelect={() => {
           console.log(part);
