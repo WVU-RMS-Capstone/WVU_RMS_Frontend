@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {View, StyleSheet, FlatList, Text, TextInput, Checkbox, DatePicker} from 'react-native';
+import {View, StyleSheet, FlatList, Text, TextInput, Checkbox, Platform} from 'react-native';
 import { LargeButton, DateSelector } from '../../src/components/Buttons';
 
 function SelectedFeaturedProgramScreen({ navigation }) {
@@ -145,14 +145,6 @@ const styles = StyleSheet.create({
     width: '60%',
     height: 72,
     backgroundColor: '#D9D9D9',
-    
-    ...Platform.select({
-        ios: {
-        shadowColor: '#000000',
-        shadowOffset: { width: 10, height: 10 },
-        shadowOpacity: 0.2,
-        shadowRadius: 5,
-        },})
   },
   datePickerStyle: {
     width: 230,

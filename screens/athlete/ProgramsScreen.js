@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Button, StyleSheet, FlatList, SafeAreaView, Text, StatusBar, ScrollView, TextInput, Card, TouchableOpacity, Image } from 'react-native';
+import { View, Button, StyleSheet, FlatList, SafeAreaView, Text, StatusBar, ScrollView, TextInput, Platform, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SmallTile } from '../../src/components/Tiles';
 import { LargeButton, InverseLargeButton } from '../../src/components/Buttons';
@@ -220,15 +220,6 @@ const styles = StyleSheet.create({
     height: 60,
     backgroundColor: '#1E3861',
     alignSelf: 'center',
-
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000000',
-        shadowOffset: { width: 10, height: 10 },
-        shadowOpacity: 0.2,
-        shadowRadius: 5,
-      },
-    })
   },
   buttonText: {
     color: 'white',

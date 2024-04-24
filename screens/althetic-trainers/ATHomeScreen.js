@@ -9,7 +9,7 @@ function ATHomeScreen({ navigation, route }) {
   const signOut = async () => {
     // setLoading(true);
     try {
-      const response = await signOut(FIREBASE_AUTH);
+      const response = await FIREBASE_AUTH.signOut();
       console.log(response);
       navigation.navigate('HomeScreen');
     } catch (error) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, SafeAreaView, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, SafeAreaView, TextInput, TouchableOpacity, ScrollView, Platform } from 'react-native';
 
 function CategoryExercisesScreen({ navigation, route }) {
   const { rawExercises } = route.params;
@@ -97,14 +97,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
     paddingBottom: 10,
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000000',
-        shadowOffset: { width: 10, height: 10 },
-        shadowOpacity: 0.2,
-        shadowRadius: 5,
-      },
-    })
   },
   row: {
     flexDirection: "row",

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Button, Text, StyleSheet, FlatList, SafeAreaView, ScrollView } from 'react-native';
+import { View, Button, Text, StyleSheet, FlatList, SafeAreaView, Platform } from 'react-native';
 import { LargeButton } from '../../src/components/Buttons';
 
 function LogsScreen({ navigation, route }) {
@@ -170,14 +170,6 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
     paddingBottom: 10,
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000000',
-        shadowOffset: { width: 10, height: 10 },
-        shadowOpacity: 0.2,
-        shadowRadius: 5,
-      },
-    })
   },
   first: {
     marginTop: 15,

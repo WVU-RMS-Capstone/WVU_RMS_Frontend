@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { View, TextInput, StyleSheet, Text, SafeAreaView, ScrollView, FlatList, TouchableOpacity } from 'react-native';
+import { View, TextInput, StyleSheet, Text, SafeAreaView, Platform, FlatList, TouchableOpacity } from 'react-native';
 import { MediumButton } from '../../src/components/Buttons';
 import { LargeButton } from '../../src/components/Buttons';
 import { getCurrentUID } from '../../FirebaseConfig';
@@ -151,14 +151,6 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
     paddingBottom: 10,
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000000',
-        shadowOffset: { width: 10, height: 10 },
-        shadowOpacity: 0.2,
-        shadowRadius: 5,
-      },
-    })
   },
   first: {
     textAlign: 'center',

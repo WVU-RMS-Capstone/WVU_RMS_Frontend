@@ -1,5 +1,5 @@
 import { useState, useEffect, useReducer, useRef } from "react";
-import { SafeAreaView, StyleSheet, Text, View, FlatList, TouchableOpacity, Button, TextInput, ScrollView, Linking } from "react-native";
+import { SafeAreaView, StyleSheet, Text, View, FlatList, TouchableOpacity, Button, Platform, ScrollView, Linking } from "react-native";
 import { SelectList } from 'react-native-dropdown-select-list';
 import { LargeButton, LargeAltButton } from "../../src/components/Buttons";
 import ExercisesScreen from "../ExercisesScreen";
@@ -353,14 +353,6 @@ const styles = StyleSheet.create({
         // height: 50,
         borderRadius: 10,
         paddingBottom: 10,
-        ...Platform.select({
-            ios: {
-                shadowColor: '#000000',
-                shadowOffset: { width: 10, height: 10 },
-                shadowOpacity: 0.2,
-                shadowRadius: 5,
-            },
-        })
     },
     flatListContainer: {
         position: 'absolute',

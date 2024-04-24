@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, SafeAreaView, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, TextInput, Platform, SafeAreaView, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 
 function NotesScreen({ navigation, route }) {
   const { UID } = route.params;
@@ -104,15 +104,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginBottom: 10,
     marginLeft: '10%',
-
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000000',
-        shadowOffset: { width: 10, height: 10 },
-        shadowOpacity: 0.2,
-        shadowRadius: 5,
-      },
-    })
   },
   buttonText: {
     color: 'white',

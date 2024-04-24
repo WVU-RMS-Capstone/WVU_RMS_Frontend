@@ -21,15 +21,6 @@ const altstyles = StyleSheet.create({
         height: 70,
         backgroundColor: '#1E3861',
         alignSelf: 'center',
-
-        ...Platform.select({
-            ios: {
-                shadowColor: '#000000',
-                shadowOffset: { width: 10, height: 10 },
-                shadowOpacity: 0.2,
-                shadowRadius: 5,
-            },
-        })
     },
     buttonText: {
         color: 'white',
@@ -61,15 +52,6 @@ const largestyles = StyleSheet.create({
         height: 70,
         backgroundColor: '#1E3861',
         alignSelf: 'center',
-
-        ...Platform.select({
-            ios: {
-                shadowColor: '#000000',
-                shadowOffset: { width: 10, height: 10 },
-                shadowOpacity: 0.2,
-                shadowRadius: 5,
-            },
-        })
     },
     buttonText: {
         color: '#FCCD0D',
@@ -99,15 +81,6 @@ const largeYellowstyles = StyleSheet.create({
         height: 70,
         backgroundColor: '#FCCD0D',
         alignSelf: 'center',
-
-        ...Platform.select({
-            ios: {
-                shadowColor: '#000000',
-                shadowOffset: { width: 10, height: 10 },
-                shadowOpacity: 0.2,
-                shadowRadius: 5,
-            },
-        })
     },
     buttonText: {
         color: '#1E3861',

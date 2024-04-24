@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, TextInput, ScrollView, SafeAreaView, Image, TouchableOpacity, FlatList } from 'react-native';
+import { View, StyleSheet, Text, TextInput, Platform, SafeAreaView, Image, TouchableOpacity, FlatList } from 'react-native';
 import { LargeButton } from '../../src/components/Buttons';
 import * as ImagePicker from 'expo-image-picker';
 import { getCurrentUID } from '../../FirebaseConfig';
@@ -253,15 +253,6 @@ const styles = StyleSheet.create({
         height: 60,
         backgroundColor: '#1E3861',
         alignSelf: 'center',
-
-        ...Platform.select({
-            ios: {
-                shadowColor: '#000000',
-                shadowOffset: { width: 10, height: 10 },
-                shadowOpacity: 0.2,
-                shadowRadius: 5,
-            },
-        })
     },
     buttonText: {
         color: 'white',
@@ -279,15 +270,6 @@ const styles = StyleSheet.create({
         height: 60,
         backgroundColor: '#1E3861',
         alignSelf: 'center',
-
-        ...Platform.select({
-            ios: {
-                shadowColor: '#000000',
-                shadowOffset: { width: 10, height: 10 },
-                shadowOpacity: 0.2,
-                shadowRadius: 5,
-            },
-        })
     },
     exerciseText: {
         color: 'white',
@@ -302,14 +284,6 @@ const styles = StyleSheet.create({
         height: 50,
         borderRadius: 10,
         paddingBottom: 10,
-        ...Platform.select({
-            ios: {
-                shadowColor: '#000000',
-                shadowOffset: { width: 10, height: 10 },
-                shadowOpacity: 0.2,
-                shadowRadius: 5,
-            },
-        })
     },
     first: {
         textAlign: 'center',

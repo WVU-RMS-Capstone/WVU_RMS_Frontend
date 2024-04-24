@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, Text, SafeAreaView, ScrollView, TouchableOpacity, FlatList, Touchable, Image } from 'react-native';
+import { View, TextInput, StyleSheet, Text, SafeAreaView, ScrollView, TouchableOpacity, FlatList, Platform, Image } from 'react-native';
 import { MediumButton } from '../../src/components/Buttons';
 import { LargeButton } from '../../src/components/Buttons';
 import * as ImagePicker from 'expo-image-picker';
@@ -198,15 +198,6 @@ const styles = StyleSheet.create({
     height: 60,
     backgroundColor: '#1E3861',
     alignSelf: 'center',
-
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000000',
-        shadowOffset: { width: 10, height: 10 },
-        shadowOpacity: 0.2,
-        shadowRadius: 5,
-      },
-    })
   },
   buttonText: {
     color: 'white',
@@ -224,15 +215,6 @@ const styles = StyleSheet.create({
     height: 60,
     backgroundColor: '#1E3861',
     alignSelf: 'center',
-
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000000',
-        shadowOffset: { width: 10, height: 10 },
-        shadowOpacity: 0.2,
-        shadowRadius: 5,
-      },
-    })
   },
   exerciseText: {
     color: 'white',

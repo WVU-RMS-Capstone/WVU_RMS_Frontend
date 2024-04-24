@@ -20,13 +20,6 @@ const styles = StyleSheet.create({
         width: "25%",
         height: 156, 
         backgroundColor: '#D9D9D9',
-        ...Platform.select({
-            ios: {
-              shadowColor: '#000000',
-              shadowOffset: { width: 10, height: 10 },
-              shadowOpacity: 0.2,
-              shadowRadius: 5,
-            },})
     },
     buttonText: {
         color: '#F9F4F5',
@@ -55,13 +48,6 @@ const Medstyles = StyleSheet.create({
         width: "50%",
         height: 202, 
         backgroundColor: '#D9D9D9',
-        ...Platform.select({
-            ios: {
-              shadowColor: '#000000',
-              shadowOffset: { width: 10, height: 10 },
-              shadowOpacity: 0.2,
-              shadowRadius: 5,
-            },})
     },
     buttonText: {
         color: '#F9F4F5',
@@ -90,13 +76,6 @@ const Largestyles = StyleSheet.create({
         width: "80%",
         height: 396, 
         backgroundColor: '#D9D9D9',
-        ...Platform.select({
-            ios: {
-              shadowColor: '#000000',
-              shadowOffset: { width: 10, height: 10 },
-              shadowOpacity: 0.2,
-              shadowRadius: 5,
-            },})
     },
     buttonText: {
         color: '#F9F4F5',

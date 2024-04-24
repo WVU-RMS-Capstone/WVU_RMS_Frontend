@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Searchbar } from 'react-native-paper';
-import { View, FlatList, StyleSheet, Text, Button, SafeAreaView, TextInput, Pressable, TouchableOpacity, Image } from 'react-native';
+import { View, FlatList, StyleSheet, Text, Button, SafeAreaView, TextInput, Platform, TouchableOpacity, Image } from 'react-native';
 import { LargeAltButton, LargeButton } from '../../src/components/Buttons';
 
 function RosterScreen({ navigation, route }) {
@@ -111,14 +111,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     height: 50,
     borderRadius: 10,
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000000',
-        shadowOffset: { width: 10, height: 10 },
-        shadowOpacity: 0.2,
-        shadowRadius: 5,
-      },
-    })
   },
   first: {
     paddingTop: '3%'

@@ -135,15 +135,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#1E3861',
         alignSelf: 'center',
         marginBottom: 10,
-
-        ...Platform.select({
-            ios: {
-                shadowColor: '#000000',
-                shadowOffset: { width: 10, height: 10 },
-                shadowOpacity: 0.2,
-                shadowRadius: 5,
-            },
-        })
     },
     buttonText: {
         color: 'white',

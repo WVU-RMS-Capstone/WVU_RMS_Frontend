@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, SafeAreaView, Text, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, SafeAreaView, Text, TouchableOpacity, Image, Platform } from 'react-native';
 import { LargeButton } from '../../src/components/Buttons';
 import { signOut } from 'firebase/auth';
 import { FIREBASE_AUTH } from '../../FirebaseConfig';
@@ -36,7 +36,7 @@ function AthleteHomeScreen({ navigation, route }) {
   const signOut = async () => {
     // setLoading(true);
     try {
-      const response = await signOut(FIREBASE_AUTH);
+      const response = await FIREBASE_AUTH.signOut();
       console.log(response);
       navigation.navigate('HomeScreen');
     } catch (error) {
@@ -131,15 +131,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#1E3861',
     alignSelf: 'center',
     marginBottom: 10,
-
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000000',
-        shadowOffset: { width: 10, height: 10 },
-        shadowOpacity: 0.2,
-        shadowRadius: 5,
-      },
-    })
   },
   buttonText: {
     color: 'white',
