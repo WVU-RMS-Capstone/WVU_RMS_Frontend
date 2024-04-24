@@ -50,7 +50,7 @@ function NotesScreen({ navigation, route }) {
       )}
 
       <View style={styles.row}>
-        <TouchableOpacity onPress={() => navigation.navigate('ATHomeScreen')}>
+        <TouchableOpacity onPress={() => navigation.navigate('ATHomeScreen', { UID: UID })}>
           <View style={styles.button}>
             <Text style={styles.buttonText}>Done</Text>
           </View>
