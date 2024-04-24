@@ -42,14 +42,14 @@ function SignUp({ navigation }) {
                     // Add the following line once finished with backend code
                     const user_data = await sendRequest(auth_response.user.uid);
                     if (role == "Athlete") {
-                        navigation.navigate('AthleteHomeScreen');
+                        navigation.navigate('AthleteHomeScreen', { UID: auth_response.user.uid });
                     } else if (role == "Trainer") {
-                        navigation.navigate('ATHomeScreen');
+                        navigation.navigate('ATHomeScreen', { UID: auth_response.user.uid });
                     } else {
                         console.log("No Role Selected");
                     }
                     console.log(user_data);
-                    navigation.navigate('ATHomeScreen');
+                    // navigation.navigate('ATHomeScreen');
                 } catch (error) {
                     console.log("This is an error: " + error);
                     alert("Sign up failed: " + error);
